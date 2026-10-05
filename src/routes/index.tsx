@@ -49,6 +49,8 @@ function Brand() { return <a href="#home" className="portfolio-brand" aria-label
 
 function Portfolio() {
   const timelineRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const servicesRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState("#home");
@@ -90,6 +92,40 @@ function Portfolio() {
     reducedMotion.addEventListener("change", schedule);
     return () => { window.cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); reducedMotion.removeEventListener("change", schedule); };
   }, []);
+  useEffect(() => {
+    const hero = heroRef.current;
+    const servicesStage = servicesRef.current;
+    if (!hero || !servicesStage) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      if (reducedMotion.matches) {
+        hero.style.setProperty("--hero-drift", "0px");
+        servicesStage.style.setProperty("--services-entry", "1");
+        return;
+      }
+      hero.style.setProperty("--hero-drift", `${Math.min(window.scrollY * 0.17, 105)}px`);
+      const rect = servicesStage.getBoundingClientRect();
+      servicesStage.style.setProperty("--services-entry", String(Math.max(0, Math.min(1, (window.innerHeight * .94 - rect.top) / (window.innerHeight * .58)))));
+    };
+    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
+    const move = (event: PointerEvent) => {
+      if (!finePointer.matches || reducedMotion.matches) return;
+      const rect = hero.getBoundingClientRect();
+      hero.style.setProperty("--pointer-x", String((event.clientX - rect.left) / rect.width - .5));
+      hero.style.setProperty("--pointer-y", String((event.clientY - rect.top) / rect.height - .5));
+    };
+    const reset = () => { hero.style.setProperty("--pointer-x", "0"); hero.style.setProperty("--pointer-y", "0"); };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    reducedMotion.addEventListener("change", schedule);
+    hero.addEventListener("pointermove", move);
+    hero.addEventListener("pointerleave", reset);
+    return () => { window.cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); reducedMotion.removeEventListener("change", schedule); hero.removeEventListener("pointermove", move); hero.removeEventListener("pointerleave", reset); };
+  }, []);
   const copyPage = async () => { try { await navigator.clipboard.writeText(window.location.href); setCopied(true); window.setTimeout(() => setCopied(false), 2200); } catch { setCopied(false); } };
 
   return <div className={`portfolio-page ${loading ? "is-loading" : "is-ready"}`}>
@@ -99,13 +135,13 @@ function Portfolio() {
         <Brand />
         <nav aria-label="Main navigation" className="portfolio-nav">{nav.map((item, i) => <a key={item.href} href={item.href} className={active === item.href ? "active" : ""}><span>{String(i + 1).padStart(2, "0")}</span>{item.label}</a>)}</nav>
         <Button asChild className="portfolio-header-cta"><a href="#contact">Let's talk <ArrowUpRight size={15} /></a></Button>
-        <Button variant="ghost" size="icon" className="portfolio-menu-toggle" aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
+        <Button variant="ghost" size="icon" className="portfolio-menu-toggle" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
       </div>
       {menuOpen && <nav aria-label="Mobile navigation" className="portfolio-mobile-nav">{nav.map((item, i) => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}><span>{String(i + 1).padStart(2, "0")}</span>{item.label}<ArrowUpRight size={17} /></a>)}</nav>}
     </header>
 
     <main>
-      <section id="home" className="portfolio-hero">
+      <section id="home" className="portfolio-hero" ref={heroRef}>
         <div className="portfolio-container hero-inner">
           <div className="hero-head"><span className="hero-hello">Hello! <Smartphone size={14} /></span><h1>We are <em>Teamwork</em>,<br />Digital Developers</h1></div>
           <aside className="hero-aside hero-aside-left"><span className="hero-quote">“</span><p>We build digital products from first idea to release — with one connected team.</p></aside>
@@ -124,7 +160,7 @@ function Portfolio() {
       </section>
       <div className="portfolio-ticker" aria-label="Our capabilities"><div className="ticker-ribbon ticker-ribbon-back" /><div className="ticker-ribbon ticker-ribbon-front"><div className="ticker-track">{Array.from({ length: 2 }, (_, i) => <div key={i} className="ticker-set">{["Flutter", "React Native", "WordPress", "Wix Studio", "Shopify", "AI Solutions", "Game Development", "Graphic Design", "Video Editing", "Lead Generation"].map(item => <span key={item}>{item}<span className="portfolio-dot" /></span>)}</div>)}</div></div></div>
 
-      <section id="services" className="portfolio-services"><div className="portfolio-container">
+      <section id="services" className="portfolio-services" ref={servicesRef}><div className="portfolio-container">
         <Reveal className="section-intro"><div><Eyebrow>What we do</Eyebrow><Heading>What we <em>build</em> for you</Heading></div><p>From the first idea to the finished product, one team across development, design and digital services.</p></Reveal>
         <div className="services-grid">{services.map((service, i) => { const Icon = icons[service.icon]; return <Reveal key={service.title} className="service-reveal"><article className="service-card"><div className="service-top"><span className="service-icon"><Icon size={22} strokeWidth={1.8} /></span><span>{String(i + 1).padStart(2, "0")}</span></div><h3>{service.title}</h3><p>{service.description}</p><div className="tag-list">{service.tags.map(tag => <span key={tag}>{tag}</span>)}</div></article></Reveal>; })}</div>
       </div></section>
