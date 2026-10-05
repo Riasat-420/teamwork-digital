@@ -11,3 +11,4 @@
 
 - Keep portfolio copy, services, projects and process items in `src/lib/portfolio-data.ts`; the single scrolling page renders those entries so client details can be updated without changing layout.
 - Keep portfolio motion in the page's lightweight observers and semantic CSS states, with reduced-motion fallbacks, so interactions stay accessible without a separate animation runtime.
+- Keep visitor project analysis as a one-shot server function with server-only AI credentials and no saved brief, so public visitors can get guidance without creating an account.
