@@ -48,6 +48,7 @@ function Heading({ children }: { children: React.ReactNode }) { return <h2 class
 function Brand() { return <a href="#home" className="portfolio-brand" aria-label="Teamwork Digital, home"><img src={logo.url} alt="" /><span>TEAMWORK<span className="text-primary"> DIGITAL.</span></span></a>; }
 
 function Portfolio() {
+  const timelineRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState("#home");
@@ -63,6 +64,32 @@ function Portfolio() {
     const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) setActive(`#${entry.target.id}`); }); }, { rootMargin: "-25% 0px -65% 0px" });
     nav.forEach(item => { const node = document.querySelector(item.href); if (node) observer.observe(node); });
     return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    const timeline = timelineRef.current;
+    if (!timeline) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const rect = timeline.getBoundingClientRect();
+      const start = window.innerHeight * 0.68;
+      const end = window.innerHeight * 0.42;
+      const progress = Math.max(0, Math.min(1, (start - rect.top) / (rect.height + start - end)));
+      timeline.style.setProperty("--timeline-progress", String(reducedMotion.matches ? 1 : progress));
+      timeline.querySelectorAll<HTMLElement>(".timeline-row").forEach((row) => {
+        const marker = row.querySelector(".timeline-marker");
+        const position = marker?.getBoundingClientRect().top ?? row.getBoundingClientRect().top;
+        const reached = reducedMotion.matches || position < start;
+        row.classList.toggle("is-reached", reached);
+      });
+    };
+    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    reducedMotion.addEventListener("change", schedule);
+    return () => { window.cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); reducedMotion.removeEventListener("change", schedule); };
   }, []);
   const copyPage = async () => { try { await navigator.clipboard.writeText(window.location.href); setCopied(true); window.setTimeout(() => setCopied(false), 2200); } catch { setCopied(false); } };
 
@@ -85,14 +112,9 @@ function Portfolio() {
           <aside className="hero-aside hero-aside-left"><span className="hero-quote">“</span><p>We build digital products from first idea to release — with one connected team.</p></aside>
           <div className="hero-visual">
             <div className="hero-arc" /><div className="portrait-orbit orbit-one" /><div className="portrait-orbit orbit-two" />
-            <div className="hero-phone">
-              <div className="phone-bar"><span>9:41</span><i /><b>•••</b></div>
-              <div className="phone-person"><img src={logo.url} alt="" /><span><small>Creative team</small><strong>Teamwork Digital</strong></span><b>+</b></div>
-              <div className="phone-role"><small>Complete digital team</small><strong>Idea to launch.</strong></div>
-              <div className="phone-photo"><img src={leaderPhoto.url} alt="Team leader and project manager" /></div>
-              <div className="phone-stats"><span><strong>11+</strong><small>digital services</small></span><span><strong>10+</strong><small>portfolio projects</small></span></div>
-              <small className="phone-caption">Team leader / Project manager</small>
-            </div>
+            <span className="hero-backtype" aria-hidden="true">TD</span>
+            <div className="hero-portrait"><img src={leaderPhoto.url} alt="Team leader and project manager" /></div>
+            <div className="hero-portrait-label"><span className="portfolio-dot" /><span>TEAM LEADER<br /><strong>PROJECT MANAGER</strong></span></div>
             <div className="hero-float hero-float-top"><Smartphone size={14} /> Flutter & React Native</div>
             <div className="hero-float hero-float-bottom"><Check size={14} /> Websites · AI · Creative</div>
             <div className="hero-actions"><Button asChild><a href="#projects">View Projects <ArrowUpRight size={16} /></a></Button><Button asChild><a href="#contact">Hire Us <ArrowRight size={16} /></a></Button></div>
@@ -115,7 +137,7 @@ function Portfolio() {
 
       <section id="skills" className="portfolio-section skills-section"><div className="portfolio-container"><Reveal className="section-intro"><div><Eyebrow>Skills</Eyebrow><Heading>Our <em>tech</em> stack</Heading></div><p>Tools and disciplines across mobile, web, commerce, AI and creative work — grouped so you can see where each one fits.</p></Reveal><div className="skills-grid">{skillGroups.map(group => { const Icon = icons[group.icon]; return <Reveal key={group.name} className={`skill-reveal ${group.span === "wide" ? "skill-wide" : ""}`}><article className="skill-card"><div className="skill-number">{String(group.items.length).padStart(2, "0")}</div><div className="skill-title"><span className="skill-icon"><Icon size={19} /></span><div><h3>{group.name}</h3><p>{group.description}</p></div></div><div className="tag-list">{group.items.map(item => <span key={item}>{item}</span>)}</div></article></Reveal>; })}</div></div></section>
 
-      <section id="experience" className="portfolio-section experience-section"><div className="portfolio-container"><Reveal className="center-heading"><Eyebrow>Our approach</Eyebrow><Heading>How we <em>work</em></Heading><p>A clear path from the first conversation to the finished product.</p></Reveal><div className="timeline">{process.map((step, i) => <Reveal key={step.title} className="timeline-row"><div className="timeline-label"><span>STEP {String(i + 1).padStart(2, "0")}</span><h3>{step.title}</h3></div><div className="timeline-marker"><span>{String(i + 1).padStart(2, "0")}</span></div><div className="timeline-panel"><h3>{step.title}</h3><p>{step.description}</p><div className="timeline-line"><Check size={15} /> From idea to delivery, with one team.</div></div></Reveal>)}</div></div></section>
+      <section id="experience" className="portfolio-section experience-section"><div className="portfolio-container"><Reveal className="center-heading"><Eyebrow>Our approach</Eyebrow><Heading>How we <em>work</em></Heading><p>A clear path from the first conversation to the finished product.</p></Reveal><div className="timeline" ref={timelineRef}>{process.map((step, i) => <Reveal key={step.title} className="timeline-row"><div className="timeline-label"><span>STEP {String(i + 1).padStart(2, "0")}</span><h3>{step.title}</h3></div><div className="timeline-marker"><span>{String(i + 1).padStart(2, "0")}</span></div><div className="timeline-panel"><h3>{step.title}</h3><p>{step.description}</p><div className="timeline-line"><Check size={15} /> From idea to delivery, with one team.</div></div></Reveal>)}</div></div></section>
 
       <section id="projects" className="portfolio-section projects-section"><div className="portfolio-container"><Reveal className="section-intro"><div><Eyebrow>Portfolio</Eyebrow><Heading>Selected <em>projects</em></Heading></div><p>Explore live examples listed in our company portfolio.</p></Reveal><div className="featured-projects">{projects.slice(0, 4).map((project, i) => <Reveal key={project.title} className="project-reveal"><article className="featured-project"><div className="project-details"><div className="project-topline"><span><b>{String(i + 1).padStart(2, "0")}</b> / {String(projects.length).padStart(2, "0")}</span><span className="project-status">● Live project</span></div><div><h3>{project.title}</h3><p>{project.type} website</p><div className="project-highlight"><span>{project.initials}</span> A live project from the Teamwork Digital portfolio</div><ul><li><Check size={15} /> Website development and implementation</li><li><Check size={15} /> Built to support a distinct business presence online</li></ul></div><div className="project-bottom"><span className="project-pill">{project.type}</span><Button asChild variant="outline" size="sm"><a href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${project.title}`}>Visit site <ArrowUpRight size={14} /></a></Button></div></div><a className={`project-preview preview-${i}`} href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${project.title}`}><img className="project-site-image" src={featuredPreviews[i]?.url} alt={`${project.title} website preview`} loading="lazy" /><span className="preview-badge">Explore project <ArrowUpRight size={13} /></span></a></article></Reveal>)}</div><Reveal className="more-projects"><h3>More things we've built</h3><div className="more-grid">{projects.slice(4).map(project => <a key={project.title} href={project.url} target="_blank" rel="noopener noreferrer" className="more-project"><span className="project-pill">{project.type}</span><ArrowUpRight size={19} /><h4>{project.title}</h4><p>Visit live website</p></a>)}</div></Reveal></div></section>
 
