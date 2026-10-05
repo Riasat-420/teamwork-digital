@@ -570,3 +570,4 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 @media (max-width: 800px) { .contact-faq-layout .contact-aside { display: flex; } }
 @media (max-width: 520px) { .team-grid { grid-template-columns: 1fr; } .contact-faq-layout .contact-panel { padding: 1.8rem; } }
 @media (prefers-reduced-motion: reduce) { .team-card, .team-media img, .team-initials, .team-socials, .testimonial-card, .testimonial-mark { transition: none; } }
+.portfolio-contact .contact-faq .portfolio-eyebrow { border-color: var(--border); background: var(--card); color: var(--primary); }
