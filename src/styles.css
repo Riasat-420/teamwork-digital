@@ -331,3 +331,28 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 .hero-visual { align-self: center; }
 @media (max-width:800px) { .hero-inner { min-height: 0; padding-bottom: 4rem; }.hero-visual { align-self: auto; } }
 @media (prefers-reduced-motion:reduce) { .preloader-layer { animation-duration:.01ms; }.preloader-word,.preloader-progress { animation:none; } }
+
+/* Editorial portrait replaces the faux phone UI while keeping the reference's centered composition. */
+.hero-visual { isolation: isolate; }
+.hero-arc { width: 88%; height: 48%; background: var(--secondary); border-radius: 48% 48% 0 0; }
+.hero-visual::after { width: 100%; height: 44%; }
+.hero-backtype { position: absolute; z-index: 1; top: 2%; left: 50%; translate: -50% 0; color: color-mix(in oklab,var(--primary) 16%,transparent); font-family: "Sora",sans-serif; font-size: clamp(10rem,22vw,20rem); font-weight: 800; line-height: 1; letter-spacing: 0; pointer-events: none; }
+.hero-portrait { position: absolute; z-index: 2; bottom: 44px; width: min(70%,350px); height: 360px; padding: 10px; border: 1px solid var(--border); border-radius: 170px 170px 8px 8px; background: var(--card); box-shadow: 18px 24px 0 -8px var(--primary),0 28px 54px color-mix(in oklab,var(--foreground) 17%,transparent); transform: rotate(-3deg); animation: portrait-enter .95s .3s both; }
+.hero-portrait img { display: block; width: 100%; height: 100%; border-radius: 160px 160px 3px 3px; object-fit: cover; object-position: center 23%; }
+.hero-portrait-label { position: absolute; z-index: 4; bottom: 83px; left: 0; display: flex; align-items: center; gap: .8rem; padding: .8rem 1rem; border: 1px solid var(--border); border-radius: 5px; background: var(--card); box-shadow: 0 12px 30px color-mix(in oklab,var(--foreground) 12%,transparent); transform: rotate(-6deg); font-size: .6rem; font-weight: 800; line-height: 1.6; letter-spacing: .08em; }
+.hero-portrait-label strong { color: var(--primary); font-size: .7rem; }
+.hero-float-top { top: 17%; right: 0; }.hero-float-bottom { right: -2%; bottom: 27%; }
+.hero-visual .hero-actions { bottom: 0; }
+@keyframes portrait-enter { from { opacity: 0; transform: translateY(50px) rotate(3deg); } to { opacity: 1; transform: translateY(0) rotate(-3deg); } }
+
+/* The timeline fills continuously, while milestones react as they enter the reading zone. */
+.timeline::before { left: calc(38% + 2.7% - 1px); }
+.timeline::after { content: ""; position: absolute; z-index: 0; top: 22px; bottom: 80px; left: calc(38% + 2.7% - 1px); width: 2px; background: var(--primary); transform: scaleY(var(--timeline-progress,0)); transform-origin: top; }
+.timeline-row { position: relative; z-index: 1; }
+.timeline-row .timeline-marker span { background: var(--card); color: var(--primary); border-color: var(--background); box-shadow: 0 0 0 1px var(--border); transition: background .35s ease,color .35s ease,box-shadow .35s ease,transform .35s ease; }
+.timeline-row .timeline-panel { transition: border-color .4s ease,box-shadow .4s ease,transform .4s ease; }
+.timeline-row.is-reached .timeline-marker span { background: var(--primary); color: var(--primary-foreground); box-shadow: 0 0 0 4px var(--secondary); transform: scale(1.12); }
+.timeline-row.is-reached .timeline-panel { border-color: color-mix(in oklab,var(--primary) 40%,var(--border)); box-shadow: 0 12px 28px color-mix(in oklab,var(--primary) 9%,transparent); }
+@media (max-width:800px) { .hero-portrait { width: min(65%,330px); height: 355px; }.hero-portrait-label { left: 5%; }.hero-backtype { font-size: 16rem; } }
+@media (max-width:600px) { .hero-visual { height: 435px; }.hero-backtype { top: 4%; font-size: 11rem; }.hero-portrait { bottom: 48px; width: min(64%,245px); height: 302px; border-radius: 125px 125px 7px 7px; }.hero-portrait img { border-radius: 115px 115px 3px 3px; }.hero-portrait-label { left: 0; bottom: 75px; padding: .5rem .65rem; font-size: .48rem; }.hero-portrait-label strong { font-size: .55rem; }.hero-float-top { top: 15%; right: -1%; }.hero-float-bottom { right: -2%; bottom: 27%; }.timeline::before,.timeline::after { left: 17px; } }
+@media (prefers-reduced-motion:reduce) { .hero-portrait { animation: none; }.timeline::after { transform: scaleY(1); }.timeline-row .timeline-marker span,.timeline-row .timeline-panel { transition: none; } }
