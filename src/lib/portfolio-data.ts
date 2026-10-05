@@ -57,15 +57,16 @@ export const faqs = [
 // DEMO DATA — replace every entry below with the client's real details before launch.
 export const contact = { email: "hello@teamworkdigital.com", whatsapp: "+92 300 0000000", whatsappLink: "https://wa.me/923000000000" };
 
-export const team: { name: string; role: string; photo?: string }[] = [
-  { name: "Team Member One", role: "Team Leader · Project Manager" },
-  { name: "Team Member Two", role: "Mobile App Developer" },
-  { name: "Team Member Three", role: "Web & E-commerce Developer" },
-  { name: "Team Member Four", role: "UI/UX & Graphic Designer" },
+export type TeamMember = { name: string; role: string; bio: string; leader?: boolean; socials: { linkedin?: string; github?: string; instagram?: string; email?: string } };
+export const team: TeamMember[] = [
+  { name: "Team Member One", role: "Team Leader · Project Manager", bio: "Leads planning, delivery and client communication.", leader: true, socials: { linkedin: "#", email: "hello@teamworkdigital.com" } },
+  { name: "Team Member Two", role: "Mobile App Developer", bio: "Flutter and React Native apps for Android & iOS.", socials: { linkedin: "#", github: "#" } },
+  { name: "Team Member Three", role: "Web & E-commerce Developer", bio: "WordPress, Shopify, Wix and custom websites.", socials: { linkedin: "#", github: "#" } },
+  { name: "Team Member Four", role: "UI/UX & Graphic Designer", bio: "Interfaces, brand visuals and video editing.", socials: { linkedin: "#", instagram: "#" } },
 ];
 
-export const testimonials: { quote: string; name: string; company: string }[] = [
-  { quote: "The team understood our requirements quickly and delivered a website that fits our business perfectly.", name: "Client Name", company: "Pet Care Business" },
-  { quote: "Clear communication, on-time delivery and support even after launch. Exactly what we needed.", name: "Client Name", company: "Construction Company" },
-  { quote: "From design to development, everything was handled by one team. The whole process felt effortless.", name: "Client Name", company: "Beauty Brand" },
+export const testimonials: { quote: string; name: string; company: string; service: string }[] = [
+  { quote: "The team understood our requirements quickly and delivered a website that fits our business perfectly.", name: "Client Name", company: "Pet Care Business", service: "WordPress website" },
+  { quote: "Clear communication, on-time delivery and support even after launch. Exactly what we needed.", name: "Client Name", company: "Construction Company", service: "Business website" },
+  { quote: "From design to development, everything was handled by one team. The whole process felt effortless.", name: "Client Name", company: "Beauty Brand", service: "E-commerce store" },
 ];
