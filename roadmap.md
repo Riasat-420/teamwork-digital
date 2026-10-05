@@ -1,5 +1,4 @@
 # Portfolio work
-- [x] Use the supplied company profile and uploaded branding.
-- [x] Present mobile services first, then web platforms and the remaining icon-led services.
-- [x] Feature the supplied team-leader photo and listed portfolio projects.
-- [x] Verify desktop/mobile layout and functional links.
+- [x] Compare reference sections and animation patterns directly.
+- [ ] Rebuild the page in reference order with dark as secondary.
+- [ ] Restore motion and verify desktop/mobile interactions.

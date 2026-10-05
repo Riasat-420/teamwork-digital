@@ -1,157 +1,115 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import {
-  ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy,
-  Gamepad2, GraduationCap, LayoutTemplate, Menu, Monitor, Palette,
-  Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X,
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { process, projects, services } from "@/lib/portfolio-data";
+import { process, projects, services, skillGroups } from "@/lib/portfolio-data";
 import leaderPhoto from "@/assets/team-leader.jpeg.asset.json";
 import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
 import profile from "@/assets/teamwork-digital-profile.pdf.asset.json";
+import lovePawsPreview from "@/assets/love-paws.png.asset.json";
+import americanWebsPreview from "@/assets/american-webs.png.asset.json";
+import aberasPreview from "@/assets/aberas.png.asset.json";
+import blackGrainPreview from "@/assets/black-grain.png.asset.json";
 
-const icons = {
-  mobile: Smartphone, web: Monitor, layout: LayoutTemplate, shop: ShoppingBag,
-  design: Palette, video: Play, game: Gamepad2, ai: Sparkles,
-  leads: Search, academic: GraduationCap, code: Code2,
-};
+const featuredPreviews = [lovePawsPreview, americanWebsPreview, aberasPreview, blackGrainPreview];
 
+const icons = { mobile: Smartphone, web: Monitor, layout: LayoutTemplate, shop: ShoppingBag, design: Palette, video: Play, game: Gamepad2, ai: Sparkles, leads: Search, academic: GraduationCap, code: Code2 };
 const nav = [
-  { label: "Home", href: "#home" }, { label: "Services", href: "#services" },
-  { label: "About", href: "#about" }, { label: "Expertise", href: "#expertise" },
+  { label: "Home", href: "#home" }, { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" }, { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" }, { label: "Contact", href: "#contact" },
 ];
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Teamwork Digital — Complete Software Development Team" },
-      { name: "description", content: "Teamwork Digital builds mobile apps, websites, e-commerce stores, AI solutions, games, design, video, and more. One team from idea to delivery." },
-      { property: "og:title", content: "Teamwork Digital — Complete Software Development Team" },
-      { property: "og:description", content: "Mobile apps, websites, e-commerce, AI, games and digital services from one complete team." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => ({ meta: [
+    { title: "Teamwork Digital — Complete Software Development Team" },
+    { name: "description", content: "Teamwork Digital builds mobile apps, websites, e-commerce stores, AI solutions, games, design and more. One team from idea to delivery." },
+    { property: "og:title", content: "Teamwork Digital — Complete Software Development Team" },
+    { property: "og:description", content: "Mobile apps, websites, e-commerce, AI, games and digital services from one complete team." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+  ] }),
   component: Portfolio,
 });
 
-function Brand({ compact = false }: { compact?: boolean }) {
-  return <a href="#home" className="inline-flex items-center gap-2.5 text-foreground" aria-label="Teamwork Digital, home">
-    <img src={logo.url} alt="" className={`${compact ? "size-9" : "size-10"} rounded-full object-cover`} />
-    <span className="font-display text-[.82rem] font-extrabold leading-[1.05] tracking-normal">TEAMWORK<br/><span className="text-primary">DIGITAL.</span></span>
-  </a>;
+function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => { if (entry?.isIntersecting) { node.classList.add("is-visible"); observer.unobserve(node); } }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+  return <div ref={ref} className={`reveal ${className}`}>{children}</div>;
 }
+
+function Eyebrow({ children }: { children: React.ReactNode }) { return <span className="portfolio-eyebrow"><span className="portfolio-dot" />{children}</span>; }
+function Heading({ children }: { children: React.ReactNode }) { return <h2 className="portfolio-heading">{children}</h2>; }
+function Brand() { return <a href="#home" className="portfolio-brand" aria-label="Teamwork Digital, home"><img src={logo.url} alt="" /><span>TEAMWORK<span className="text-primary"> DIGITAL.</span></span></a>; }
 
 function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [active, setActive] = useState("#home");
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) setActive(`#${entry.target.id}`); }); }, { rootMargin: "-25% 0px -65% 0px" });
+    nav.forEach(item => { const node = document.querySelector(item.href); if (node) observer.observe(node); });
+    return () => observer.disconnect();
+  }, []);
+  const copyPage = async () => { try { await navigator.clipboard.writeText(window.location.href); setCopied(true); window.setTimeout(() => setCopied(false), 2200); } catch { setCopied(false); } };
 
-  const copyProfile = async () => {
-    await navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 2000);
-  };
-
-  return <div className="overflow-x-hidden bg-background text-foreground">
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/95 backdrop-blur-xl">
-      <div className="portfolio-container flex h-[76px] items-center justify-between gap-6">
+  return <div className="portfolio-page">
+    <header className="portfolio-header">
+      <div className="portfolio-container portfolio-header-inner">
         <Brand />
-        <nav aria-label="Main navigation" className="hidden items-center gap-7 lg:flex">
-          {nav.map(item => <a key={item.href} href={item.href} className="text-[.78rem] font-bold text-muted-foreground transition-colors hover:text-primary">{item.label}</a>)}
-        </nav>
-        <div className="hidden items-center gap-3 lg:flex">
-          <a href={profile.url} target="_blank" rel="noopener noreferrer" className="text-[.78rem] font-bold text-foreground hover:text-primary">Company profile <ArrowUpRight className="ml-1 inline size-3.5" /></a>
-          <Button asChild className="h-10 rounded-full px-5 text-xs font-bold"><a href="#contact">Let's talk <ArrowUpRight /></a></Button>
-        </div>
-        <Button variant="ghost" size="icon" className="lg:hidden" aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
+        <nav aria-label="Main navigation" className="portfolio-nav">{nav.map((item, i) => <a key={item.href} href={item.href} className={active === item.href ? "active" : ""}><span>{String(i + 1).padStart(2, "0")}</span>{item.label}</a>)}</nav>
+        <Button asChild className="portfolio-header-cta"><a href="#contact">Let's talk <ArrowUpRight size={15} /></a></Button>
+        <Button variant="ghost" size="icon" className="portfolio-menu-toggle" aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
       </div>
-      {menuOpen && <nav aria-label="Mobile navigation" className="border-t border-border bg-background px-5 py-3 lg:hidden">
-        {nav.map(item => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className="block border-b border-border py-3 text-sm font-bold">{item.label}</a>)}
-        <a href={profile.url} target="_blank" rel="noopener noreferrer" className="block py-3 text-sm font-bold text-primary">Company profile ↗</a>
-      </nav>}
+      {menuOpen && <nav aria-label="Mobile navigation" className="portfolio-mobile-nav">{nav.map((item, i) => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}><span>{String(i + 1).padStart(2, "0")}</span>{item.label}<ArrowUpRight size={17} /></a>)}</nav>}
     </header>
 
     <main>
-      <section id="home" className="relative isolate overflow-hidden pt-[76px]">
-        <div aria-hidden="true" className="hero-grid absolute inset-0 -z-10 opacity-25" />
-        <div className="portfolio-container relative flex min-h-[min(800px,calc(100svh-76px))] flex-col justify-center pb-14 pt-16 sm:pt-24">
-          <div className="mx-auto max-w-[1060px] text-center">
-            <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-[.7rem] font-extrabold uppercase tracking-[.14em] text-primary shadow-sm"><span className="size-2 rounded-full bg-brand-blue" /> A complete digital team, under one roof</span>
-            <h1 className="font-display text-[clamp(3rem,8vw,7.5rem)] font-extrabold leading-[1.04] tracking-normal">We are <span className="text-primary">Teamwork</span><br/>Digital<span className="text-primary">.</span></h1>
-            <p className="mx-auto mt-7 max-w-[665px] text-base leading-8 text-muted-foreground md:text-lg">From mobile apps and websites to AI, design and beyond — we bring the right people together to turn your idea into something real.</p>
+      <section id="home" className="portfolio-hero">
+        <div className="portfolio-container hero-inner">
+          <div className="hero-copy">
+            <Eyebrow>Complete digital team</Eyebrow>
+            <h1>We are <span>Teamwork</span><br />Digital<span className="text-primary">.</span></h1>
+            <p>From mobile apps and websites to AI, design and beyond — one team to bring your idea to life.</p>
+            <div className="hero-actions"><Button asChild><a href="#projects">View projects <ArrowUpRight size={17} /></a></Button><Button asChild variant="outline"><a href="#contact">Let's talk <ArrowRight size={17} /></a></Button></div>
+            <div className="hero-meta"><span><span className="portfolio-dot" /> Mobile & web development</span><span>YOUR VISION · OUR EXPERTISE</span></div>
           </div>
-          <div className="relative mx-auto mt-10 flex w-full max-w-[1000px] flex-col items-center justify-between gap-9 md:mt-5 md:min-h-[340px] md:flex-row">
-            <div className="order-2 max-w-[220px] text-center md:order-1 md:text-left">
-              <span className="font-editorial text-5xl leading-none text-primary">“</span>
-              <p className="mt-1 text-sm leading-7 text-muted-foreground">Your vision. Our expertise. One team from idea to delivery.</p>
-            </div>
-            <div className="portrait-glow relative order-1 flex h-[300px] w-[270px] flex-none items-end justify-center md:absolute md:left-1/2 md:top-1/2 md:order-2 md:h-[370px] md:w-[340px] md:-translate-x-1/2 md:-translate-y-1/2">
-              <div className="absolute inset-5 rounded-full border border-primary/20" />
-              <div className="absolute inset-0 rounded-full border border-primary/10" />
-              <div className="relative h-[260px] w-[230px] overflow-hidden rounded-t-[130px] rounded-b-[16px] border-[8px] border-card bg-card shadow-xl md:h-[320px] md:w-[285px]">
-                <img src={leaderPhoto.url} alt="Team leader and project manager" className="h-full w-full object-cover object-top" />
-              </div>
-              <span className="absolute -bottom-2 rounded-full border border-border bg-card px-4 py-2 text-[.65rem] font-extrabold uppercase tracking-[.12em] shadow-md">Team leader / Project manager</span>
-            </div>
-            <div className="order-3 max-w-[220px] text-center md:text-right">
-              <span className="eyebrow text-primary">What we build</span>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">Mobile apps. Websites. E-commerce. AI. Games. Creative work.</p>
-            </div>
+          <div className="hero-visual">
+            <div className="portrait-orbit orbit-one" /><div className="portrait-orbit orbit-two" />
+            <div className="hero-photo"><img src={leaderPhoto.url} alt="Team leader and project manager" /></div>
+            <div className="hero-float hero-float-top"><span className="float-icon"><Users size={18} /></span><span><strong>One team</strong><small>Many disciplines</small></span></div>
+            <div className="hero-float hero-float-bottom"><span className="portfolio-dot" /><span>TEAM LEADER / PROJECT MANAGER</span></div>
           </div>
-          <div className="mx-auto mt-12 flex flex-wrap justify-center gap-3 md:mt-6">
-            <Button asChild className="h-12 rounded-full px-6 text-sm font-bold"><a href="#services">Explore services <ArrowDown /></a></Button>
-            <Button asChild variant="outline" className="h-12 rounded-full px-6 text-sm font-bold"><a href="#projects">View our work <ArrowUpRight /></a></Button>
-          </div>
+          <a className="hero-scroll" href="#services">Scroll to explore <ArrowDown size={15} /></a>
         </div>
       </section>
+      <div className="portfolio-ticker" aria-label="Our capabilities"><div className="ticker-track">{Array.from({ length: 2 }, (_, i) => <div key={i} className="ticker-set">{["Flutter", "React Native", "WordPress", "Wix Studio", "Shopify", "AI Solutions", "Game Development", "Graphic Design", "Video Editing", "Lead Generation"].map(item => <span key={item}>{item}<span className="portfolio-dot" /></span>)}</div>)}</div></div>
 
-      <div className="overflow-hidden border-y border-border bg-card py-5" aria-label="Our capabilities"><div className="ticker-track flex w-max items-center gap-10 whitespace-nowrap text-[.72rem] font-extrabold uppercase tracking-[.18em] text-muted-foreground">{Array.from({ length: 2 }, (_, i) => <div key={i} className="flex items-center gap-10">{["Flutter", "React Native", "WordPress", "Wix Studio", "Shopify", "AI Solutions", "Game Development", "Graphic Design", "Video Editing", "Lead Generation"].map(x => <span key={x} className="flex items-center gap-10">{x}<span className="size-1.5 rounded-full bg-primary" /></span>)}</div>)}</div></div>
-
-      <section id="services" className="bg-surface-ink py-24 text-on-dark md:py-32">
-        <div className="portfolio-container">
-          <div className="mb-12 flex flex-col justify-between gap-6 md:mb-16 md:flex-row md:items-end">
-            <div><span className="eyebrow text-brand-cyan">What we do</span><h2 className="section-heading mt-4">What we <span className="font-editorial italic text-brand-cyan">build</span> for you.</h2></div>
-            <p className="max-w-[390px] text-sm leading-7 text-on-dark-muted">From the first idea to the finished product, one team across development, design and digital services.</p>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, i) => { const Icon = icons[service.icon]; return <article key={service.title} className="service-card flex min-h-[285px] flex-col rounded-md border border-on-dark/15 bg-on-dark/5 p-7">
-              <div className="flex items-start justify-between"><span className="flex size-12 items-center justify-center rounded-md bg-primary/20 text-brand-cyan"><Icon size={24} strokeWidth={1.7} /></span><span className="text-xs font-bold text-on-dark-muted">{String(i + 1).padStart(2, "0")}</span></div>
-              <h3 className="mt-7 font-display text-lg font-bold">{service.title}</h3>
-              <p className="mt-3 flex-1 text-[.83rem] leading-6 text-on-dark-muted">{service.description}</p>
-              <div className="mt-6 flex flex-wrap gap-2">{service.tags.map(tag => <span key={tag} className="rounded-full border border-on-dark/15 px-2.5 py-1 text-[.65rem] font-semibold text-on-dark-muted">{tag}</span>)}</div>
-            </article>; })}
-          </div>
-        </div>
-      </section>
-
-      <section id="about" className="py-24 md:py-32"><div className="portfolio-container grid gap-14 lg:grid-cols-[.92fr_1.08fr] lg:items-center lg:gap-24">
-        <div className="relative overflow-hidden rounded-md bg-surface-violet px-8 py-10 text-on-dark md:px-12 md:py-14">
-          <span className="eyebrow text-on-dark/75">Our promise</span>
-          <p className="font-display mt-14 text-[clamp(2rem,3.6vw,3.5rem)] font-semibold leading-[1.2]">Big ideas deserve a team that can make them happen<span className="font-editorial italic text-brand-cyan">.</span></p>
-          <div className="mt-14 space-y-4 border-t border-on-dark/30 pt-8">{["One team, many disciplines", "Quality at every step", "Clear communication", "Long-term support"].map(item => <div key={item} className="flex items-center gap-3 text-sm font-semibold"><Check className="size-4 text-brand-cyan" />{item}</div>)}</div>
-        </div>
-        <div><span className="eyebrow text-primary">About us</span><h2 className="section-heading mt-5">A team built to <span className="font-editorial italic text-primary">do more.</span></h2><p className="mt-7 text-base leading-8 text-muted-foreground">Teamwork Digital is a complete software development team focused on practical, modern and reliable digital solutions. We combine development, design, AI and digital services so you can work with one team from idea to delivery.</p><p className="mt-5 text-base leading-8 text-muted-foreground">We handle websites, mobile applications, e-commerce platforms, games, design and custom software projects with a focus on communication, quality and client satisfaction.</p><Button asChild variant="outline" className="mt-9 h-11 rounded-full px-6 font-bold"><a href={profile.url} target="_blank" rel="noopener noreferrer">Read our profile <ArrowUpRight /></a></Button></div>
+      <section id="services" className="portfolio-services"><div className="portfolio-container">
+        <Reveal className="section-intro"><div><Eyebrow>What we do</Eyebrow><Heading>What we <em>build</em> for you</Heading></div><p>From the first idea to the finished product, one team across development, design and digital services.</p></Reveal>
+        <div className="services-grid">{services.map((service, i) => { const Icon = icons[service.icon]; return <Reveal key={service.title} className="service-reveal"><article className="service-card"><div className="service-top"><span className="service-icon"><Icon size={22} strokeWidth={1.8} /></span><span>{String(i + 1).padStart(2, "0")}</span></div><h3>{service.title}</h3><p>{service.description}</p><div className="tag-list">{service.tags.map(tag => <span key={tag}>{tag}</span>)}</div></article></Reveal>; })}</div>
       </div></section>
 
-      <section id="expertise" className="bg-surface-cream py-24 md:py-32"><div className="portfolio-container">
-        <div className="mb-14 flex flex-col justify-between gap-7 md:flex-row md:items-end"><div><span className="eyebrow text-primary">Expertise</span><h2 className="section-heading mt-5">One team. <span className="font-editorial italic text-primary">Many skills.</span></h2></div><p className="max-w-sm text-sm leading-7 text-muted-foreground">Our capabilities span development, creative work and growth support — all working together.</p></div>
-        <div className="grid gap-px overflow-hidden rounded-md border border-border bg-border md:grid-cols-2 lg:grid-cols-4">
-          {[{ name: "Mobile first", detail: "Cross-platform apps for Android and iOS", items: ["Flutter", "React Native", "Firebase", "APIs"], icon: Smartphone }, { name: "Web & commerce", detail: "Websites and stores built to work beautifully", items: ["WordPress", "Wix Studio", "Shopify", "Custom web"], icon: Monitor }, { name: "Intelligent tools", detail: "Practical AI and interactive experiences", items: ["Chatbots", "AI assistants", "Automation", "Web games"], icon: Sparkles }, { name: "Creative & growth", detail: "The visuals and support behind the launch", items: ["UI/UX", "Graphic design", "Video editing", "Lead generation"], icon: Palette }].map(group => <div key={group.name} className="bg-background p-8"><group.icon className="size-8 text-primary" strokeWidth={1.5} /><h3 className="font-display mt-8 text-lg font-bold">{group.name}</h3><p className="mt-2 min-h-12 text-xs leading-6 text-muted-foreground">{group.detail}</p><ul className="mt-7 space-y-3 border-t border-border pt-6">{group.items.map(item => <li key={item} className="flex items-center gap-2 text-sm font-semibold"><span className="size-1 rounded-full bg-primary" />{item}</li>)}</ul></div>)}
-        </div>
+      <section id="about" className="portfolio-section about-section"><div className="portfolio-container">
+        <div className="about-layout"><Reveal className="about-feature"><div className="award-label">✧ &nbsp; YOUR VISION · OUR EXPERTISE</div><Eyebrow>Core strengths</Eyebrow><h3>From first idea <em>to</em> final launch.</h3><div className="strength-list">{["One team, many disciplines", "Quality at every step", "Clear communication", "Long-term support"].map(item => <div key={item}><span><Check size={14} /></span>{item}</div>)}</div></Reveal><Reveal className="about-copy"><Eyebrow>About us</Eyebrow><Heading>Why <em>work</em> with us?</Heading><p>Teamwork Digital is a complete software development team focused on practical, modern and reliable digital solutions. We combine development, design, AI and digital services so you can work with one team from idea to delivery.</p><p>We handle websites, mobile applications, e-commerce platforms, games, design and custom software projects with a focus on communication, quality and client satisfaction.</p><div className="about-facts"><div><span><Users size={18} /></span><small>OUR APPROACH</small><strong>One team, many skills</strong></div><div><span><Smartphone size={18} /></span><small>WHAT WE BUILD</small><strong>Digital products</strong></div><div><span><Check size={18} /></span><small>OUR FOCUS</small><strong>Quality & support</strong></div><div><span><Sparkles size={18} /></span><small>OUR MINDSET</small><strong>Practical innovation</strong></div></div><Button asChild><a href={profile.url} target="_blank" rel="noopener noreferrer">Company profile <ArrowUpRight size={17} /></a></Button></Reveal></div>
+        <Reveal className="about-stats"><div><strong>01<span> / </span></strong><span>Connected team<br />from idea to delivery</span></div><div><strong>10<span>+</span></strong><span>Projects in our<br />company portfolio</span></div><div><strong>11<span>+</span></strong><span>Services across<br />digital disciplines</span></div></Reveal>
       </div></section>
 
-      <section id="projects" className="py-24 md:py-32"><div className="portfolio-container">
-        <div className="mb-14 flex flex-col justify-between gap-7 md:flex-row md:items-end"><div><span className="eyebrow text-primary">Portfolio</span><h2 className="section-heading mt-5">Selected <span className="font-editorial italic text-primary">work.</span></h2></div><p className="max-w-sm text-sm leading-7 text-muted-foreground">Explore the live examples listed in our company portfolio.</p></div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{projects.map((project, i) => <a key={project.title} href={project.url} target="_blank" rel="noopener noreferrer" className="group flex min-h-[235px] flex-col justify-between rounded-md border border-border bg-card p-7 transition-colors hover:border-primary hover:bg-accent/35"><div className="flex items-start justify-between"><span className="flex size-14 items-center justify-center rounded-md bg-secondary font-display text-lg font-extrabold text-primary">{project.initials}</span><ArrowUpRight className="size-5 text-muted-foreground transition-colors group-hover:text-primary" /></div><div><span className="eyebrow text-muted-foreground">{String(i + 1).padStart(2, "0")} / {project.type}</span><h3 className="font-display mt-3 text-lg font-bold">{project.title}</h3><span className="mt-2 block truncate text-xs text-muted-foreground">{project.url.replace(/^https?:\/\//, "")}</span></div></a>)}</div>
-      </div></section>
+      <section id="skills" className="portfolio-section skills-section"><div className="portfolio-container"><Reveal className="section-intro"><div><Eyebrow>Skills</Eyebrow><Heading>Our <em>tech</em> stack</Heading></div><p>Tools and disciplines across mobile, web, commerce, AI and creative work — grouped so you can see where each one fits.</p></Reveal><div className="skills-grid">{skillGroups.map(group => { const Icon = icons[group.icon]; return <Reveal key={group.name} className={`skill-reveal ${group.span === "wide" ? "skill-wide" : ""}`}><article className="skill-card"><div className="skill-number">{String(group.items.length).padStart(2, "0")}</div><div className="skill-title"><span className="skill-icon"><Icon size={19} /></span><div><h3>{group.name}</h3><p>{group.description}</p></div></div><div className="tag-list">{group.items.map(item => <span key={item}>{item}</span>)}</div></article></Reveal>; })}</div></div></section>
 
-      <section id="process" className="bg-surface-ink py-24 text-on-dark md:py-32"><div className="portfolio-container"><span className="eyebrow text-brand-cyan">How we work</span><h2 className="section-heading mt-5">From idea <span className="font-editorial italic text-brand-cyan">to impact.</span></h2><div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-5">{process.map((step, i) => <div key={step.title} className="border-t border-on-dark/25 pt-6"><span className="font-display text-3xl font-bold text-brand-cyan">{String(i + 1).padStart(2, "0")}</span><h3 className="font-display mt-9 text-base font-bold">{step.title}</h3><p className="mt-3 text-xs leading-6 text-on-dark-muted">{step.description}</p></div>)}</div></div></section>
+      <section id="experience" className="portfolio-section experience-section"><div className="portfolio-container"><Reveal className="center-heading"><Eyebrow>Our approach</Eyebrow><Heading>How we <em>work</em></Heading><p>A clear path from the first conversation to the finished product.</p></Reveal><div className="timeline">{process.map((step, i) => <Reveal key={step.title} className="timeline-row"><div className="timeline-label"><span>STEP {String(i + 1).padStart(2, "0")}</span><h3>{step.title}</h3></div><div className="timeline-marker"><span>{String(i + 1).padStart(2, "0")}</span></div><div className="timeline-panel"><h3>{step.title}</h3><p>{step.description}</p><div className="timeline-line"><Check size={15} /> From idea to delivery, with one team.</div></div></Reveal>)}</div></div></section>
 
-      <section id="contact" className="bg-surface-violet py-24 text-on-dark md:py-32"><div className="portfolio-container flex flex-col items-start justify-between gap-12 md:flex-row md:items-end"><div className="max-w-[820px]"><span className="eyebrow text-on-dark/75">Let's connect</span><h2 className="section-heading mt-5 text-[clamp(2.7rem,6vw,6rem)]">Let's build something <span className="font-editorial italic text-brand-cyan">great together.</span></h2><p className="mt-8 max-w-xl text-base leading-8 text-on-dark/80">Need a website improvement, a mobile app, an AI solution or a complete software project? We'd love to hear what you're working on.</p></div><div className="flex flex-wrap gap-3"><Button asChild className="h-12 rounded-full bg-on-dark px-6 font-bold text-surface-ink hover:bg-on-dark/90"><a href={profile.url} target="_blank" rel="noopener noreferrer">Company profile <ArrowUpRight /></a></Button><Button variant="outline" className="h-12 rounded-full border-on-dark/50 bg-transparent px-6 font-bold text-on-dark hover:bg-on-dark/15 hover:text-on-dark" onClick={copyProfile}>{copied ? <Check /> : <Copy />}{copied ? "Link copied" : "Share this page"}</Button></div></div></section>
+      <section id="projects" className="portfolio-section projects-section"><div className="portfolio-container"><Reveal className="section-intro"><div><Eyebrow>Portfolio</Eyebrow><Heading>Selected <em>projects</em></Heading></div><p>Explore live examples listed in our company portfolio.</p></Reveal><div className="featured-projects">{projects.slice(0, 4).map((project, i) => <Reveal key={project.title} className="project-reveal"><article className="featured-project"><div className="project-details"><div className="project-topline"><span><b>{String(i + 1).padStart(2, "0")}</b> / {String(projects.length).padStart(2, "0")}</span><span className="project-status">● Live project</span></div><div><h3>{project.title}</h3><p>{project.type} website</p><div className="project-highlight"><span>{project.initials}</span> A live project from the Teamwork Digital portfolio</div><ul><li><Check size={15} /> Website development and implementation</li><li><Check size={15} /> Built to support a distinct business presence online</li></ul></div><div className="project-bottom"><span className="project-pill">{project.type}</span><Button asChild variant="outline" size="sm"><a href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${project.title}`}>Visit site <ArrowUpRight size={14} /></a></Button></div></div><a className={`project-preview preview-${i}`} href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${project.title}`}><img className="project-site-image" src={featuredPreviews[i]?.url} alt={`${project.title} website preview`} loading="lazy" /><span className="preview-badge">Explore project <ArrowUpRight size={13} /></span></a></article></Reveal>)}</div><Reveal className="more-projects"><h3>More things we've built</h3><div className="more-grid">{projects.slice(4).map(project => <a key={project.title} href={project.url} target="_blank" rel="noopener noreferrer" className="more-project"><span className="project-pill">{project.type}</span><ArrowUpRight size={19} /><h4>{project.title}</h4><p>Visit live website</p></a>)}</div></Reveal></div></section>
+
+      <section id="credentials" className="portfolio-section credentials-section"><div className="portfolio-container"><Reveal><Eyebrow>Our process</Eyebrow><Heading>From idea <em>to</em> impact</Heading><p className="credentials-lead">A complete digital team to take care of the work from planning through support.</p></Reveal><div className="credentials-layout"><Reveal className="credentials-primary"><span className="credentials-index">01</span><div><small>TEAMWORK DIGITAL</small><h3>Your vision, our expertise.</h3><p>From mobile apps and websites to creative and AI solutions.</p></div><Users size={26} /></Reveal><Reveal className="credentials-secondary"><span className="credentials-index">02</span><div><small>COMPANY PROFILE</small><h3>See the full overview</h3><p>Explore our services and portfolio in the company profile.</p><Button asChild variant="outline" size="sm"><a href={profile.url} target="_blank" rel="noopener noreferrer">View profile <ArrowUpRight size={14} /></a></Button></div></Reveal></div></div></section>
+
+      <section id="contact" className="portfolio-contact"><div className="portfolio-container"><Reveal className="contact-panel"><div className="contact-copy"><Eyebrow>Contact</Eyebrow><Heading>Have a project<br />idea? <em>Let's talk.</em></Heading><p>Whether it's a mobile app, a website, a new brand or a complete digital product — let's start the conversation.</p><div className="contact-actions"><Button asChild><a href={profile.url} target="_blank" rel="noopener noreferrer">Company profile <ArrowUpRight size={16} /></a></Button><Button variant="outline" onClick={copyPage}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? "Link copied" : "Copy page link"}</Button></div></div><div className="contact-aside"><img src={logo.url} alt="Teamwork Digital logo" /><strong>TEAMWORK<br />DIGITAL.</strong><span>Your vision.<br />Our expertise.</span><a href="#home">Back to top <ChevronUp size={16} /></a></div></Reveal></div></section>
     </main>
-
-    <footer className="bg-surface-ink py-12 text-on-dark"><div className="portfolio-container"><div className="grid gap-12 border-b border-on-dark/15 pb-14 md:grid-cols-[1.5fr_1fr_1fr]"><div><div className="inline-flex items-center gap-3"><img src={logo.url} alt="" className="size-12 rounded-full object-cover"/><span className="font-display text-lg font-extrabold leading-tight">TEAMWORK<br/>DIGITAL.</span></div><p className="mt-6 max-w-xs text-sm leading-7 text-on-dark-muted">A complete software development team. Your vision, our expertise.</p></div><div><span className="eyebrow text-on-dark-muted">Navigate</span><div className="mt-5 grid grid-cols-2 gap-3">{nav.map(item => <a key={item.href} href={item.href} className="text-xs font-semibold hover:text-brand-cyan">{item.label}</a>)}</div></div><div><span className="eyebrow text-on-dark-muted">Explore</span><div className="mt-5 space-y-3"><a href="#services" className="block text-xs font-semibold hover:text-brand-cyan">Our services</a><a href="#projects" className="block text-xs font-semibold hover:text-brand-cyan">Selected work</a><a href={profile.url} target="_blank" rel="noopener noreferrer" className="block text-xs font-semibold hover:text-brand-cyan">Company profile ↗</a></div></div></div><div className="flex flex-wrap items-center justify-between gap-5 pt-7 text-xs text-on-dark-muted"><span>© {new Date().getFullYear()} Teamwork Digital. All rights reserved.</span><a href="#home" className="inline-flex items-center gap-2 font-bold text-on-dark hover:text-brand-cyan">Back to top <ChevronUp className="size-4" /></a></div></div></footer>
+    <footer className="portfolio-footer"><div className="portfolio-container"><Brand /><span>© {new Date().getFullYear()} Teamwork Digital</span><a href="#home">Back to top <ChevronUp size={15} /></a></div></footer>
   </div>;
 }
