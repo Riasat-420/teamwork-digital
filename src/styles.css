@@ -516,3 +516,6 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 @media (max-width: 1000px) { .why-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .faq-layout { grid-template-columns: 1fr; gap: 2rem; } }
 @media (max-width: 560px) { .why-grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .why-card, .why-icon, .faq-item summary span, .tech-strip span { transition: none; } .faq-item p { animation: none; } }
+.tech-strip { color: var(--primary-foreground); }
+.tech-strip small { color: var(--accent, var(--primary)); opacity: 1; }
+@media (max-width: 560px) { .project-filters { flex-wrap: nowrap; width: 100%; overflow-x: auto; } .project-filters button { flex: none; padding: .45rem .8rem; } }
