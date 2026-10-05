@@ -143,34 +143,34 @@
   }
 }
 
-/* Portfolio theme: reference-inspired violet and ink with a contrasting blue brand accent. */
+/* Portfolio theme: Teamwork Digital logo palette — electric blue, cyan, white and deep navy. */
 :root {
-  --background: oklch(0.984 0.006 290);
-  --foreground: oklch(0.185 0.028 295);
+  --background: oklch(0.985 0.006 246);
+  --foreground: oklch(0.17 0.045 254);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.185 0.028 295);
+  --card-foreground: oklch(0.17 0.045 254);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.185 0.028 295);
-  --primary: oklch(0.586 0.231 280);
+  --popover-foreground: oklch(0.17 0.045 254);
+  --primary: oklch(0.63 0.205 250);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.944 0.018 294);
-  --secondary-foreground: oklch(0.185 0.028 295);
-  --muted: oklch(0.952 0.014 292);
-  --muted-foreground: oklch(0.51 0.033 296);
-  --accent: oklch(0.92 0.038 275);
-  --accent-foreground: oklch(0.38 0.13 280);
-  --border: oklch(0.88 0.016 292);
-  --input: oklch(0.88 0.016 292);
-  --ring: oklch(0.586 0.231 280);
+  --secondary: oklch(0.948 0.026 241);
+  --secondary-foreground: oklch(0.17 0.045 254);
+  --muted: oklch(0.958 0.014 244);
+  --muted-foreground: oklch(0.5 0.04 253);
+  --accent: oklch(0.91 0.069 216);
+  --accent-foreground: oklch(0.29 0.11 248);
+  --border: oklch(0.88 0.025 245);
+  --input: oklch(0.88 0.025 245);
+  --ring: oklch(0.63 0.205 250);
   --radius: 0.75rem;
-  --surface-ink: oklch(0.19 0.025 295);
-  --surface-ink-soft: oklch(0.24 0.032 294);
-  --surface-violet: oklch(0.57 0.23 281);
-  --surface-cream: oklch(0.975 0.012 85);
-  --text-on-dark: oklch(0.99 0.005 290);
-  --text-on-dark-muted: oklch(0.76 0.012 290);
-  --brand-blue: oklch(0.65 0.17 245);
-  --brand-cyan: oklch(0.78 0.13 213);
+  --surface-ink: oklch(0.145 0.052 255);
+  --surface-ink-soft: oklch(0.205 0.061 254);
+  --surface-violet: oklch(0.63 0.205 250);
+  --surface-cream: oklch(0.972 0.021 235);
+  --text-on-dark: oklch(0.99 0.004 240);
+  --text-on-dark-muted: oklch(0.79 0.025 239);
+  --brand-blue: oklch(0.63 0.205 250);
+  --brand-cyan: oklch(0.79 0.145 211);
 }
 
 @theme inline {
@@ -205,18 +205,18 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 
 /* Reference-aligned portfolio layout and motion */
 :root {
-  --background: oklch(0.987 0.006 285);
-  --foreground: oklch(0.22 0.025 285);
+  --background: oklch(0.985 0.006 246);
+  --foreground: oklch(0.17 0.045 254);
   --card: oklch(1 0 0);
-  --primary: oklch(0.59 0.23 280);
-  --secondary: oklch(0.954 0.025 281);
-  --muted-foreground: oklch(0.52 0.025 285);
-  --border: oklch(0.91 0.019 285);
-  --surface-ink: oklch(0.22 0.021 285);
-  --surface-cream: oklch(0.967 0.014 280);
-  --surface-violet: oklch(0.59 0.23 280);
-  --brand-warm: oklch(0.91 0.09 78);
-  --brand-warm-soft: oklch(0.981 0.027 80);
+  --primary: oklch(0.63 0.205 250);
+  --secondary: oklch(0.948 0.026 241);
+  --muted-foreground: oklch(0.5 0.04 253);
+  --border: oklch(0.89 0.025 245);
+  --surface-ink: oklch(0.145 0.052 255);
+  --surface-cream: oklch(0.972 0.021 235);
+  --surface-violet: oklch(0.63 0.205 250);
+  --brand-warm: oklch(0.79 0.145 211);
+  --brand-warm-soft: oklch(0.95 0.047 218);
 }
 @theme inline { --color-brand-warm: var(--brand-warm); --color-brand-warm-soft: var(--brand-warm-soft); }
 .portfolio-page { overflow: clip; background: var(--background); color: var(--foreground); }

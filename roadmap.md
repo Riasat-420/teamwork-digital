@@ -6,3 +6,4 @@
 - [x] Add consistent hover, scroll and press motion throughout the portfolio; verify desktop and mobile.
 - [x] Let visitors describe a project and receive AI-powered service recommendations and next steps.
 - [x] Match the reference skills grid, scroll-led delivery timeline, and credentials section without copying personal claims.
+- [x] Retune the portfolio palette to the Teamwork Digital logo’s blue, cyan, white, and navy colors.
