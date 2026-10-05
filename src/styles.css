@@ -519,3 +519,55 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 .tech-strip { color: var(--primary-foreground); }
 .tech-strip small { color: var(--accent, var(--primary)); opacity: 1; }
 @media (max-width: 560px) { .project-filters { flex-wrap: nowrap; width: 100%; overflow-x: auto; } .project-filters button { flex: none; padding: .45rem .8rem; } }
+
+/* Team */
+.team-section { background: var(--secondary); }
+.team-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1.2rem; margin-top: 3rem; }
+.team-card { height: 100%; overflow: hidden; border: 1px solid var(--border); border-radius: 20px; background: var(--card); transition: transform .45s var(--motion-ease), box-shadow .45s ease, border-color .3s ease; }
+.team-card:hover { transform: translateY(-8px); border-color: color-mix(in oklab, var(--primary) 40%, var(--border)); box-shadow: 0 24px 44px color-mix(in oklab, var(--primary) 16%, transparent); }
+.team-media { position: relative; aspect-ratio: 4/4.4; overflow: hidden; background: linear-gradient(145deg, var(--primary), var(--surface-ink, var(--foreground))); }
+.team-media img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .7s var(--motion-ease); }
+.team-card:hover .team-media img, .team-card:hover .team-initials { transform: scale(1.06); }
+.team-initials { display: grid; place-items: center; height: 100%; font-family: "Sora", sans-serif; font-size: 3.4rem; font-weight: 800; color: var(--primary-foreground); letter-spacing: -.04em; transition: transform .7s var(--motion-ease); }
+.team-socials { position: absolute; left: 50%; bottom: 1rem; display: flex; gap: .5rem; transform: translate(-50%, 140%); transition: transform .45s var(--motion-ease); }
+.team-card:hover .team-socials, .team-card:focus-within .team-socials { transform: translate(-50%, 0); }
+.team-socials a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--card); color: var(--primary); box-shadow: 0 8px 18px color-mix(in oklab, var(--foreground) 18%, transparent); transition: background .25s ease, color .25s ease, transform .25s ease; }
+.team-socials a:hover { background: var(--primary); color: var(--primary-foreground); transform: translateY(-3px); }
+.team-socials a:active { transform: scale(.92); }
+.team-body { padding: 1.3rem 1.4rem 1.6rem; }
+.team-role { display: inline-block; padding: .3rem .65rem; border-radius: 100px; background: var(--secondary); color: var(--primary); font-size: .68rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.team-card.is-leader .team-role { background: var(--primary); color: var(--primary-foreground); }
+.team-body h3 { margin-top: .8rem; font-family: "Sora", sans-serif; font-size: 1.12rem; font-weight: 700; }
+.team-body p { margin-top: .45rem; color: var(--muted-foreground); font-size: .85rem; line-height: 1.6; }
+@media (hover: none) { .team-socials { transform: translate(-50%, 0); } }
+
+/* Testimonials */
+.testimonial-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.2rem; margin-top: 3rem; }
+.testimonial-card { position: relative; display: flex; flex-direction: column; height: 100%; margin: 0; padding: 2rem; overflow: hidden; border: 1px solid var(--border); border-radius: 20px; background: var(--card); transition: transform .45s var(--motion-ease), box-shadow .45s ease, background .4s ease, color .4s ease; }
+.testimonial-card:hover { transform: translateY(-6px); background: var(--surface-ink, var(--foreground)); color: var(--primary-foreground); box-shadow: 0 26px 48px color-mix(in oklab, var(--primary) 20%, transparent); }
+.testimonial-mark { position: absolute; top: 1.4rem; right: 1.4rem; color: color-mix(in oklab, var(--primary) 22%, transparent); transition: transform .5s var(--motion-ease), color .4s ease; }
+.testimonial-card:hover .testimonial-mark { transform: rotate(-10deg) scale(1.15); color: var(--primary); }
+.testimonial-stars { display: flex; gap: .2rem; color: var(--primary); }
+.testimonial-stars svg { fill: currentColor; }
+.testimonial-card blockquote { flex: 1; margin: 1.2rem 0 1.8rem; font-size: 1.02rem; line-height: 1.7; }
+.testimonial-card figcaption { display: flex; align-items: center; gap: .8rem; padding-top: 1.2rem; border-top: 1px solid color-mix(in oklab, currentColor 14%, transparent); }
+.testimonial-avatar { display: grid; flex: none; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--primary); color: var(--primary-foreground); font-weight: 800; }
+.testimonial-card figcaption strong { display: block; font-size: .9rem; }
+.testimonial-card figcaption small { opacity: .7; font-size: .76rem; }
+.testimonial-service { margin-left: auto; padding: .25rem .6rem; border-radius: 100px; background: color-mix(in oklab, var(--primary) 14%, transparent); color: var(--primary); font-size: .66rem; font-weight: 700; white-space: nowrap; }
+
+/* Contact + FAQ */
+.contact-faq-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
+.contact-faq-layout .contact-panel { grid-template-columns: 1fr; gap: 2rem; padding: 2.6rem; border-radius: 20px; }
+.contact-aside-row { flex-direction: row; flex-wrap: wrap; align-items: center; gap: .9rem; padding: 1.2rem 1.4rem; }
+.contact-aside-row strong { margin-top: 0; font-size: 1.05rem; }
+.contact-aside-row > span { display: none; }
+.contact-aside-row a { margin: 0 0 0 auto; }
+.contact-faq-head { scroll-margin-top: 105px; margin-bottom: 1.4rem; }
+.contact-faq-head h3 { margin-top: .8rem; font-family: "Sora", sans-serif; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 700; letter-spacing: -.03em; }
+.contact-faq-head h3 em { font-family: "Instrument Serif", serif; font-weight: 400; color: var(--primary); }
+@media (max-width: 1000px) { .team-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .testimonial-grid, .contact-faq-layout { grid-template-columns: 1fr; } }
+@media (max-width: 800px) { .contact-faq-layout .contact-aside { display: flex; } }
+@media (max-width: 520px) { .team-grid { grid-template-columns: 1fr; } .contact-faq-layout .contact-panel { padding: 1.8rem; } }
+@media (prefers-reduced-motion: reduce) { .team-card, .team-media img, .team-initials, .team-socials, .testimonial-card, .testimonial-mark { transition: none; } }
+.portfolio-contact .contact-faq .portfolio-eyebrow { border-color: var(--border); background: var(--card); color: var(--primary); }
