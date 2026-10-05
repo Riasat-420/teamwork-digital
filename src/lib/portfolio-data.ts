@@ -54,6 +54,18 @@ export const faqs = [
   { q: "Can you add AI features to my business?", a: "We build chatbots, appointment assistants, inbound and outbound call assistants and practical automations around your real workflow." },
 ] as const;
 
-// Fill these in when the client supplies real details; empty lists keep the sections hidden.
-export const team: { name: string; role: string; photo?: string }[] = [];
-export const testimonials: { quote: string; name: string; company: string }[] = [];
+// DEMO DATA — replace every entry below with the client's real details before launch.
+export const contact = { email: "hello@teamworkdigital.com", whatsapp: "+92 300 0000000", whatsappLink: "https://wa.me/923000000000" };
+
+export const team: { name: string; role: string; photo?: string }[] = [
+  { name: "Team Member One", role: "Team Leader · Project Manager" },
+  { name: "Team Member Two", role: "Mobile App Developer" },
+  { name: "Team Member Three", role: "Web & E-commerce Developer" },
+  { name: "Team Member Four", role: "UI/UX & Graphic Designer" },
+];
+
+export const testimonials: { quote: string; name: string; company: string }[] = [
+  { quote: "The team understood our requirements quickly and delivered a website that fits our business perfectly.", name: "Client Name", company: "Pet Care Business" },
+  { quote: "Clear communication, on-time delivery and support even after launch. Exactly what we needed.", name: "Client Name", company: "Construction Company" },
+  { quote: "From design to development, everything was handled by one team. The whole process felt effortless.", name: "Client Name", company: "Beauty Brand" },
+];
