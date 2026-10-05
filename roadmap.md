@@ -1,4 +1,3 @@
 # Portfolio work
-- [x] Compare reference sections and animation patterns directly.
-- [x] Rebuild the page in reference order with dark as secondary; use the company's profile in place of the reference owner's education.
-- [x] Restore motion and verify desktop/mobile interactions and live project previews.
+- [ ] Adapt the uploaded reference layout and motion to Teamwork Digital without copying the reference owner’s identity or claims.
+- [ ] Verify the updated page and mobile interactions.
