@@ -142,3 +142,63 @@
     color: var(--color-foreground);
   }
 }
+
+/* Portfolio theme: reference-inspired violet and ink with a contrasting blue brand accent. */
+:root {
+  --background: oklch(0.984 0.006 290);
+  --foreground: oklch(0.185 0.028 295);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.185 0.028 295);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.185 0.028 295);
+  --primary: oklch(0.586 0.231 280);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.944 0.018 294);
+  --secondary-foreground: oklch(0.185 0.028 295);
+  --muted: oklch(0.952 0.014 292);
+  --muted-foreground: oklch(0.51 0.033 296);
+  --accent: oklch(0.92 0.038 275);
+  --accent-foreground: oklch(0.38 0.13 280);
+  --border: oklch(0.88 0.016 292);
+  --input: oklch(0.88 0.016 292);
+  --ring: oklch(0.586 0.231 280);
+  --radius: 0.75rem;
+  --surface-ink: oklch(0.19 0.025 295);
+  --surface-ink-soft: oklch(0.24 0.032 294);
+  --surface-violet: oklch(0.57 0.23 281);
+  --surface-cream: oklch(0.975 0.012 85);
+  --text-on-dark: oklch(0.99 0.005 290);
+  --text-on-dark-muted: oklch(0.76 0.012 290);
+  --brand-blue: oklch(0.65 0.17 245);
+  --brand-cyan: oklch(0.78 0.13 213);
+}
+
+@theme inline {
+  --color-surface-ink: var(--surface-ink);
+  --color-surface-ink-soft: var(--surface-ink-soft);
+  --color-surface-violet: var(--surface-violet);
+  --color-surface-cream: var(--surface-cream);
+  --color-on-dark: var(--text-on-dark);
+  --color-on-dark-muted: var(--text-on-dark-muted);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-cyan: var(--brand-cyan);
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Sora", sans-serif;
+  --font-editorial: "Instrument Serif", serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
+::selection { background: var(--accent); color: var(--foreground); }
+.portfolio-container { width: min(100% - 3rem, 1220px); margin-inline: auto; }
+.eyebrow { font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .18em; }
+.section-heading { font-family: "Sora", sans-serif; font-size: clamp(2.4rem, 5vw, 4.5rem); font-weight: 700; line-height: 1.08; }
+.font-editorial { font-family: "Instrument Serif", serif; font-weight: 400; }
+.service-card { transition: transform .25s ease, border-color .25s ease, background .25s ease; }
+.service-card:hover { transform: translateY(-5px); border-color: var(--primary); background: var(--surface-ink-soft); }
+.portrait-glow { background: radial-gradient(circle at center, color-mix(in oklab, var(--primary) 45%, transparent), transparent 68%); }
+.hero-grid { background-image: radial-gradient(color-mix(in oklab, var(--foreground) 16%, transparent) 1px, transparent 1px); background-size: 24px 24px; }
+.ticker-track { animation: ticker 30s linear infinite; }
+@keyframes ticker { to { transform: translateX(-50%); } }
+@media (max-width: 640px) { .portfolio-container { width: min(100% - 2rem, 1220px); } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .ticker-track { animation: none; } .service-card { transition: none; } }
