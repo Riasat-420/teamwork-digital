@@ -4,4 +4,4 @@
 - [x] Replace the phone-framed hero portrait with a more expressive team composition.
 - [x] Animate the process timeline continuously with scroll and verify both screen sizes.
 - [x] Add consistent hover, scroll and press motion throughout the portfolio; verify desktop and mobile.
-- [ ] Let visitors describe a project and receive AI-powered service recommendations and next steps.
+- [x] Let visitors describe a project and receive AI-powered service recommendations and next steps.

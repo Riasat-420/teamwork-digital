@@ -427,7 +427,7 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 }
 
 /* Project discovery, set as an unframed editorial section between credentials and contact. */
-.guide-section { background: var(--surface-cream); }
+.guide-section { background: var(--surface-cream); scroll-margin-top: 105px; }
 .guide-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 3rem; margin-bottom: 3rem; }
 .guide-heading-row .portfolio-heading em { color: var(--primary); font-family: "Instrument Serif",serif; font-weight: 400; }
 .guide-heading-row > p { max-width: 340px; color: var(--muted-foreground); font-size: .9rem; line-height: 1.8; }
