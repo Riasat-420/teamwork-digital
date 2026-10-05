@@ -9,7 +9,7 @@ import profile from "@/assets/teamwork-digital-profile.pdf.asset.json";
 import lovePawsPreview from "@/assets/love-paws.png.asset.json";
 import americanWebsPreview from "@/assets/american-webs.png.asset.json";
 import aberasPreview from "@/assets/aberas.png.asset.json";
-import blackGrainPreview from "@/assets/black-grain.png.asset.json";
+import blackGrainPreview from "@/assets/black-grain-clean.png.asset.json";
 
 const featuredPreviews = [lovePawsPreview, americanWebsPreview, aberasPreview, blackGrainPreview];
 
