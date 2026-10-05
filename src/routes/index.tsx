@@ -51,6 +51,14 @@ function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState("#home");
+  const [loading, setLoading] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setLoading(false), 1700);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { window.clearTimeout(timer); window.removeEventListener("scroll", onScroll); };
+  }, []);
   useEffect(() => {
     const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) setActive(`#${entry.target.id}`); }); }, { rootMargin: "-25% 0px -65% 0px" });
     nav.forEach(item => { const node = document.querySelector(item.href); if (node) observer.observe(node); });
@@ -58,8 +66,9 @@ function Portfolio() {
   }, []);
   const copyPage = async () => { try { await navigator.clipboard.writeText(window.location.href); setCopied(true); window.setTimeout(() => setCopied(false), 2200); } catch { setCopied(false); } };
 
-  return <div className="portfolio-page">
-    <header className="portfolio-header">
+  return <div className={`portfolio-page ${loading ? "is-loading" : "is-ready"}`}>
+    {loading && <div className="portfolio-preloader" aria-label="Loading Teamwork Digital"><div className="preloader-layer preloader-violet" /><div className="preloader-layer preloader-ink"><div className="preloader-meta"><span>Creative digital team</span><span>2026</span></div><div className="preloader-word">TEAMWORK<span>.</span></div><div className="preloader-bottom"><span>Your vision. Our expertise.</span><strong>100<small>%</small></strong></div><div className="preloader-progress" /></div></div>}
+    <header className={`portfolio-header ${scrolled ? "is-scrolled" : ""}`}>
       <div className="portfolio-container portfolio-header-inner">
         <Brand />
         <nav aria-label="Main navigation" className="portfolio-nav">{nav.map((item, i) => <a key={item.href} href={item.href} className={active === item.href ? "active" : ""}><span>{String(i + 1).padStart(2, "0")}</span>{item.label}</a>)}</nav>
@@ -72,23 +81,27 @@ function Portfolio() {
     <main>
       <section id="home" className="portfolio-hero">
         <div className="portfolio-container hero-inner">
-          <div className="hero-copy">
-            <Eyebrow>Complete digital team</Eyebrow>
-            <h1>We are <span>Teamwork</span><br />Digital<span className="text-primary">.</span></h1>
-            <p>From mobile apps and websites to AI, design and beyond — one team to bring your idea to life.</p>
-            <div className="hero-actions"><Button asChild><a href="#projects">View projects <ArrowUpRight size={17} /></a></Button><Button asChild variant="outline"><a href="#contact">Let's talk <ArrowRight size={17} /></a></Button></div>
-            <div className="hero-meta"><span><span className="portfolio-dot" /> Mobile & web development</span><span>YOUR VISION · OUR EXPERTISE</span></div>
-          </div>
+          <div className="hero-head"><span className="hero-hello">Hello! <Smartphone size={14} /></span><h1>We are <em>Teamwork</em>,<br />Digital Developers</h1></div>
+          <aside className="hero-aside hero-aside-left"><span className="hero-quote">“</span><p>We build digital products from first idea to release — with one connected team.</p></aside>
           <div className="hero-visual">
-            <div className="portrait-orbit orbit-one" /><div className="portrait-orbit orbit-two" />
-            <div className="hero-photo"><img src={leaderPhoto.url} alt="Team leader and project manager" /></div>
-            <div className="hero-float hero-float-top"><span className="float-icon"><Users size={18} /></span><span><strong>One team</strong><small>Many disciplines</small></span></div>
-            <div className="hero-float hero-float-bottom"><span className="portfolio-dot" /><span>TEAM LEADER / PROJECT MANAGER</span></div>
+            <div className="hero-arc" /><div className="portrait-orbit orbit-one" /><div className="portrait-orbit orbit-two" />
+            <div className="hero-phone">
+              <div className="phone-bar"><span>9:41</span><i /><b>•••</b></div>
+              <div className="phone-person"><img src={logo.url} alt="" /><span><small>Creative team</small><strong>Teamwork Digital</strong></span><b>+</b></div>
+              <div className="phone-role"><small>Complete digital team</small><strong>Idea to launch.</strong></div>
+              <div className="phone-photo"><img src={leaderPhoto.url} alt="Team leader and project manager" /></div>
+              <div className="phone-stats"><span><strong>11+</strong><small>digital services</small></span><span><strong>10+</strong><small>portfolio projects</small></span></div>
+              <small className="phone-caption">Team leader / Project manager</small>
+            </div>
+            <div className="hero-float hero-float-top"><Smartphone size={14} /> Flutter & React Native</div>
+            <div className="hero-float hero-float-bottom"><Check size={14} /> Websites · AI · Creative</div>
+            <div className="hero-actions"><Button asChild><a href="#projects">View Projects <ArrowUpRight size={16} /></a></Button><Button asChild><a href="#contact">Hire Us <ArrowRight size={16} /></a></Button></div>
           </div>
+          <aside className="hero-aside hero-aside-right"><small>YOUR VISION</small><strong>One complete team</strong><span>for every digital idea</span></aside>
           <a className="hero-scroll" href="#services">Scroll to explore <ArrowDown size={15} /></a>
         </div>
       </section>
-      <div className="portfolio-ticker" aria-label="Our capabilities"><div className="ticker-track">{Array.from({ length: 2 }, (_, i) => <div key={i} className="ticker-set">{["Flutter", "React Native", "WordPress", "Wix Studio", "Shopify", "AI Solutions", "Game Development", "Graphic Design", "Video Editing", "Lead Generation"].map(item => <span key={item}>{item}<span className="portfolio-dot" /></span>)}</div>)}</div></div>
+      <div className="portfolio-ticker" aria-label="Our capabilities"><div className="ticker-ribbon ticker-ribbon-back" /><div className="ticker-ribbon ticker-ribbon-front"><div className="ticker-track">{Array.from({ length: 2 }, (_, i) => <div key={i} className="ticker-set">{["Flutter", "React Native", "WordPress", "Wix Studio", "Shopify", "AI Solutions", "Game Development", "Graphic Design", "Video Editing", "Lead Generation"].map(item => <span key={item}>{item}<span className="portfolio-dot" /></span>)}</div>)}</div></div></div>
 
       <section id="services" className="portfolio-services"><div className="portfolio-container">
         <Reveal className="section-intro"><div><Eyebrow>What we do</Eyebrow><Heading>What we <em>build</em> for you</Heading></div><p>From the first idea to the finished product, one team across development, design and digital services.</p></Reveal>
