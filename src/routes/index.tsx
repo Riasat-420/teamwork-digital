@@ -74,12 +74,11 @@ function Portfolio() {
       frame = 0;
       const rect = timeline.getBoundingClientRect();
       const start = window.innerHeight * 0.68;
-      const end = window.innerHeight * 0.42;
-      const progress = Math.max(0, Math.min(1, (start - rect.top) / (rect.height + start - end)));
+      const progress = Math.max(0, Math.min(1, (start - rect.top - 22) / Math.max(1, rect.height - 102)));
       timeline.style.setProperty("--timeline-progress", String(reducedMotion.matches ? 1 : progress));
       timeline.querySelectorAll<HTMLElement>(".timeline-row").forEach((row) => {
         const marker = row.querySelector(".timeline-marker");
-        const position = marker?.getBoundingClientRect().top ?? row.getBoundingClientRect().top;
+        const position = (marker?.getBoundingClientRect().top ?? row.getBoundingClientRect().top) + 18;
         const reached = reducedMotion.matches || position < start;
         row.classList.toggle("is-reached", reached);
       });

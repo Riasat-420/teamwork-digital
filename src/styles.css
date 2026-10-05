@@ -348,6 +348,7 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 /* The timeline fills continuously, while milestones react as they enter the reading zone. */
 .timeline::before { left: calc(38% + 2.7% - 1px); }
 .timeline::after { content: ""; position: absolute; z-index: 0; top: 22px; bottom: 80px; left: calc(38% + 2.7% - 1px); width: 2px; background: var(--primary); transform: scaleY(var(--timeline-progress,0)); transform-origin: top; }
+.timeline-row { position: relative; z-index: 1; }
 .timeline-row .timeline-marker span { background: var(--card); color: var(--primary); border-color: var(--background); box-shadow: 0 0 0 1px var(--border); transition: background .35s ease,color .35s ease,box-shadow .35s ease,transform .35s ease; }
 .timeline-row .timeline-panel { transition: border-color .4s ease,box-shadow .4s ease,transform .4s ease; }
 .timeline-row.is-reached .timeline-marker span { background: var(--primary); color: var(--primary-foreground); box-shadow: 0 0 0 4px var(--secondary); transform: scale(1.12); }
