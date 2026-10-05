@@ -13,25 +13,16 @@ export const services = [
 ] as const;
 
 export const projects = [
-  { title: "Love Paws Walk", type: "WordPress", url: "https://www.lovepawswalk.com/", initials: "LP" },
-  { title: "American Webs Studios", type: "WordPress", url: "https://americanwebsstudios.com/", initials: "AW" },
-  { title: "Aberas Construction", type: "WordPress", url: "https://aberasconstruction.ca/", initials: "AC" },
-  { title: "Black & Grain", type: "WordPress", url: "https://blackandgrain.com/", initials: "BG" },
-  { title: "Welloraa", type: "WordPress", url: "https://welloraa.com/", initials: "WE" },
-  { title: "Beaut by Muh", type: "WordPress", url: "https://beautbymuh.com/", initials: "BM" },
-  { title: "World Foot", type: "Additional portfolio", url: "https://worldfoot.fr/en", initials: "WF" },
-  { title: "Green Leaf Organics", type: "Additional portfolio", url: "https://greenleaforganics.com/", initials: "GL" },
-  { title: "The Powers Hub", type: "Additional portfolio", url: "https://thepowershub.com/", initials: "PH" },
-  { title: "The Shiffaa Store", type: "Additional portfolio", url: "https://theshiffaa.store/", initials: "SS" },
-] as const;
-
-export const skillGroups = [
-  { name: "Mobile", icon: "mobile", description: "Cross-platform products for Android and iOS.", items: ["Flutter", "React Native", "Android & iOS", "Firebase", "APIs"], span: "wide" },
-  { name: "Websites", icon: "web", description: "From content sites to custom web experiences.", items: ["WordPress", "Elementor", "Custom web", "Full-stack"], span: "normal" },
-  { name: "Commerce", icon: "shop", description: "Stores and business-ready platforms.", items: ["Shopify", "Liquid", "Wix", "Wix Studio", "Payments"], span: "normal" },
-  { name: "AI & Automation", icon: "ai", description: "Useful tools built around real workflows.", items: ["Chatbots", "AI assistants", "Call assistants", "Automation"], span: "normal" },
-  { name: "Creative", icon: "design", description: "The visual side of a strong launch.", items: ["UI/UX", "Graphic design", "Video editing", "Game UI"], span: "normal" },
-  { name: "Growth & Support", icon: "leads", description: "Research, outreach and technical support.", items: ["Lead generation", "Research", "Outreach", "Documentation"], span: "wide" },
+  { title: "Love Paws Walk", category: "WordPress", type: "WordPress", url: "https://www.lovepawswalk.com/", initials: "LP" },
+  { title: "American Webs Studios", category: "WordPress", type: "WordPress", url: "https://americanwebsstudios.com/", initials: "AW" },
+  { title: "Aberas Construction", category: "WordPress", type: "WordPress", url: "https://aberasconstruction.ca/", initials: "AC" },
+  { title: "Black & Grain", category: "WordPress", type: "WordPress", url: "https://blackandgrain.com/", initials: "BG" },
+  { title: "Welloraa", category: "WordPress", type: "WordPress", url: "https://welloraa.com/", initials: "WE" },
+  { title: "Beaut by Muh", category: "WordPress", type: "WordPress", url: "https://beautbymuh.com/", initials: "BM" },
+  { title: "World Foot", category: "Other", type: "Additional portfolio", url: "https://worldfoot.fr/en", initials: "WF" },
+  { title: "Green Leaf Organics", category: "E-commerce", type: "Additional portfolio", url: "https://greenleaforganics.com/", initials: "GL" },
+  { title: "The Powers Hub", category: "Other", type: "Additional portfolio", url: "https://thepowershub.com/", initials: "PH" },
+  { title: "The Shiffaa Store", category: "E-commerce", type: "Additional portfolio", url: "https://theshiffaa.store/", initials: "SS" },
 ] as const;
 
 export const process = [
@@ -42,14 +33,27 @@ export const process = [
   { title: "Deliver & Support", period: "Launch", description: "Provide the finished work, handover, and support when needed.", points: ["Prepare the final release", "Stay available after delivery"], tags: ["Launch", "Support"] },
 ] as const;
 
-export const credentials = [
-  { index: "01", label: "COMPLETE DIGITAL TEAM", title: "Development, design and growth", description: "A connected team covering mobile, web, commerce, AI, creative work and outreach." },
-  { index: "02", label: "CROSS-PLATFORM DELIVERY", title: "From Flutter to full-stack web", description: "The right tools are selected around the project rather than forcing every brief into one platform." },
+export const techStack = ["Flutter", "React Native", "Firebase", "APIs", "WordPress", "Elementor", "Wix", "Wix Studio", "Shopify", "Liquid", "Full-stack web", "AI assistants", "UI/UX", "Video editing"] as const;
+
+export const reasons = [
+  { icon: "users", title: "One complete team", description: "Mobile, web, commerce, AI, design and growth handled by one connected team." },
+  { icon: "code", title: "The right tool for the job", description: "From Flutter to WordPress to Shopify, the platform is chosen around your project." },
+  { icon: "check", title: "Tested before handoff", description: "Key journeys and screen sizes are reviewed before anything is delivered." },
+  { icon: "support", title: "Support after delivery", description: "Handover, maintenance and help remain available once your project is live." },
 ] as const;
 
-export const capabilityNotes = [
-  "Mobile, web and commerce delivery",
-  "Creative, video and interface design",
-  "AI automation and custom software",
-  "Testing, handover and ongoing support",
+export const projectCategories = ["All", "WordPress", "E-commerce", "Other"] as const;
+
+export const industries = ["Pet care", "Construction", "Beauty", "Wellness", "Organic food", "Retail", "Sports", "Web agencies", "Lifestyle brands"] as const;
+
+export const faqs = [
+  { q: "Which platforms do you build with?", a: "Flutter and React Native for mobile apps, plus WordPress, Elementor, Wix, Wix Studio, Shopify and custom full-stack development for the web." },
+  { q: "Do you handle both design and development?", a: "Yes. UI/UX, graphics and video are handled by the same team that builds the product, so the design and the finished build match." },
+  { q: "Do you offer support after launch?", a: "Yes. Delivery includes a handover, and we stay available for maintenance, fixes and improvements when you need them." },
+  { q: "How does a project start?", a: "We review your requirements, goals and existing setup, then agree a plan with milestones before building. You can try the AI Project Planner above to shape your brief first." },
+  { q: "Can you add AI features to my business?", a: "We build chatbots, appointment assistants, inbound and outbound call assistants and practical automations around your real workflow." },
 ] as const;
+
+// Fill these in when the client supplies real details; empty lists keep the sections hidden.
+export const team: { name: string; role: string; photo?: string }[] = [];
+export const testimonials: { quote: string; name: string; company: string }[] = [];
