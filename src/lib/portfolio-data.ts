@@ -25,6 +25,15 @@ export const projects = [
   { title: "The Shiffaa Store", type: "Additional portfolio", url: "https://theshiffaa.store/", initials: "SS" },
 ] as const;
 
+export const skillGroups = [
+  { name: "Mobile", icon: "mobile", description: "Cross-platform products for Android and iOS.", items: ["Flutter", "React Native", "Android & iOS", "Firebase", "APIs"], span: "wide" },
+  { name: "Websites", icon: "web", description: "From content sites to custom web experiences.", items: ["WordPress", "Elementor", "Custom web", "Full-stack"], span: "normal" },
+  { name: "Commerce", icon: "shop", description: "Stores and business-ready platforms.", items: ["Shopify", "Liquid", "Wix", "Wix Studio", "Payments"], span: "normal" },
+  { name: "AI & Automation", icon: "ai", description: "Useful tools built around real workflows.", items: ["Chatbots", "AI assistants", "Call assistants", "Automation"], span: "normal" },
+  { name: "Creative", icon: "design", description: "The visual side of a strong launch.", items: ["UI/UX", "Graphic design", "Video editing", "Game UI"], span: "normal" },
+  { name: "Growth & Support", icon: "leads", description: "Research, outreach and technical support.", items: ["Lead generation", "Research", "Outreach", "Documentation"], span: "wide" },
+] as const;
+
 export const process = [
   { title: "Understand", description: "Review your requirements, goals, and existing setup." },
   { title: "Plan", description: "Define the approach, tasks, and deliverables." },
