@@ -35,9 +35,21 @@ export const skillGroups = [
 ] as const;
 
 export const process = [
-  { title: "Understand", description: "Review your requirements, goals, and existing setup." },
-  { title: "Plan", description: "Define the approach, tasks, and deliverables." },
-  { title: "Build", description: "Develop with attention to quality and responsiveness." },
-  { title: "Test", description: "Resolve issues before the final handoff." },
-  { title: "Deliver & Support", description: "Provide the finished work and support when needed." },
+  { title: "Understand", period: "Discovery", description: "Review your requirements, goals, audience, and existing setup.", points: ["Clarify the product goal", "Identify the right service mix"], tags: ["Brief", "Research"] },
+  { title: "Plan", period: "Direction", description: "Define the approach, tasks, milestones, and practical deliverables.", points: ["Shape the delivery roadmap", "Agree priorities and scope"], tags: ["Strategy", "Planning"] },
+  { title: "Build", period: "Production", description: "Develop and design the product with attention to quality and responsiveness.", points: ["Create the core experience", "Share progress clearly"], tags: ["Design", "Development"] },
+  { title: "Test", period: "Quality", description: "Review the full experience and resolve issues before the final handoff.", points: ["Check key user journeys", "Refine across screen sizes"], tags: ["QA", "Refinement"] },
+  { title: "Deliver & Support", period: "Launch", description: "Provide the finished work, handover, and support when needed.", points: ["Prepare the final release", "Stay available after delivery"], tags: ["Launch", "Support"] },
+] as const;
+
+export const credentials = [
+  { index: "01", label: "COMPLETE DIGITAL TEAM", title: "Development, design and growth", description: "A connected team covering mobile, web, commerce, AI, creative work and outreach." },
+  { index: "02", label: "CROSS-PLATFORM DELIVERY", title: "From Flutter to full-stack web", description: "The right tools are selected around the project rather than forcing every brief into one platform." },
+] as const;
+
+export const capabilityNotes = [
+  "Mobile, web and commerce delivery",
+  "Creative, video and interface design",
+  "AI automation and custom software",
+  "Testing, handover and ongoing support",
 ] as const;
