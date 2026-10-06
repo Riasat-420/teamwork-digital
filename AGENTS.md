@@ -11,4 +11,5 @@
 
 - Keep portfolio copy, services, projects and process items in `src/lib/portfolio-data.ts`; the single scrolling page renders those entries so client details can be updated without changing layout.
 - Keep portfolio motion in a shared page-level visibility observer and semantic CSS states, with bounded content staggering and reduced-motion fallbacks, so scroll reveals stay consistent without a separate animation runtime.
+- Keep ribbon looping on an inner track and scroll displacement on its wrapper in the existing page motion loop, so both motions compose without competing transforms.
 - Keep visitor project analysis as a one-shot server function with server-only AI credentials and no saved brief, so public visitors can get guidance without creating an account.
