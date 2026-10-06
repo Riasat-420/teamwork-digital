@@ -1,5 +1,5 @@
 # Portfolio work
-- [ ] Center the menu logo, enlarge both capability strips, and verify continuous and scroll-linked text motion.
+- [x] Center the menu logo, enlarge both capability strips, and verify continuous and scroll-linked text motion.
 - [x] Make all section content reveal smoothly on scroll, including the planner and FAQ; verify scrolling and reduced motion.
 - [x] Adapt the uploaded reference layout and motion to Teamwork Digital without copying the reference owner’s identity or claims.
 - [x] Verify the updated page and mobile interactions.
