@@ -50,7 +50,7 @@ export const faqs = [
   { q: "Which platforms do you build with?", a: "Flutter and React Native for mobile apps, plus WordPress, Elementor, Wix, Wix Studio, Shopify and custom full-stack development for the web." },
   { q: "Do you handle both design and development?", a: "Yes. UI/UX, graphics and video are handled by the same team that builds the product, so the design and the finished build match." },
   { q: "Do you offer support after launch?", a: "Yes. Delivery includes a handover, and we stay available for maintenance, fixes and improvements when you need them." },
-  { q: "How does a project start?", a: "We review your requirements, goals and existing setup, then agree a plan with milestones before building. You can try the AI Project Planner above to shape your brief first." },
+  { q: "How does a project start?", a: "We review your requirements, goals and existing setup, then agree a plan with milestones before building. You can chat with our AI assistant to shape your brief first." },
   { q: "Can you add AI features to my business?", a: "We build chatbots, appointment assistants, inbound and outbound call assistants and practical automations around your real workflow." },
 ] as const;
 

@@ -1,8 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Github, Instagram, Linkedin, Mail, Star, ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LifeBuoy, Plus, Quote, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ProjectGuide } from "@/components/project-guide";
 import { contact, faqs, process, projectCategories, projects, reasons, services, team, techStack, testimonials } from "@/lib/portfolio-data";
 import leaderPhoto from "@/assets/team-leader.jpeg.asset.json";
 import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
@@ -18,7 +17,7 @@ const reasonIcons = { users: Users, code: Code2, check: Check, support: LifeBuoy
 const icons = { mobile: Smartphone, web: Monitor, layout: LayoutTemplate, shop: ShoppingBag, design: Palette, video: Play, game: Gamepad2, ai: Sparkles, leads: Search, academic: GraduationCap, code: Code2 };
 const nav = [
   { label: "Services", href: "#services" }, { label: "Work", href: "#projects" },
-  { label: "Process", href: "#experience" }, { label: "Planner", href: "#project-guide" },
+  { label: "Process", href: "#experience" }, { label: "Team", href: "#team" },
   { label: "FAQ", href: "#faq" }, { label: "Contact", href: "#contact" },
 ];
 
@@ -41,7 +40,8 @@ function Eyebrow({ children }: { children: React.ReactNode }) { return <span cla
 function Heading({ children }: { children: React.ReactNode }) { return <h2 className="portfolio-heading">{children}</h2>; }
 function Brand() { return <a href="#home" className="portfolio-brand" aria-label="Teamwork Digital, home"><img src={logo.url} alt="" /><span>TEAMWORK<span className="text-primary"> DIGITAL.</span></span></a>; }
 
-function Portfolio() {
+export function Portfolio() {
+  const isChatPage = useRouterState({ select: state => state.location.pathname.startsWith("/chat/") });
   const pageRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -50,7 +50,7 @@ function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState("#home");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!isChatPage);
   const [scrolled, setScrolled] = useState(false);
   const [filter, setFilter] = useState<(typeof projectCategories)[number]>("All");
   const filtered = projects.filter(p => filter === "All" || p.category === filter);
@@ -206,7 +206,6 @@ function Portfolio() {
         <Reveal className="tech-strip"><small>Tech we work with</small><div>{techStack.map(t => <span key={t}>{t}</span>)}</div></Reveal>
       </div></section>
 
-      <ProjectGuide />
       <section id="about" className="portfolio-section about-section"><div className="portfolio-container">
         <div className="about-layout"><Reveal className="about-feature"><div className="award-label">✧ &nbsp; YOUR VISION · OUR EXPERTISE</div><Eyebrow>Core strengths</Eyebrow><h3>From first idea <em>to</em> final launch.</h3><div className="strength-list">{["One team, many disciplines", "Quality at every step", "Clear communication", "Long-term support"].map(item => <div key={item}><span><Check size={14} /></span>{item}</div>)}</div></Reveal><Reveal className="about-copy"><Eyebrow>About us</Eyebrow><Heading>Why <em>work</em> with us?</Heading><p>Teamwork Digital is a complete software development team focused on practical, modern and reliable digital solutions. We combine development, design, AI and digital services so you can work with one team from idea to delivery.</p><Button asChild><a href={profile.url} target="_blank" rel="noopener noreferrer">Company profile <ArrowUpRight size={17} /></a></Button></Reveal></div>
         <Reveal className="about-stats"><div><strong>01<span> / </span></strong><span>Connected team<br />from idea to delivery</span></div><div><strong>10<span>+</span></strong><span>Projects in our<br />company portfolio</span></div><div><strong>11<span>+</span></strong><span>Services across<br />digital disciplines</span></div></Reveal>
@@ -221,7 +220,7 @@ function Portfolio() {
 
       <section id="team" className="portfolio-section team-section"><div className="portfolio-container"><Reveal className="center-heading"><Eyebrow>Team</Eyebrow><Heading>Meet the <em>team</em></Heading><p>The people behind every build — one connected team from idea to launch.</p></Reveal><div className="team-grid">{team.map(m => <Reveal key={m.name}><article className={`team-card${m.leader ? " is-leader" : ""}`}><div className="team-media">{m.leader ? <img src={leaderPhoto.url} alt={m.name} loading="lazy" /> : <span className="team-initials">{m.role.split(/[^A-Za-z]+/).filter(Boolean).map(w => w[0]).join("").slice(0, 2).toUpperCase()}</span>}<div className="team-socials">{m.socials.linkedin && <a href={m.socials.linkedin} aria-label={`${m.name} on LinkedIn`}><Linkedin size={16} /></a>}{m.socials.github && <a href={m.socials.github} aria-label={`${m.name} on GitHub`}><Github size={16} /></a>}{m.socials.instagram && <a href={m.socials.instagram} aria-label={`${m.name} on Instagram`}><Instagram size={16} /></a>}{m.socials.email && <a href={`mailto:${m.socials.email}`} aria-label={`Email ${m.name}`}><Mail size={16} /></a>}</div></div><div className="team-body"><span className="team-role">{m.role}</span><h3>{m.name}</h3><p>{m.bio}</p></div></article></Reveal>)}</div></div></section>
       <section id="testimonials" className="portfolio-section testimonial-section"><div className="portfolio-container"><Reveal className="center-heading"><Eyebrow>Clients</Eyebrow><Heading>What clients <em>say</em></Heading></Reveal><div className="testimonial-grid">{testimonials.map((t, i) => <Reveal key={i}><figure className="testimonial-card"><Quote className="testimonial-mark" size={44} /><div className="testimonial-stars" aria-label="5 out of 5">{Array.from({ length: 5 }, (_, s) => <Star key={s} size={15} />)}</div><blockquote>“{t.quote}”</blockquote><figcaption><span className="testimonial-avatar">{t.company[0]}</span><div><strong>{t.name}</strong><small>{t.company}</small></div><span className="testimonial-service">{t.service}</span></figcaption></figure></Reveal>)}</div></div></section>
-      <section id="contact" className="portfolio-contact"><div className="portfolio-container contact-faq-layout"><Reveal className="contact-panel"><div className="contact-copy"><Eyebrow>Contact</Eyebrow><Heading>Have a project<br />idea? <em>Let's talk.</em></Heading><p>Whether it's a mobile app, a website, a new brand or a complete digital product — let's start the conversation.</p><div className="contact-actions"><Button asChild><a href={contact.whatsappLink} target="_blank" rel="noopener noreferrer">WhatsApp us <ArrowUpRight size={16} /></a></Button><Button asChild variant="outline"><a href={`mailto:${contact.email}`}>{contact.email}</a></Button><Button asChild variant="outline"><a href="#project-guide">Plan your project <Sparkles size={16} /></a></Button><Button variant="outline" onClick={copyPage}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? "Link copied" : "Copy page link"}</Button></div></div><div className="contact-aside contact-aside-row"><img src={logo.url} alt="Teamwork Digital logo" /><strong>TEAMWORK<br />DIGITAL.</strong><span>Your vision.<br />Our expertise.</span><a href="#home">Back to top <ChevronUp size={16} /></a></div></Reveal><Reveal className="contact-faq" ><div id="faq" className="contact-faq-head"><Eyebrow>FAQ</Eyebrow><h3>Questions, <em>answered</em></h3></div><div className="faq-list">{faqs.map(f => <details key={f.q} className="faq-item"><summary>{f.q}<span><Plus size={17} /></span></summary><p>{f.a}</p></details>)}</div></Reveal></div></section>
+      <section id="contact" className="portfolio-contact"><div className="portfolio-container contact-faq-layout"><Reveal className="contact-panel"><div className="contact-copy"><Eyebrow>Contact</Eyebrow><Heading>Have a project<br />idea? <em>Let's talk.</em></Heading><p>Whether it's a mobile app, a website, a new brand or a complete digital product — let's start the conversation.</p><div className="contact-actions"><Button asChild><a href={contact.whatsappLink} target="_blank" rel="noopener noreferrer">WhatsApp us <ArrowUpRight size={16} /></a></Button><Button asChild variant="outline"><a href={`mailto:${contact.email}`}>{contact.email}</a></Button><Button variant="outline" onClick={copyPage}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? "Link copied" : "Copy page link"}</Button></div></div><div className="contact-aside contact-aside-row"><img src={logo.url} alt="Teamwork Digital logo" /><strong>TEAMWORK<br />DIGITAL.</strong><span>Your vision.<br />Our expertise.</span><a href="#home">Back to top <ChevronUp size={16} /></a></div></Reveal><Reveal className="contact-faq" ><div id="faq" className="contact-faq-head"><Eyebrow>FAQ</Eyebrow><h3>Questions, <em>answered</em></h3></div><div className="faq-list">{faqs.map(f => <details key={f.q} className="faq-item"><summary>{f.q}<span><Plus size={17} /></span></summary><p>{f.a}</p></details>)}</div></Reveal></div></section>
     </main>
     <footer className="portfolio-footer"><div className="portfolio-container"><Brand /><span>© {new Date().getFullYear()} Teamwork Digital</span><a href="#home">Back to top <ChevronUp size={15} /></a></div></footer>
   </div>;
