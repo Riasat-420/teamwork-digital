@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Github, Instagram, Linkedin, Mail, Star, ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LifeBuoy, Plus, Quote, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ProjectGuide } from "@/components/project-guide";
 import { contact, faqs, process, projectCategories, projects, reasons, services, team, techStack, testimonials } from "@/lib/portfolio-data";
 import leaderPhoto from "@/assets/team-leader.jpeg.asset.json";
 import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
@@ -18,7 +17,7 @@ const reasonIcons = { users: Users, code: Code2, check: Check, support: LifeBuoy
 const icons = { mobile: Smartphone, web: Monitor, layout: LayoutTemplate, shop: ShoppingBag, design: Palette, video: Play, game: Gamepad2, ai: Sparkles, leads: Search, academic: GraduationCap, code: Code2 };
 const nav = [
   { label: "Services", href: "#services" }, { label: "Work", href: "#projects" },
-  { label: "Process", href: "#experience" }, { label: "Planner", href: "#project-guide" },
+  { label: "Process", href: "#experience" }, { label: "Team", href: "#team" },
   { label: "FAQ", href: "#faq" }, { label: "Contact", href: "#contact" },
 ];
 
@@ -41,7 +40,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) { return <span cla
 function Heading({ children }: { children: React.ReactNode }) { return <h2 className="portfolio-heading">{children}</h2>; }
 function Brand() { return <a href="#home" className="portfolio-brand" aria-label="Teamwork Digital, home"><img src={logo.url} alt="" /><span>TEAMWORK<span className="text-primary"> DIGITAL.</span></span></a>; }
 
-function Portfolio() {
+export function Portfolio() {
   const pageRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -206,7 +205,6 @@ function Portfolio() {
         <Reveal className="tech-strip"><small>Tech we work with</small><div>{techStack.map(t => <span key={t}>{t}</span>)}</div></Reveal>
       </div></section>
 
-      <ProjectGuide />
       <section id="about" className="portfolio-section about-section"><div className="portfolio-container">
         <div className="about-layout"><Reveal className="about-feature"><div className="award-label">✧ &nbsp; YOUR VISION · OUR EXPERTISE</div><Eyebrow>Core strengths</Eyebrow><h3>From first idea <em>to</em> final launch.</h3><div className="strength-list">{["One team, many disciplines", "Quality at every step", "Clear communication", "Long-term support"].map(item => <div key={item}><span><Check size={14} /></span>{item}</div>)}</div></Reveal><Reveal className="about-copy"><Eyebrow>About us</Eyebrow><Heading>Why <em>work</em> with us?</Heading><p>Teamwork Digital is a complete software development team focused on practical, modern and reliable digital solutions. We combine development, design, AI and digital services so you can work with one team from idea to delivery.</p><Button asChild><a href={profile.url} target="_blank" rel="noopener noreferrer">Company profile <ArrowUpRight size={17} /></a></Button></Reveal></div>
         <Reveal className="about-stats"><div><strong>01<span> / </span></strong><span>Connected team<br />from idea to delivery</span></div><div><strong>10<span>+</span></strong><span>Projects in our<br />company portfolio</span></div><div><strong>11<span>+</span></strong><span>Services across<br />digital disciplines</span></div></Reveal>
