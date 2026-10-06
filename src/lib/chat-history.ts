@@ -18,7 +18,7 @@ export function writeThread(thread: ChatThread) {
   localStorage.setItem(key, JSON.stringify(threads.sort((a, b) => b.updatedAt - a.updatedAt)));
 }
 
-export function createThread(id = crypto.randomUUID()): ChatThread {
+export function createThread(id: string = crypto.randomUUID()): ChatThread {
   const existing = readThreads().find(item => item.id === id);
   if (existing) return existing;
   const thread = { id, title: "New conversation", updatedAt: Date.now(), messages: [] };

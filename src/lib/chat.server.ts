@@ -16,7 +16,7 @@ export async function handleChat(request: Request, apiKey: string): Promise<Resp
     const text = await request.text();
     if (text.length > 200000) return new Response("This conversation is too long. Please start a new chat.", { status: 400 });
     const body = requestSchema.parse(JSON.parse(text));
-    const messages = await validateUIMessages({ messages: body.messages as UIMessage[] });
+    const messages = await validateUIMessages({ messages: body.messages });
     for (const message of messages) {
       for (const part of message.parts) {
         if (part.type !== "text" && part.type !== "reasoning" && part.type !== "step-start") return new Response("Only text messages are supported.", { status: 400 });
