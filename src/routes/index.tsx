@@ -46,6 +46,7 @@ function Portfolio() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const servicesRef = useRef<HTMLElement>(null);
+  const tickerRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState("#home");
@@ -137,7 +138,13 @@ function Portfolio() {
       if (reducedMotion.matches) {
         hero.style.setProperty("--hero-drift", "0px");
         servicesStage.style.setProperty("--services-entry", "1");
+        tickerRef.current?.style.setProperty("--ticker-scroll", "0px");
         return;
+      }
+      const ticker = tickerRef.current;
+      if (ticker) {
+        const offset = Math.max(-180, Math.min(180, (window.innerHeight * .5 - ticker.getBoundingClientRect().top) * .22));
+        ticker.style.setProperty("--ticker-scroll", `${offset}px`);
       }
       hero.style.setProperty("--hero-drift", `${Math.min(window.scrollY * 0.17, 105)}px`);
       const rect = servicesStage.getBoundingClientRect();
@@ -165,9 +172,9 @@ function Portfolio() {
     {loading && <div className="portfolio-preloader" aria-label="Loading Teamwork Digital"><div className="preloader-layer preloader-violet" /><div className="preloader-layer preloader-ink"><div className="preloader-meta"><span>Creative digital team</span><span>2026</span></div><div className="preloader-word">TEAMWORK<span>.</span></div><div className="preloader-bottom"><span>Your vision. Our expertise.</span><strong>100<small>%</small></strong></div><div className="preloader-progress" /></div></div>}
     <header className={`portfolio-header ${scrolled ? "is-scrolled" : ""}`}>
       <div className="portfolio-container portfolio-header-inner">
+        <nav aria-label="Main navigation, left" className="portfolio-nav portfolio-nav-left">{nav.slice(0, 3).map(item => <a key={item.href} href={item.href} className={active === item.href ? "active" : ""}>{item.label}</a>)}</nav>
         <Brand />
-        <nav aria-label="Main navigation" className="portfolio-nav">{nav.map((item, i) => <a key={item.href} href={item.href} className={active === item.href ? "active" : ""}><span>{String(i + 1).padStart(2, "0")}</span>{item.label}</a>)}</nav>
-        <Button asChild className="portfolio-header-cta"><a href="#contact">Let's talk <ArrowUpRight size={15} /></a></Button>
+        <nav aria-label="Main navigation, right" className="portfolio-nav portfolio-nav-right">{nav.slice(3).map(item => <a key={item.href} href={item.href} className={active === item.href ? "active" : ""}>{item.label}</a>)}</nav>
         <Button variant="ghost" size="icon" className="portfolio-menu-toggle" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
       </div>
       {menuOpen && <nav aria-label="Mobile navigation" className="portfolio-mobile-nav">{nav.map((item, i) => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}><span>{String(i + 1).padStart(2, "0")}</span>{item.label}<ArrowUpRight size={17} /></a>)}</nav>}
@@ -191,7 +198,7 @@ function Portfolio() {
           <a className="hero-scroll" href="#services">Scroll to explore <ArrowDown size={15} /></a>
         </div>
       </section>
-      <div className="portfolio-ticker" aria-label="Our capabilities"><div className="ticker-ribbon ticker-ribbon-back" /><div className="ticker-ribbon ticker-ribbon-front"><div className="ticker-track">{Array.from({ length: 2 }, (_, i) => <div key={i} className="ticker-set">{["Flutter", "React Native", "WordPress", "Wix Studio", "Shopify", "AI Solutions", "Game Development", "Graphic Design", "Video Editing", "Lead Generation"].map(item => <span key={item}>{item}<span className="portfolio-dot" /></span>)}</div>)}</div></div></div>
+      <div ref={tickerRef} className="portfolio-ticker" aria-label="Our capabilities">{["back", "front"].map(layer => <div key={layer} className={`ticker-ribbon ticker-ribbon-${layer}`} aria-hidden={layer === "back" ? true : undefined}><div className="ticker-scroll-track"><div className="ticker-track">{Array.from({ length: 2 }, (_, i) => <div key={i} className="ticker-set" aria-hidden={i === 1 ? true : undefined}>{techStack.map(item => <span key={item}>{item}<span className="portfolio-dot" /></span>)}</div>)}</div></div></div>)}</div>
 
       <section id="services" className="portfolio-services" ref={servicesRef}><div className="portfolio-container">
         <Reveal className="section-intro"><div><Eyebrow>What we do</Eyebrow><Heading>What we <em>build</em> for you</Heading></div><p>From the first idea to the finished product, one team across development, design and digital services.</p></Reveal>

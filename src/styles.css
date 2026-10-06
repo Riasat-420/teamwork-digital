@@ -569,3 +569,31 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 @media (max-width: 520px) { .team-grid { grid-template-columns: 1fr; } .contact-faq-layout .contact-panel { padding: 1.8rem; } }
 @media (prefers-reduced-motion: reduce) { .team-card, .team-media img, .team-initials, .team-socials, .testimonial-card, .testimonial-mark { transition: none; } }
 .portfolio-contact .contact-faq .portfolio-eyebrow { border-color: var(--border); background: var(--card); color: var(--primary); }
+
+/* Balanced navigation and layered, scroll-reactive capability ribbons. */
+.portfolio-header-inner { position: relative; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); gap: .65rem; }
+.portfolio-header-inner .portfolio-brand { justify-self: center; }
+.portfolio-header-inner .portfolio-brand > span { display: none; }
+.portfolio-header-inner .portfolio-brand img { width: 48px; height: 48px; }
+.portfolio-nav-left { justify-content: flex-end; }
+.portfolio-nav-right { justify-content: flex-start; }
+.portfolio-header-inner .portfolio-nav a { padding-inline: 1.2rem; }
+.portfolio-ticker { height: 190px; }
+.ticker-ribbon { top: 48px; height: 88px; display: flex; align-items: center; overflow: hidden; }
+.ticker-scroll-track { flex: none; width: max-content; translate: var(--ticker-scroll,0px) 0; will-change: translate; }
+.ticker-ribbon-back .ticker-scroll-track { translate: calc(var(--ticker-scroll,0px) * -1) 0; }
+.ticker-ribbon-back .ticker-track { animation-direction: reverse; animation-duration: 36s; }
+.ticker-ribbon .ticker-set > span { font-size: .95rem; letter-spacing: 0; }
+.ticker-ribbon-back .ticker-set > span { color: var(--surface-ink); }
+.ticker-ribbon-back .portfolio-dot { background: var(--surface-ink); box-shadow: none; }
+@media (max-width: 1050px) { .portfolio-header-inner .portfolio-nav a { padding-inline: .85rem; } }
+@media (max-width: 800px) {
+  .portfolio-header-inner .portfolio-brand { grid-column: 2; }
+  .portfolio-header-inner .portfolio-brand img { width: 42px; height: 42px; }
+  .portfolio-header-inner .portfolio-nav { display: none; }
+  .portfolio-menu-toggle { position: absolute; right: 12px; top: 50%; translate: 0 -50%; }
+  .portfolio-ticker { height: 165px; }
+  .ticker-ribbon { top: 40px; height: 76px; }
+  .ticker-ribbon .ticker-set > span { font-size: .85rem; }
+}
+@media (prefers-reduced-motion: reduce) { .ticker-ribbon .ticker-track { animation: none; } .ticker-scroll-track { translate: 0 0 !important; will-change: auto; } }
