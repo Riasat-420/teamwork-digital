@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Github, Instagram, Linkedin, Mail, Star, ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LifeBuoy, Plus, Quote, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -41,6 +41,7 @@ function Heading({ children }: { children: React.ReactNode }) { return <h2 class
 function Brand() { return <a href="#home" className="portfolio-brand" aria-label="Teamwork Digital, home"><img src={logo.url} alt="" /><span>TEAMWORK<span className="text-primary"> DIGITAL.</span></span></a>; }
 
 export function Portfolio() {
+  const isChatPage = useRouterState({ select: state => state.location.pathname.startsWith("/chat/") });
   const pageRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -49,7 +50,7 @@ export function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState("#home");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!isChatPage);
   const [scrolled, setScrolled] = useState(false);
   const [filter, setFilter] = useState<(typeof projectCategories)[number]>("All");
   const filtered = projects.filter(p => filter === "All" || p.category === filter);
