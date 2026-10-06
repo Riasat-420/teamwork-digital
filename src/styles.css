@@ -422,7 +422,7 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 @media (hover:none) { .service-card:hover,.skill-card:hover,.featured-project:hover,.more-project:hover,.strength-list > div:hover,.about-facts > div:hover { transform: none; } }
 @media (prefers-reduced-motion:reduce) {
   .portfolio-page *, .portfolio-page *::before, .portfolio-page *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-  .portfolio-page .reveal,.portfolio-page .scroll-reveal { opacity: 1; transform: none; translate: 0 0; transition-delay: 0ms; }
+  .portfolio-page .reveal,.portfolio-page .scroll-reveal { opacity: 1 !important; transform: none; translate: 0 0 !important; transition: none !important; transition-delay: 0ms !important; }
   .portfolio-services::before { clip-path: none; }
   .hero-backtype { transform: none; }.hero-portrait,.hero-portrait-label { translate: 0 0; }
 }
