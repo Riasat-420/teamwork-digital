@@ -34,15 +34,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(([entry]) => { if (entry?.isIntersecting) { node.classList.add("is-visible"); observer.unobserve(node); } }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-  return <div ref={ref} className={`reveal ${className}`}>{children}</div>;
+  return <div className={`reveal ${className}`}>{children}</div>;
 }
 
 function Eyebrow({ children }: { children: React.ReactNode }) { return <span className="portfolio-eyebrow"><span className="portfolio-dot" />{children}</span>; }
@@ -50,6 +42,7 @@ function Heading({ children }: { children: React.ReactNode }) { return <h2 class
 function Brand() { return <a href="#home" className="portfolio-brand" aria-label="Teamwork Digital, home"><img src={logo.url} alt="" /><span>TEAMWORK<span className="text-primary"> DIGITAL.</span></span></a>; }
 
 function Portfolio() {
+  const pageRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const servicesRef = useRef<HTMLElement>(null);
@@ -60,6 +53,42 @@ function Portfolio() {
   const [scrolled, setScrolled] = useState(false);
   const [filter, setFilter] = useState<(typeof projectCategories)[number]>("All");
   const filtered = projects.filter(p => filter === "All" || p.category === filter);
+  useEffect(() => {
+    const page = pageRef.current;
+    if (!page || loading) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const targets = page.querySelectorAll<HTMLElement>([
+      ".reveal", ".guide-heading-row", ".guide-form", ".guide-results", ".portfolio-footer .portfolio-container",
+      ".section-intro > *", ".center-heading > *", ".guide-heading-row > *",
+      ".service-card > *", ".why-card > :not(.why-number)", ".timeline-panel > *", ".timeline-label > *",
+      ".project-details > *", ".more-grid > *", ".team-body > *",
+      ".testimonial-card > :not(.testimonial-mark)", ".about-copy > *", ".about-feature > *",
+      ".about-stats > *", ".contact-copy > *", ".contact-faq-head > *", ".faq-list > *",
+    ].join(","));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0, rootMargin: "0px 0px -24px 0px" });
+    targets.forEach(node => {
+      if (!node.classList.contains("reveal")) node.classList.add("scroll-reveal");
+      const index = Array.from(node.parentElement?.children ?? []).indexOf(node);
+      node.style.setProperty("--reveal-delay", `${Math.min(Math.max(index, 0), 3) * 55}ms`);
+      if (reducedMotion.matches) node.classList.add("is-visible");
+      else if (!node.classList.contains("is-visible")) observer.observe(node);
+    });
+    page.classList.add("motion-enabled");
+    const onPreferenceChange = () => {
+      if (reducedMotion.matches) {
+        targets.forEach(node => node.classList.add("is-visible"));
+        observer.disconnect();
+      }
+    };
+    reducedMotion.addEventListener("change", onPreferenceChange);
+    return () => { observer.disconnect(); reducedMotion.removeEventListener("change", onPreferenceChange); };
+  }, [loading, filter]);
   useEffect(() => {
     const timer = window.setTimeout(() => setLoading(false), 1700);
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -132,7 +161,7 @@ function Portfolio() {
   }, []);
   const copyPage = async () => { try { await navigator.clipboard.writeText(window.location.href); setCopied(true); window.setTimeout(() => setCopied(false), 2200); } catch { setCopied(false); } };
 
-  return <div className={`portfolio-page ${loading ? "is-loading" : "is-ready"}`}>
+  return <div ref={pageRef} className={`portfolio-page ${loading ? "is-loading" : "is-ready"}`}>
     {loading && <div className="portfolio-preloader" aria-label="Loading Teamwork Digital"><div className="preloader-layer preloader-violet" /><div className="preloader-layer preloader-ink"><div className="preloader-meta"><span>Creative digital team</span><span>2026</span></div><div className="preloader-word">TEAMWORK<span>.</span></div><div className="preloader-bottom"><span>Your vision. Our expertise.</span><strong>100<small>%</small></strong></div><div className="preloader-progress" /></div></div>}
     <header className={`portfolio-header ${scrolled ? "is-scrolled" : ""}`}>
       <div className="portfolio-container portfolio-header-inner">
