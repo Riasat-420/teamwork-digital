@@ -4,6 +4,7 @@ import aberas from "@/assets/aberas.png.asset.json";
 import blackGrain from "@/assets/black-grain-clean.png.asset.json";
 import welloraa from "@/assets/welloraa.jpg.asset.json";
 import powersHub from "@/assets/powers-hub.jpg.asset.json";
+import greenLeaf from "@/assets/green-leaf.jpg.asset.json";
 import shiffaa from "@/assets/shiffaa-store.jpg.asset.json";
 
 export const portfolioCopy = {
@@ -40,7 +41,7 @@ export const projects = [
   { title: "Welloraa", category: "WordPress", type: "WordPress", url: "https://welloraa.com/", initials: "WE", preview: welloraa.url, description: "Health and wellness products with an online shop." },
   { title: "Beaut by Muh", category: "WordPress", type: "WordPress", url: "https://beautbymuh.com/", initials: "BM", preview: undefined, description: "A WordPress project from our company portfolio." },
   { title: "World Foot", category: "Other", type: "Additional portfolio", url: "https://worldfoot.fr/en", initials: "WF", preview: undefined, description: "An additional project listed in our company portfolio." },
-  { title: "Green Leaf Organics", category: "E-commerce", type: "Additional portfolio", url: "https://greenleaforganics.com/", initials: "GL", preview: undefined, description: "An e-commerce project listed in our company portfolio." },
+  { title: "Green Leaf Organics", category: "E-commerce", type: "Additional portfolio", url: "https://greenleaforganics.com/", initials: "GL", preview: greenLeaf.url, description: "Organic body care, including body butters and botanical soaps." },
   { title: "The Powers Hub", category: "Other", type: "Additional portfolio", url: "https://thepowershub.com/", initials: "PH", preview: powersHub.url, description: "An online storefront featuring herbal wellness products." },
   { title: "The Shiffaa Store", category: "E-commerce", type: "Additional portfolio", url: "https://theshiffaa.store/", initials: "SS", preview: shiffaa.url, description: "An online store featuring herbal teas and wellness products." },
 ] as const;
