@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { MessageSquare, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LifeBuoy, Plus, Quote, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { contact, portfolioCopy, faqs, process, projectCategories, projects, reasons, services, team, techStack, testimonials } from "@/lib/portfolio-data";
+import { contact, portfolioCopy, faqs, process, projectCategories, projects, projectDescriptions, reasons, services, team, techStack, testimonials } from "@/lib/portfolio-data";
 import connectedVisual from "@/assets/connected-disciplines.jpg";
 import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
 import profile from "@/assets/teamwork-digital-profile.pdf.asset.json";
@@ -10,9 +10,12 @@ import lovePawsPreview from "@/assets/love-paws.png.asset.json";
 import americanWebsPreview from "@/assets/american-webs.png.asset.json";
 import aberasPreview from "@/assets/aberas.png.asset.json";
 import blackGrainPreview from "@/assets/black-grain-clean.png.asset.json";
+import welloraaPreview from "@/assets/welloraa-preview.jpg.asset.json";
+import greenLeafPreview from "@/assets/green-leaf-organics-clean.jpg.asset.json";
+import powersPreview from "@/assets/the-powers-hub-preview.jpg.asset.json";
+import shiffaaPreview from "@/assets/the-shiffaa-store-preview.jpg.asset.json";
 
-const projectPreviews: Record<string, {url:string}> = { "Love Paws Walk": lovePawsPreview, "American Webs Studios": americanWebsPreview, "Aberas Construction": aberasPreview, "Black & Grain": blackGrainPreview };
-const projectDescriptions: Record<string, string> = {};
+const projectPreviews: Record<string, {url:string}> = { "Love Paws Walk": lovePawsPreview, "American Webs Studios": americanWebsPreview, "Aberas Construction": aberasPreview, "Black & Grain": blackGrainPreview, "Welloraa": welloraaPreview, "Green Leaf Organics": greenLeafPreview, "The Powers Hub": powersPreview, "The Shiffaa Store": shiffaaPreview };
 
 const reasonIcons = { users: Users, code: Code2, check: Check, support: LifeBuoy, communication: MessageSquare };
 const icons = { mobile: Smartphone, web: Monitor, layout: LayoutTemplate, shop: ShoppingBag, design: Palette, video: Play, game: Gamepad2, ai: Sparkles, leads: Search, academic: GraduationCap, code: Code2 };

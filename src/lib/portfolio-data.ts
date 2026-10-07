@@ -37,6 +37,14 @@ export const projects = [
   { title: "The Shiffaa Store", category: "E-commerce", type: "Additional portfolio", url: "https://theshiffaa.store/", initials: "SS" },
 ] as const;
 
+// Descriptions refer only to visible site content, not unverified project scope or results.
+export const projectDescriptions: Record<string, string> = {
+  "Welloraa": "An online store featuring everyday lifestyle and wellness products.",
+  "Green Leaf Organics": "An online store showcasing body care, fragrance and skincare products.",
+  "The Powers Hub": "An online storefront featuring herbal supplements.",
+  "The Shiffaa Store": "An online store showcasing honey and herbal wellness products.",
+};
+
 export const process = [
   { title: "Understand", period: "Discovery", description: "Review your requirements, goals, audience, and existing setup.", points: ["Clarify the product goal", "Identify the right service mix"], tags: ["Brief", "Research"] },
   { title: "Plan", period: "Direction", description: "Define the approach, tasks, milestones, and practical deliverables.", points: ["Shape the delivery roadmap", "Agree priorities and scope"], tags: ["Strategy", "Planning"] },
