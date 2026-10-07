@@ -131,7 +131,7 @@ export function Portfolio() {
   const copyPage = async () => { try { await navigator.clipboard.writeText(window.location.href); setCopied(true); window.setTimeout(() => setCopied(false), 2200); } catch { setCopied(false); } };
 
   return <div ref={pageRef} className={`portfolio-page premium-page ${loading ? "is-loading" : "is-ready"}`}>
-    <header className={`portfolio-header ${scrolled ? "is-scrolled" : ""}`}>
+    <header className={`portfolio-header ${scrolled ? "is-scrolled" : ""} ${menuOpen ? "menu-open" : ""}`}>
       <div className="portfolio-container portfolio-header-inner">
         <nav aria-label="Main navigation, left" className="portfolio-nav portfolio-nav-left">{nav.slice(0, 3).map(item => <a key={item.href} href={item.href} className={active === item.href ? "active" : ""}>{item.label}</a>)}</nav>
         <Brand />
