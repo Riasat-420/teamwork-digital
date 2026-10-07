@@ -1,5 +1,5 @@
 export const portfolioCopy = {
-  heroTitle: "Your Vision. One Complete Digital Team.",
+  heroTitle: "We are Teamwork, Digital Developers",
   heroDescription: "From websites and mobile apps to e-commerce, AI and custom software, Teamwork Digital brings development, design and digital expertise together under one roof.",
   heroPrimary: "Start a Project",
   heroSecondary: "View Our Work",
