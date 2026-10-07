@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { MessageSquare, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LifeBuoy, Plus, Quote, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { contact, portfolioCopy, faqs, process, projectCategories, projects, projectDescriptions, reasons, services, team, techStack, testimonials } from "@/lib/portfolio-data";
-import connectedVisual from "@/assets/connected-disciplines.jpg";
+import leaderPhoto from "@/assets/team-leader.jpeg.asset.json";
 import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
 import profile from "@/assets/teamwork-digital-profile.pdf.asset.json";
 import lovePawsPreview from "@/assets/love-paws.png.asset.json";
@@ -144,8 +144,10 @@ export function Portfolio() {
     <main>
       <section id="home" className="portfolio-hero" ref={heroRef}>
         <div className="portfolio-container hero-inner">
-          <div className="hero-head"><Eyebrow>Teamwork Digital</Eyebrow><h1>{portfolioCopy.heroTitle}</h1><p>{portfolioCopy.heroDescription}</p><div className="hero-actions"><Button asChild><a href="#contact">{portfolioCopy.heroPrimary} <ArrowUpRight size={17} /></a></Button><Button asChild variant="outline"><a href="#projects">{portfolioCopy.heroSecondary} <ArrowRight size={17} /></a></Button></div></div>
-          <div className="hero-visual"><img src={connectedVisual} alt="Connected mobile, website, AI and design disciplines" width={1280} height={1024} fetchPriority="high" /><div className="discipline-caption"><span>Development</span><span>Design</span><span>AI & Automation</span></div></div>
+          <div className="hero-head"><Eyebrow>Teamwork Digital</Eyebrow><h1>{portfolioCopy.heroTitle.split(",")[0]}<br /><em>{portfolioCopy.heroTitle.split(",")[1]?.trim()}</em></h1></div>
+          <aside className="hero-aside hero-aside-left"><Quote size={28} strokeWidth={1.3} /><p>{portfolioCopy.heroDescription}</p></aside>
+          <div className="hero-visual"><div className="hero-arc" /><div className="portrait-orbit" /><span className="hero-backtype" aria-hidden="true">TD</span><div className="hero-portrait"><img src={leaderPhoto.url} alt="Teamwork Digital team leader and project manager" width={600} height={800} fetchPriority="high" /></div><div className="hero-portrait-label"><span className="portfolio-dot" /><span>Team Lead<br /><strong>Project Manager</strong></span></div><div className="hero-float hero-float-top"><Smartphone size={15} /> Flutter & React Native</div><div className="hero-float hero-float-bottom"><Check size={15} /> Websites · AI · Creative</div><div className="hero-actions"><Button asChild><a href="#contact">{portfolioCopy.heroPrimary} <ArrowUpRight size={17} /></a></Button><Button asChild variant="outline"><a href="#projects">{portfolioCopy.heroSecondary} <ArrowRight size={17} /></a></Button></div></div>
+          <aside className="hero-aside hero-aside-right"><small>Your vision</small><strong>One complete<br />digital team.</strong><span>From first idea to launch.</span></aside>
         </div>
       </section>
       <div ref={tickerRef} className="portfolio-ticker" aria-label="Our capabilities"><div className="ticker-track">{Array.from({length:2}, (_, i) => <div className="ticker-set" key={i} aria-hidden={i === 1 ? true : undefined}>{techStack.map(item => <span key={item}>{item}<span className="portfolio-dot" /></span>)}</div>)}</div></div>
