@@ -11,5 +11,6 @@
 
 - Keep portfolio copy, services, projects and process items in `src/lib/portfolio-data.ts`; the single scrolling page renders those entries so client details can be updated without changing layout.
 - Keep portfolio motion in a shared page-level visibility observer and semantic CSS states, with bounded content staggering and reduced-motion fallbacks, so scroll reveals stay consistent without a separate animation runtime.
-- Keep ribbon looping on an inner track and scroll displacement on its wrapper in the existing page motion loop, so both motions compose without competing transforms.
+- Keep the capabilities strip as a restrained single track with reduced-motion fallback; avoid scroll displacement so the premium layout stays calm.
 - Keep the floating chatbot on real thread page routes with browser-owned UIMessage history and a server-only streaming AI endpoint, so visitors can resume separate chats without accounts or server transcript storage.
+- Keep the portfolio redesign in the existing route and semantic global theme, with generated connected-disciplines imagery and asset-pointer project previews; this preserves navigation and content ownership without a second layout system.

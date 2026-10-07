@@ -1,3 +1,15 @@
+export const portfolioCopy = {
+  heroTitle: "Your Vision. One Complete Digital Team.",
+  heroDescription: "From websites and mobile apps to e-commerce, AI and custom software, Teamwork Digital brings development, design and digital expertise together under one roof.",
+  heroPrimary: "Start a Project",
+  heroSecondary: "View Our Work",
+  aboutTitle: "One Team. Multiple Digital Disciplines.",
+  aboutDescription: "Teamwork Digital is a complete software development team focused on practical, modern and reliable digital solutions. You don't need to coordinate separate developers, designers and digital specialists—we bring the expertise together, from the first idea to delivery.",
+  contactTitle: "Have a Project in Mind?",
+  contactDescription: "Tell us what you're building. We'll help you choose the right approach and turn the idea into a practical digital solution.",
+  contactAction: "Start a Conversation",
+};
+
 export const services = [
   { title: "Mobile App Development", icon: "mobile", description: "Android and iOS apps built with Flutter and React Native, backed by APIs, Firebase, and ongoing app maintenance.", tags: ["Flutter", "React Native", "Android & iOS", "Firebase"] },
   { title: "Website Development", icon: "web", description: "Responsive websites and full-stack web experiences, from WordPress and Elementor to custom development.", tags: ["WordPress", "Elementor", "Custom web", "Full-stack"] },
@@ -25,6 +37,14 @@ export const projects = [
   { title: "The Shiffaa Store", category: "E-commerce", type: "Additional portfolio", url: "https://theshiffaa.store/", initials: "SS" },
 ] as const;
 
+// Descriptions refer only to visible site content, not unverified project scope or results.
+export const projectDescriptions: Record<string, string> = {
+  "Welloraa": "An online store featuring everyday lifestyle and wellness products.",
+  "Green Leaf Organics": "An online store showcasing body care, fragrance and skincare products.",
+  "The Powers Hub": "An online storefront featuring herbal supplements.",
+  "The Shiffaa Store": "An online store showcasing honey and herbal wellness products.",
+};
+
 export const process = [
   { title: "Understand", period: "Discovery", description: "Review your requirements, goals, audience, and existing setup.", points: ["Clarify the product goal", "Identify the right service mix"], tags: ["Brief", "Research"] },
   { title: "Plan", period: "Direction", description: "Define the approach, tasks, milestones, and practical deliverables.", points: ["Shape the delivery roadmap", "Agree priorities and scope"], tags: ["Strategy", "Planning"] },
@@ -40,6 +60,7 @@ export const reasons = [
   { icon: "code", title: "The right tool for the job", description: "From Flutter to WordPress to Shopify, the platform is chosen around your project." },
   { icon: "check", title: "Tested before handoff", description: "Key journeys and screen sizes are reviewed before anything is delivered." },
   { icon: "support", title: "Support after delivery", description: "Handover, maintenance and help remain available once your project is live." },
+  { icon: "communication", title: "Clear communication", description: "Requirements, priorities and progress stay part of the conversation throughout your project." },
 ] as const;
 
 export const projectCategories = ["All", "WordPress", "E-commerce", "Other"] as const;
@@ -55,18 +76,14 @@ export const faqs = [
 ] as const;
 
 // DEMO DATA — replace every entry below with the client's real details before launch.
-export const contact = { email: "hello@teamworkdigital.com", whatsapp: "+92 300 0000000", whatsappLink: "https://wa.me/923000000000" };
+export const contact = { email: "hello@teamworkdigital.com", whatsapp: "+92 300 0000000", whatsappLink: "https://wa.me/923000000000", demo: true };
 
 export type TeamMember = { name: string; role: string; bio: string; leader?: boolean; socials: { linkedin?: string; github?: string; instagram?: string; email?: string } };
 export const team: TeamMember[] = [
-  { name: "Team Member One", role: "Team Leader · Project Manager", bio: "Leads planning, delivery and client communication.", leader: true, socials: { linkedin: "#", email: "hello@teamworkdigital.com" } },
-  { name: "Team Member Two", role: "Mobile App Developer", bio: "Flutter and React Native apps for Android & iOS.", socials: { linkedin: "#", github: "#" } },
-  { name: "Team Member Three", role: "Web & E-commerce Developer", bio: "WordPress, Shopify, Wix and custom websites.", socials: { linkedin: "#", github: "#" } },
-  { name: "Team Member Four", role: "UI/UX & Graphic Designer", bio: "Interfaces, brand visuals and video editing.", socials: { linkedin: "#", instagram: "#" } },
+  { name: "", role: "Team Lead / Project Manager", bio: "Planning, delivery and clear client communication.", leader: true, socials: {} },
+  { name: "", role: "Mobile App Developer", bio: "Flutter and React Native experiences for Android and iOS.", socials: {} },
+  { name: "", role: "Web & E-commerce Developer", bio: "WordPress, Shopify, Wix and custom web development.", socials: {} },
+  { name: "", role: "UI/UX & Graphic Designer", bio: "Thoughtful interfaces, visual identities and brand graphics.", socials: {} },
 ];
 
-export const testimonials: { quote: string; name: string; company: string; service: string }[] = [
-  { quote: "The team understood our requirements quickly and delivered a website that fits our business perfectly.", name: "Client Name", company: "Pet Care Business", service: "WordPress website" },
-  { quote: "Clear communication, on-time delivery and support even after launch. Exactly what we needed.", name: "Client Name", company: "Construction Company", service: "Business website" },
-  { quote: "From design to development, everything was handled by one team. The whole process felt effortless.", name: "Client Name", company: "Beauty Brand", service: "E-commerce store" },
-];
+export const testimonials: { quote: string; name: string; company: string; service: string }[] = [];

@@ -1,5 +1,5 @@
 # Portfolio work
-- [ ] Refine the existing website to the premium client brief after visual direction selection; preserve all services, projects and process steps, use role-based team cards and remove invented testimonials.
+- [x] Refine the existing website to the premium client brief; preserve all 11 services, 10 projects and 5 process steps, use role-based team cards and remove invented testimonials. Verified project filters, FAQ, mobile menu, chatbot replies, reduced motion and no overflow at 360/650/1440px. Eight actual previews available; Beaut by Muh and World Foot need client screenshots because their sites are unavailable. Contact details remain explicitly labeled placeholders.
 - [x] Replace the planner with a floating logo chatbot; verify separate browser-saved threads, streaming replies and reload restoration.
 - [x] Center the menu logo, enlarge both capability strips, and verify continuous and scroll-linked text motion.
 - [x] Make all section content reveal smoothly on scroll, including the planner and FAQ; verify scrolling and reduced motion.
