@@ -10,9 +10,13 @@ import lovePawsPreview from "@/assets/love-paws.png.asset.json";
 import americanWebsPreview from "@/assets/american-webs.png.asset.json";
 import aberasPreview from "@/assets/aberas.png.asset.json";
 import blackGrainPreview from "@/assets/black-grain-clean.png.asset.json";
+import welloraaPreview from "@/assets/preview-welloraa.jpg";
+import greenLeafPreview from "@/assets/preview-greenleaf.jpg";
+import powersHubPreview from "@/assets/preview-powershub.jpg";
+import shiffaaPreview from "@/assets/preview-shiffaa.jpg";
 
-const localPreviews: Record<string, string> = { "Love Paws Walk": lovePawsPreview.url, "American Webs Studios": americanWebsPreview.url, "Aberas Construction": aberasPreview.url, "Black & Grain": blackGrainPreview.url };
-const previewFor = (title: string, url: string) => localPreviews[title] ?? `https://image.thum.io/get/width/1200/crop/760/noanimate/${url}`;
+const localPreviews: Record<string, string> = { "Love Paws Walk": lovePawsPreview.url, "American Webs Studios": americanWebsPreview.url, "Aberas Construction": aberasPreview.url, "Black & Grain": blackGrainPreview.url, Welloraa: welloraaPreview, "Green Leaf Organics": greenLeafPreview, "The Powers Hub": powersHubPreview, "The Shiffaa Store": shiffaaPreview };
+const previewFor = (title: string) => localPreviews[title];
 
 const reasonIcons = { users: Users, code: Code2, check: Check, chat: MessageCircle, support: LifeBuoy };
 const teamIcons = [Users, Smartphone, Monitor, Palette];
@@ -159,7 +163,7 @@ export function Portfolio() {
 
       <section id="projects" className="pm-section pm-work"><div className="portfolio-container">
         <div className="pm-intro pm-intro-row"><div><span className="pm-kicker">Selected work</span><h2>Live projects from our portfolio</h2></div><div className="project-filters" role="tablist" aria-label="Filter projects">{projectCategories.map(c => <button key={c} role="tab" aria-selected={filter === c} className={filter === c ? "active" : ""} onClick={() => setFilter(c)}>{c}</button>)}</div></div>
-        <div className="pm-project-grid" key={filter}>{filtered.map(project => <Reveal key={project.title}><article className="pm-project"><a className="pm-project-media" href={project.url} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true"><span className="pm-browser"><i /><i /><i /><em>{project.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/.*$/, "")}</em></span><img src={previewFor(project.title, project.url)} alt="" loading="lazy" onError={e => { e.currentTarget.style.display = "none"; }} /><span className="pm-project-fallback">{project.initials}</span></a><div className="pm-project-body"><span className="pm-pill">{project.category === "Other" ? "Website" : project.category}</span><h3>{project.title}</h3><p>Live {project.category === "E-commerce" ? "e-commerce" : project.category === "WordPress" ? "WordPress" : ""} website from the Teamwork Digital portfolio.</p><a className="pm-project-link" href={project.url} target="_blank" rel="noopener noreferrer">View Project <ArrowUpRight size={15} /></a></div></article></Reveal>)}</div>
+        <div className="pm-project-grid" key={filter}>{filtered.map(project => <Reveal key={project.title}><article className="pm-project"><a className="pm-project-media" href={project.url} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true"><span className="pm-browser"><i /><i /><i /><em>{project.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/.*$/, "")}</em></span>{previewFor(project.title) && <img src={previewFor(project.title)} alt="" loading="lazy" />}<span className="pm-project-fallback"><img src={logo.url} alt="" /><b>{project.initials}</b></span></a><div className="pm-project-body"><span className="pm-pill">{project.category === "Other" ? "Website" : project.category}</span><h3>{project.title}</h3><p>Live {project.category === "E-commerce" ? "e-commerce" : project.category === "WordPress" ? "WordPress" : ""} website from the Teamwork Digital portfolio.</p><a className="pm-project-link" href={project.url} target="_blank" rel="noopener noreferrer">View Project <ArrowUpRight size={15} /></a></div></article></Reveal>)}</div>
       </div></section>
 
       <section id="team" className="pm-section pm-team"><div className="portfolio-container">
