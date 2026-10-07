@@ -38,8 +38,6 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
   return <div className={`reveal ${className}`}>{children}</div>;
 }
 
-function Eyebrow({ children }: { children: React.ReactNode }) { return <span className="portfolio-eyebrow"><span className="portfolio-dot" />{children}</span>; }
-function Heading({ children }: { children: React.ReactNode }) { return <h2 className="portfolio-heading">{children}</h2>; }
 function Brand() { return <a href="#home" className="portfolio-brand" aria-label="Teamwork Digital, home"><img src={logo.url} alt="" /><span>TEAMWORK<span className="text-primary"> DIGITAL.</span></span></a>; }
 
 export function Portfolio() {
