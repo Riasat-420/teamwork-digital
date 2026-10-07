@@ -1,9 +1,9 @@
-import { createFileRoute, useRouterState } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Github, Instagram, Linkedin, Mail, Star, ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LifeBuoy, Plus, Quote, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
+import { MessageSquare, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LifeBuoy, Plus, Quote, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { contact, faqs, process, projectCategories, projects, reasons, services, team, techStack, testimonials } from "@/lib/portfolio-data";
-import leaderPhoto from "@/assets/team-leader.jpeg.asset.json";
+import { contact, portfolioCopy, faqs, process, projectCategories, projects, reasons, services, team, techStack, testimonials } from "@/lib/portfolio-data";
+import connectedVisual from "@/assets/connected-disciplines.jpg";
 import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
 import profile from "@/assets/teamwork-digital-profile.pdf.asset.json";
 import lovePawsPreview from "@/assets/love-paws.png.asset.json";
@@ -11,9 +11,10 @@ import americanWebsPreview from "@/assets/american-webs.png.asset.json";
 import aberasPreview from "@/assets/aberas.png.asset.json";
 import blackGrainPreview from "@/assets/black-grain-clean.png.asset.json";
 
-const featuredPreviews = [lovePawsPreview, americanWebsPreview, aberasPreview, blackGrainPreview];
+const projectPreviews: Record<string, {url:string}> = { "Love Paws Walk": lovePawsPreview, "American Webs Studios": americanWebsPreview, "Aberas Construction": aberasPreview, "Black & Grain": blackGrainPreview };
+const projectDescriptions: Record<string, string> = {};
 
-const reasonIcons = { users: Users, code: Code2, check: Check, support: LifeBuoy };
+const reasonIcons = { users: Users, code: Code2, check: Check, support: LifeBuoy, communication: MessageSquare };
 const icons = { mobile: Smartphone, web: Monitor, layout: LayoutTemplate, shop: ShoppingBag, design: Palette, video: Play, game: Gamepad2, ai: Sparkles, leads: Search, academic: GraduationCap, code: Code2 };
 const nav = [
   { label: "Services", href: "#services" }, { label: "Work", href: "#projects" },
@@ -41,7 +42,6 @@ function Heading({ children }: { children: React.ReactNode }) { return <h2 class
 function Brand() { return <a href="#home" className="portfolio-brand" aria-label="Teamwork Digital, home"><img src={logo.url} alt="" /><span>TEAMWORK<span className="text-primary"> DIGITAL.</span></span></a>; }
 
 export function Portfolio() {
-  const isChatPage = useRouterState({ select: state => state.location.pathname.startsWith("/chat/") });
   const pageRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -50,7 +50,7 @@ export function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [active, setActive] = useState("#home");
-  const [loading, setLoading] = useState(!isChatPage);
+  const [loading] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [filter, setFilter] = useState<(typeof projectCategories)[number]>("All");
   const filtered = projects.filter(p => filter === "All" || p.category === filter);
@@ -91,10 +91,9 @@ export function Portfolio() {
     return () => { observer.disconnect(); reducedMotion.removeEventListener("change", onPreferenceChange); };
   }, [loading, filter]);
   useEffect(() => {
-    const timer = window.setTimeout(() => setLoading(false), 1700);
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => { window.clearTimeout(timer); window.removeEventListener("scroll", onScroll); };
+    return () => { window.removeEventListener("scroll", onScroll); };
   }, []);
   useEffect(() => {
     const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) setActive(`#${entry.target.id}`); }); }, { rootMargin: "-25% 0px -65% 0px" });
@@ -126,50 +125,9 @@ export function Portfolio() {
     reducedMotion.addEventListener("change", schedule);
     return () => { window.cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); reducedMotion.removeEventListener("change", schedule); };
   }, []);
-  useEffect(() => {
-    const hero = heroRef.current;
-    const servicesStage = servicesRef.current;
-    if (!hero || !servicesStage) return;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      if (reducedMotion.matches) {
-        hero.style.setProperty("--hero-drift", "0px");
-        servicesStage.style.setProperty("--services-entry", "1");
-        tickerRef.current?.style.setProperty("--ticker-scroll", "0px");
-        return;
-      }
-      const ticker = tickerRef.current;
-      if (ticker) {
-        const offset = Math.max(-180, Math.min(180, (window.innerHeight * .5 - ticker.getBoundingClientRect().top) * .22));
-        ticker.style.setProperty("--ticker-scroll", `${offset}px`);
-      }
-      hero.style.setProperty("--hero-drift", `${Math.min(window.scrollY * 0.17, 105)}px`);
-      const rect = servicesStage.getBoundingClientRect();
-      servicesStage.style.setProperty("--services-entry", String(Math.max(0, Math.min(1, (window.innerHeight * .94 - rect.top) / (window.innerHeight * .58)))));
-    };
-    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
-    const move = (event: PointerEvent) => {
-      if (!finePointer.matches || reducedMotion.matches) return;
-      const rect = hero.getBoundingClientRect();
-      hero.style.setProperty("--pointer-x", String((event.clientX - rect.left) / rect.width - .5));
-      hero.style.setProperty("--pointer-y", String((event.clientY - rect.top) / rect.height - .5));
-    };
-    const reset = () => { hero.style.setProperty("--pointer-x", "0"); hero.style.setProperty("--pointer-y", "0"); };
-    update();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    reducedMotion.addEventListener("change", schedule);
-    hero.addEventListener("pointermove", move);
-    hero.addEventListener("pointerleave", reset);
-    return () => { window.cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); reducedMotion.removeEventListener("change", schedule); hero.removeEventListener("pointermove", move); hero.removeEventListener("pointerleave", reset); };
-  }, []);
   const copyPage = async () => { try { await navigator.clipboard.writeText(window.location.href); setCopied(true); window.setTimeout(() => setCopied(false), 2200); } catch { setCopied(false); } };
 
-  return <div ref={pageRef} className={`portfolio-page ${loading ? "is-loading" : "is-ready"}`}>
-    {loading && <div className="portfolio-preloader" aria-label="Loading Teamwork Digital"><div className="preloader-layer preloader-violet" /><div className="preloader-layer preloader-ink"><div className="preloader-meta"><span>Creative digital team</span><span>2026</span></div><div className="preloader-word">TEAMWORK<span>.</span></div><div className="preloader-bottom"><span>Your vision. Our expertise.</span><strong>100<small>%</small></strong></div><div className="preloader-progress" /></div></div>}
+  return <div ref={pageRef} className={`portfolio-page premium-page ${loading ? "is-loading" : "is-ready"}`}>
     <header className={`portfolio-header ${scrolled ? "is-scrolled" : ""}`}>
       <div className="portfolio-container portfolio-header-inner">
         <nav aria-label="Main navigation, left" className="portfolio-nav portfolio-nav-left">{nav.slice(0, 3).map(item => <a key={item.href} href={item.href} className={active === item.href ? "active" : ""}>{item.label}</a>)}</nav>
@@ -183,22 +141,11 @@ export function Portfolio() {
     <main>
       <section id="home" className="portfolio-hero" ref={heroRef}>
         <div className="portfolio-container hero-inner">
-          <div className="hero-head"><span className="hero-hello">Hello! <Smartphone size={14} /></span><h1>We are <em>Teamwork</em>,<br />Digital Developers</h1></div>
-          <aside className="hero-aside hero-aside-left"><span className="hero-quote">“</span><p>We build digital products from first idea to release — with one connected team.</p></aside>
-          <div className="hero-visual">
-            <div className="hero-arc" /><div className="portrait-orbit orbit-one" /><div className="portrait-orbit orbit-two" />
-            <span className="hero-backtype" aria-hidden="true">TD</span>
-            <div className="hero-portrait"><img src={leaderPhoto.url} alt="Team leader and project manager" /></div>
-            <div className="hero-portrait-label"><span className="portfolio-dot" /><span>TEAM LEADER<br /><strong>PROJECT MANAGER</strong></span></div>
-            <div className="hero-float hero-float-top"><Smartphone size={14} /> Flutter & React Native</div>
-            <div className="hero-float hero-float-bottom"><Check size={14} /> Websites · AI · Creative</div>
-            <div className="hero-actions"><Button asChild><a href="#projects">View Projects <ArrowUpRight size={16} /></a></Button><Button asChild><a href="#contact">Hire Us <ArrowRight size={16} /></a></Button></div>
-          </div>
-          <aside className="hero-aside hero-aside-right"><small>YOUR VISION</small><strong>One complete team</strong><span>for every digital idea</span></aside>
-          <a className="hero-scroll" href="#services">Scroll to explore <ArrowDown size={15} /></a>
+          <div className="hero-head"><Eyebrow>Teamwork Digital</Eyebrow><h1>{portfolioCopy.heroTitle}</h1><p>{portfolioCopy.heroDescription}</p><div className="hero-actions"><Button asChild><a href="#contact">{portfolioCopy.heroPrimary} <ArrowUpRight size={17} /></a></Button><Button asChild variant="outline"><a href="#projects">{portfolioCopy.heroSecondary} <ArrowRight size={17} /></a></Button></div></div>
+          <div className="hero-visual"><img src={connectedVisual} alt="Connected mobile, website, AI and design disciplines" width={1280} height={1024} fetchPriority="high" /><div className="discipline-caption"><span>Development</span><span>Design</span><span>AI & Automation</span></div></div>
         </div>
       </section>
-      <div ref={tickerRef} className="portfolio-ticker" aria-label="Our capabilities">{["back", "front"].map(layer => <div key={layer} className={`ticker-ribbon ticker-ribbon-${layer}`} aria-hidden={layer === "back" ? true : undefined}><div className="ticker-scroll-track"><div className="ticker-track">{Array.from({ length: 2 }, (_, i) => <div key={i} className="ticker-set" aria-hidden={i === 1 ? true : undefined}>{techStack.map(item => <span key={item}>{item}<span className="portfolio-dot" /></span>)}</div>)}</div></div></div>)}</div>
+      <div ref={tickerRef} className="portfolio-ticker" aria-label="Our capabilities"><div className="ticker-track">{Array.from({length:2}, (_, i) => <div className="ticker-set" key={i} aria-hidden={i === 1 ? true : undefined}>{techStack.map(item => <span key={item}>{item}<span className="portfolio-dot" /></span>)}</div>)}</div></div>
 
       <section id="services" className="portfolio-services" ref={servicesRef}><div className="portfolio-container">
         <Reveal className="section-intro"><div><Eyebrow>What we do</Eyebrow><Heading>What we <em>build</em> for you</Heading></div><p>From the first idea to the finished product, one team across development, design and digital services.</p></Reveal>
@@ -207,20 +154,19 @@ export function Portfolio() {
       </div></section>
 
       <section id="about" className="portfolio-section about-section"><div className="portfolio-container">
-        <div className="about-layout"><Reveal className="about-feature"><div className="award-label">✧ &nbsp; YOUR VISION · OUR EXPERTISE</div><Eyebrow>Core strengths</Eyebrow><h3>From first idea <em>to</em> final launch.</h3><div className="strength-list">{["One team, many disciplines", "Quality at every step", "Clear communication", "Long-term support"].map(item => <div key={item}><span><Check size={14} /></span>{item}</div>)}</div></Reveal><Reveal className="about-copy"><Eyebrow>About us</Eyebrow><Heading>Why <em>work</em> with us?</Heading><p>Teamwork Digital is a complete software development team focused on practical, modern and reliable digital solutions. We combine development, design, AI and digital services so you can work with one team from idea to delivery.</p><Button asChild><a href={profile.url} target="_blank" rel="noopener noreferrer">Company profile <ArrowUpRight size={17} /></a></Button></Reveal></div>
-        <Reveal className="about-stats"><div><strong>01<span> / </span></strong><span>Connected team<br />from idea to delivery</span></div><div><strong>10<span>+</span></strong><span>Projects in our<br />company portfolio</span></div><div><strong>11<span>+</span></strong><span>Services across<br />digital disciplines</span></div></Reveal>
+        <div className="about-layout"><Reveal className="about-feature"><div className="award-label">✧ &nbsp; YOUR VISION · OUR EXPERTISE</div><Eyebrow>Core strengths</Eyebrow><h3>From first idea <em>to</em> final launch.</h3><div className="strength-list">{["One team, many disciplines", "Quality at every step", "Clear communication", "Long-term support"].map(item => <div key={item}><span><Check size={14} /></span>{item}</div>)}</div></Reveal><Reveal className="about-copy"><Eyebrow>About us</Eyebrow><Heading>{portfolioCopy.aboutTitle}</Heading><p>{portfolioCopy.aboutDescription}</p><Button asChild><a href={profile.url} target="_blank" rel="noopener noreferrer">Company profile <ArrowUpRight size={17} /></a></Button></Reveal></div>
+        <Reveal className="about-stats"><div><strong>01<span> / </span></strong><span>Connected team<br />from idea to delivery</span></div><div><strong>10</strong><span>Projects in our<br />company portfolio</span></div><div><strong>11</strong><span>Services across<br />digital disciplines</span></div></Reveal>
       </div></section>
 
       <section id="why" className="portfolio-section why-section"><div className="portfolio-container"><Reveal className="section-intro"><div><Eyebrow>Why Teamwork Digital</Eyebrow><Heading>One team, <em>fewer</em> handoffs</Heading></div><p>What clients get when development, design and growth sit under the same roof.</p></Reveal><div className="why-grid">{reasons.map((r, i) => { const Icon = reasonIcons[r.icon]; return <Reveal key={r.title} className="why-reveal"><article className="why-card"><span className="why-number">{String(i + 1).padStart(2, "0")}</span><span className="why-icon"><Icon size={22} strokeWidth={1.8} /></span><h3>{r.title}</h3><p>{r.description}</p></article></Reveal>; })}</div></div></section>
 
-      <section id="experience" className="portfolio-section experience-section"><div className="portfolio-container"><Reveal className="center-heading"><Eyebrow>Our approach</Eyebrow><Heading>How we <em>work</em></Heading><p>A clear path from the first conversation to the finished product.</p></Reveal><div className="timeline" ref={timelineRef}>{process.map((step, i) => <Reveal key={step.title} className="timeline-row"><div className="timeline-label"><span>{step.period}</span><h3>{step.title}</h3><small>STEP {String(i + 1).padStart(2, "0")}</small></div><div className="timeline-marker"><span><Check size={16} /></span></div><article className="timeline-panel"><span className="timeline-role">TEAMWORK DIGITAL · {step.period}</span><h3>{step.title}</h3><p>{step.description}</p><ul className="timeline-points">{step.points.map(point => <li key={point}><Check size={14} />{point}</li>)}</ul><div className="timeline-tags">{step.tags.map(tag => <span key={tag}>{tag}</span>)}</div></article></Reveal>)}</div></div></section>
+      <section id="experience" className="portfolio-section experience-section"><div className="portfolio-container"><Reveal className="section-intro"><div><Eyebrow>Our approach</Eyebrow><Heading>From idea to delivery.</Heading></div><p>A clear path from the first conversation to the finished product.</p></Reveal><div className="timeline" ref={timelineRef}>{process.map((step, i) => <Reveal key={step.title} className="timeline-row"><span className="timeline-marker">{String(i+1).padStart(2,"0")}</span><article className="timeline-panel"><h3>{step.title}</h3><p>{step.description}</p><details className="process-detail"><summary>Step details <Plus size={13} /></summary><ul>{step.points.map(point => <li key={point}>{point}</li>)}</ul><div className="timeline-tags">{step.tags.map(tag => <span key={tag}>{tag}</span>)}</div></details></article></Reveal>)}</div></div></section>
 
-      <section id="projects" className="portfolio-section projects-section"><div className="portfolio-container"><Reveal className="section-intro"><div><Eyebrow>Portfolio</Eyebrow><Heading>Selected <em>projects</em></Heading></div><p>Explore live examples listed in our company portfolio.</p></Reveal><div className="featured-projects">{projects.slice(0, 4).map((project, i) => <Reveal key={project.title} className="project-reveal"><article className="featured-project"><div className="project-details"><div className="project-topline"><span><b>{String(i + 1).padStart(2, "0")}</b> / {String(projects.length).padStart(2, "0")}</span><span className="project-status">● Live project</span></div><div><h3>{project.title}</h3><p>{project.type} website</p><div className="project-highlight"><span>{project.initials}</span> A live project from the Teamwork Digital portfolio</div><ul><li><Check size={15} /> Website development and implementation</li><li><Check size={15} /> Built to support a distinct business presence online</li></ul></div><div className="project-bottom"><span className="project-pill">{project.type}</span><Button asChild variant="outline" size="sm"><a href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${project.title}`}>Visit site <ArrowUpRight size={14} /></a></Button></div></div><a className={`project-preview preview-${i}`} href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${project.title}`}><img className="project-site-image" src={featuredPreviews[i]?.url} alt={`${project.title} website preview`} loading="lazy" /><span className="preview-badge">Explore project <ArrowUpRight size={13} /></span></a></article></Reveal>)}</div><Reveal className="more-projects"><div className="more-head"><h3>Browse all projects</h3><div className="project-filters" role="tablist" aria-label="Filter projects">{projectCategories.map(c => <button key={c} role="tab" aria-selected={filter === c} className={filter === c ? "active" : ""} onClick={() => setFilter(c)}>{c}</button>)}</div></div><div className="more-grid" key={filter}>{filtered.map(project => <a key={project.title} href={project.url} target="_blank" rel="noopener noreferrer" className="more-project"><span className="project-pill">{project.category}</span><ArrowUpRight size={19} /><h4>{project.title}</h4><p>Visit site</p></a>)}</div></Reveal></div></section>
+      <section id="projects" className="portfolio-section projects-section"><div className="portfolio-container"><Reveal className="section-intro"><div><Eyebrow>Portfolio</Eyebrow><Heading>Our work, in the real world.</Heading></div><p>Explore the actual projects listed in our company portfolio.</p></Reveal><div className="project-filters" role="tablist" aria-label="Filter projects">{projectCategories.map(c => <Button key={c} role="tab" aria-selected={filter === c} variant={filter === c ? "default" : "ghost"} onClick={() => setFilter(c)}>{c}</Button>)}</div><div className="portfolio-project-grid">{filtered.map(project => { const preview = projectPreviews[project.title]; return <Reveal key={project.title}><article className="portfolio-project-card"><a className="project-preview" href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Preview ${project.title}`}>{preview ? <img src={preview.url} alt={`${project.title} website preview`} loading="lazy" width={1280} height={900} /> : <div className="project-preview-unavailable"><Monitor size={40} strokeWidth={1} /><span>{project.title}</span><small>Visit the live website</small></div>}</a><div className="project-details"><span className="project-pill">{project.type}</span><h3>{project.title}</h3><p>{projectDescriptions[project.title] ?? `Listed in our company portfolio${project.type === "WordPress" ? " as a WordPress website" : ""}.`}</p><Button asChild variant="outline" size="sm"><a href={project.url} target="_blank" rel="noopener noreferrer">View Project <ArrowUpRight size={15} /></a></Button></div></article></Reveal>; })}</div></div></section>
+      <section id="team" className="portfolio-section team-section"><div className="portfolio-container"><Reveal className="section-intro"><div><Eyebrow>Our people</Eyebrow><Heading>Meet the Team Behind the Work</Heading></div><p>Development, design and project delivery—working together, not in silos.</p></Reveal><div className="team-grid">{team.map((m,i) => { const Icon = [Users, Smartphone, Monitor, Palette][i] ?? Users; return <Reveal key={m.role}><article className="team-card"><div className="team-role-icon"><Icon size={30} strokeWidth={1.5} /><span>{String(i+1).padStart(2,"0")}</span></div><div className="team-body"><h3>{m.role}</h3><p>{m.bio}</p></div></article></Reveal>; })}</div></div></section>
+      {testimonials.length > 0 && <section id="testimonials" className="portfolio-section"><div className="portfolio-container"><Heading>What clients say</Heading>{testimonials.map(t => <blockquote key={t.name}>{t.quote}<cite>{t.name}</cite></blockquote>)}</div></section>}
 
-
-      <section id="team" className="portfolio-section team-section"><div className="portfolio-container"><Reveal className="center-heading"><Eyebrow>Team</Eyebrow><Heading>Meet the <em>team</em></Heading><p>The people behind every build — one connected team from idea to launch.</p></Reveal><div className="team-grid">{team.map(m => <Reveal key={m.name}><article className={`team-card${m.leader ? " is-leader" : ""}`}><div className="team-media">{m.leader ? <img src={leaderPhoto.url} alt={m.name} loading="lazy" /> : <span className="team-initials">{m.role.split(/[^A-Za-z]+/).filter(Boolean).map(w => w[0]).join("").slice(0, 2).toUpperCase()}</span>}<div className="team-socials">{m.socials.linkedin && <a href={m.socials.linkedin} aria-label={`${m.name} on LinkedIn`}><Linkedin size={16} /></a>}{m.socials.github && <a href={m.socials.github} aria-label={`${m.name} on GitHub`}><Github size={16} /></a>}{m.socials.instagram && <a href={m.socials.instagram} aria-label={`${m.name} on Instagram`}><Instagram size={16} /></a>}{m.socials.email && <a href={`mailto:${m.socials.email}`} aria-label={`Email ${m.name}`}><Mail size={16} /></a>}</div></div><div className="team-body"><span className="team-role">{m.role}</span><h3>{m.name}</h3><p>{m.bio}</p></div></article></Reveal>)}</div></div></section>
-      <section id="testimonials" className="portfolio-section testimonial-section"><div className="portfolio-container"><Reveal className="center-heading"><Eyebrow>Clients</Eyebrow><Heading>What clients <em>say</em></Heading></Reveal><div className="testimonial-grid">{testimonials.map((t, i) => <Reveal key={i}><figure className="testimonial-card"><Quote className="testimonial-mark" size={44} /><div className="testimonial-stars" aria-label="5 out of 5">{Array.from({ length: 5 }, (_, s) => <Star key={s} size={15} />)}</div><blockquote>“{t.quote}”</blockquote><figcaption><span className="testimonial-avatar">{t.company[0]}</span><div><strong>{t.name}</strong><small>{t.company}</small></div><span className="testimonial-service">{t.service}</span></figcaption></figure></Reveal>)}</div></div></section>
-      <section id="contact" className="portfolio-contact"><div className="portfolio-container contact-faq-layout"><Reveal className="contact-panel"><div className="contact-copy"><Eyebrow>Contact</Eyebrow><Heading>Have a project<br />idea? <em>Let's talk.</em></Heading><p>Whether it's a mobile app, a website, a new brand or a complete digital product — let's start the conversation.</p><div className="contact-actions"><Button asChild><a href={contact.whatsappLink} target="_blank" rel="noopener noreferrer">WhatsApp us <ArrowUpRight size={16} /></a></Button><Button asChild variant="outline"><a href={`mailto:${contact.email}`}>{contact.email}</a></Button><Button variant="outline" onClick={copyPage}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? "Link copied" : "Copy page link"}</Button></div></div><div className="contact-aside contact-aside-row"><img src={logo.url} alt="Teamwork Digital logo" /><strong>TEAMWORK<br />DIGITAL.</strong><span>Your vision.<br />Our expertise.</span><a href="#home">Back to top <ChevronUp size={16} /></a></div></Reveal><Reveal className="contact-faq" ><div id="faq" className="contact-faq-head"><Eyebrow>FAQ</Eyebrow><h3>Questions, <em>answered</em></h3></div><div className="faq-list">{faqs.map(f => <details key={f.q} className="faq-item"><summary>{f.q}<span><Plus size={17} /></span></summary><p>{f.a}</p></details>)}</div></Reveal></div></section>
+      <section id="contact" className="portfolio-contact"><div className="portfolio-container contact-faq-layout"><Reveal className="contact-panel"><div className="contact-copy"><Eyebrow>Contact</Eyebrow><Heading>{portfolioCopy.contactTitle}</Heading><p>{portfolioCopy.contactDescription}</p>{contact.demo && <small className="contact-demo-note">Contact details shown are placeholders pending client confirmation.</small>}<div className="contact-actions"><Button asChild><a href={contact.whatsappLink} target="_blank" rel="noopener noreferrer">{portfolioCopy.contactAction} <ArrowUpRight size={16} /></a></Button><Button asChild variant="outline"><a href={`mailto:${contact.email}`}>{contact.email}</a></Button><Button variant="outline" onClick={copyPage}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? "Link copied" : "Copy page link"}</Button></div></div><div className="contact-aside contact-aside-row"><img src={logo.url} alt="Teamwork Digital logo" /><strong>TEAMWORK<br />DIGITAL.</strong><span>Your vision.<br />Our expertise.</span><a href="#home">Back to top <ChevronUp size={16} /></a></div></Reveal><Reveal className="contact-faq" ><div id="faq" className="contact-faq-head"><Eyebrow>FAQ</Eyebrow><h3>Questions, <em>answered</em></h3></div><div className="faq-list">{faqs.map(f => <details key={f.q} className="faq-item"><summary>{f.q}<span><Plus size={17} /></span></summary><p>{f.a}</p></details>)}</div></Reveal></div></section>
     </main>
     <footer className="portfolio-footer"><div className="portfolio-container"><Brand /><span>© {new Date().getFullYear()} Teamwork Digital</span><a href="#home">Back to top <ChevronUp size={15} /></a></div></footer>
   </div>;
