@@ -1,12 +1,12 @@
 export const services = [
   { title: "Mobile App Development", icon: "mobile", description: "Android and iOS apps built with Flutter and React Native, backed by APIs, Firebase, and ongoing app maintenance.", tags: ["Flutter", "React Native", "Android & iOS", "Firebase"] },
   { title: "Website Development", icon: "web", description: "Responsive websites and full-stack web experiences, from WordPress and Elementor to custom development.", tags: ["WordPress", "Elementor", "Custom web", "Full-stack"] },
-  { title: "Wix / Wix Studio", icon: "layout", description: "Responsive Wix sites with booking, payments, and business integrations that make everyday work easier.", tags: ["Wix", "Wix Studio", "Booking", "Payments"] },
   { title: "Shopify & E-commerce", icon: "shop", description: "Online stores, theme customization, Liquid templates, product pages, and essential integrations.", tags: ["Shopify", "Liquid", "Store setup", "Integrations"] },
+  { title: "Wix / Wix Studio", icon: "layout", description: "Responsive Wix sites with booking, payments, and business integrations that make everyday work easier.", tags: ["Wix", "Wix Studio", "Booking", "Payments"] },
+  { title: "AI Solutions", icon: "ai", description: "Chatbots, appointment assistants, inbound and outbound call assistants, and practical automation.", tags: ["Chatbots", "AI assistants", "Automation"] },
+  { title: "Game Development", icon: "game", description: "Interactive web games, game interfaces, and custom gameplay experiences.", tags: ["Web games", "Game UI", "Gameplay"] },
   { title: "Graphic & UI/UX Design", icon: "design", description: "Modern interfaces, visual identities, brand graphics, and thoughtful design improvements.", tags: ["UI/UX", "Branding", "Graphics"] },
   { title: "Video Editing", icon: "video", description: "Professional short-form and promotional edits shaped to make your message stand out.", tags: ["Short-form", "Promotional", "Editing"] },
-  { title: "Game Development", icon: "game", description: "Interactive web games, game interfaces, and custom gameplay experiences.", tags: ["Web games", "Game UI", "Gameplay"] },
-  { title: "AI Solutions", icon: "ai", description: "Chatbots, appointment assistants, inbound and outbound call assistants, and practical automation.", tags: ["Chatbots", "AI assistants", "Automation"] },
   { title: "Lead Generation", icon: "leads", description: "Targeted research, organized lead lists, and outreach support for growing businesses.", tags: ["Research", "Lead lists", "Outreach"] },
   { title: "Academic & Assignment Support", icon: "academic", description: "Support for technical projects, documentation, and development-based assignments.", tags: ["Technical projects", "Documentation", "Development"] },
   { title: "Custom Software Projects", icon: "code", description: "End-to-end development for unique business workflows and software ideas.", tags: ["Custom builds", "Business tools", "End-to-end"] },
@@ -36,10 +36,11 @@ export const process = [
 export const techStack = ["Flutter", "React Native", "Firebase", "APIs", "WordPress", "Elementor", "Wix", "Wix Studio", "Shopify", "Liquid", "Full-stack web", "AI assistants", "UI/UX", "Video editing"] as const;
 
 export const reasons = [
-  { icon: "users", title: "One complete team", description: "Mobile, web, commerce, AI, design and growth handled by one connected team." },
-  { icon: "code", title: "The right tool for the job", description: "From Flutter to WordPress to Shopify, the platform is chosen around your project." },
-  { icon: "check", title: "Tested before handoff", description: "Key journeys and screen sizes are reviewed before anything is delivered." },
-  { icon: "support", title: "Support after delivery", description: "Handover, maintenance and help remain available once your project is live." },
+  { icon: "users", title: "One complete team", description: "Developers, designers and digital specialists working together on your project." },
+  { icon: "code", title: "Right tool for the project", description: "Flutter, WordPress, Shopify, Wix or custom code, chosen around your goals." },
+  { icon: "check", title: "Quality and testing", description: "Key journeys and screen sizes are reviewed before anything is handed over." },
+  { icon: "chat", title: "Clear communication", description: "One point of contact and regular progress updates from start to launch." },
+  { icon: "support", title: "Long-term support", description: "Handover, maintenance and improvements available after your project goes live." },
 ] as const;
 
 export const projectCategories = ["All", "WordPress", "E-commerce", "Other"] as const;
@@ -57,16 +58,11 @@ export const faqs = [
 // DEMO DATA — replace every entry below with the client's real details before launch.
 export const contact = { email: "hello@teamworkdigital.com", whatsapp: "+92 300 0000000", whatsappLink: "https://wa.me/923000000000" };
 
-export type TeamMember = { name: string; role: string; bio: string; leader?: boolean; socials: { linkedin?: string; github?: string; instagram?: string; email?: string } };
-export const team: TeamMember[] = [
-  { name: "Team Member One", role: "Team Leader · Project Manager", bio: "Leads planning, delivery and client communication.", leader: true, socials: { linkedin: "#", email: "hello@teamworkdigital.com" } },
-  { name: "Team Member Two", role: "Mobile App Developer", bio: "Flutter and React Native apps for Android & iOS.", socials: { linkedin: "#", github: "#" } },
-  { name: "Team Member Three", role: "Web & E-commerce Developer", bio: "WordPress, Shopify, Wix and custom websites.", socials: { linkedin: "#", github: "#" } },
-  { name: "Team Member Four", role: "UI/UX & Graphic Designer", bio: "Interfaces, brand visuals and video editing.", socials: { linkedin: "#", instagram: "#" } },
-];
-
-export const testimonials: { quote: string; name: string; company: string; service: string }[] = [
-  { quote: "The team understood our requirements quickly and delivered a website that fits our business perfectly.", name: "Client Name", company: "Pet Care Business", service: "WordPress website" },
-  { quote: "Clear communication, on-time delivery and support even after launch. Exactly what we needed.", name: "Client Name", company: "Construction Company", service: "Business website" },
-  { quote: "From design to development, everything was handled by one team. The whole process felt effortless.", name: "Client Name", company: "Beauty Brand", service: "E-commerce store" },
+export type TeamRole = { role: string; focus: string; skills: string[]; leader?: boolean };
+// Role-based until the client supplies real names and photos. Do not add invented identities.
+export const team: TeamRole[] = [
+  { role: "Team Lead / Project Manager", focus: "Plans the project, coordinates the team and keeps communication clear.", skills: ["Planning", "Delivery", "Client updates"], leader: true },
+  { role: "Mobile App Developer", focus: "Builds Android and iOS apps with Flutter and React Native.", skills: ["Flutter", "React Native", "Firebase"] },
+  { role: "Web & E-commerce Developer", focus: "Builds WordPress, Shopify, Wix and custom websites.", skills: ["WordPress", "Shopify", "Wix"] },
+  { role: "UI/UX & Graphic Designer", focus: "Designs interfaces, brand visuals and video content.", skills: ["UI/UX", "Branding", "Video"] },
 ];
