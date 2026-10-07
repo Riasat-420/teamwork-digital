@@ -1,4 +1,6 @@
 # Portfolio work
+- [ ] Apply the selected geometric redesign, preserve all content, replace placeholder identities/testimonials, and verify desktop/mobile flows.
+- [ ] Obtain actual visual previews for all portfolio projects where reachable; document any unreachable sites.
 - [x] Replace the planner with a floating logo chatbot; verify separate browser-saved threads, streaming replies and reload restoration.
 - [x] Center the menu logo, enlarge both capability strips, and verify continuous and scroll-linked text motion.
 - [x] Make all section content reveal smoothly on scroll, including the planner and FAQ; verify scrolling and reduced motion.
