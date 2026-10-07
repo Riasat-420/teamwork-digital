@@ -182,13 +182,13 @@
   --color-on-dark-muted: var(--text-on-dark-muted);
   --color-brand-blue: var(--brand-blue);
   --color-brand-cyan: var(--brand-cyan);
-  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
   --font-display: "Sora", sans-serif;
   --font-editorial: "Instrument Serif", serif;
 }
 
 html { scroll-behavior: smooth; }
-body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
+body { font-family: "Manrope", system-ui, sans-serif; }
 ::selection { background: var(--accent); color: var(--foreground); }
 .portfolio-container { width: min(100% - 3rem, 1220px); margin-inline: auto; }
 .eyebrow { font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .18em; }
