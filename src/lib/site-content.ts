@@ -1,4 +1,7 @@
 import * as data from "./portfolio-data";
+import leaderPhoto from "@/assets/team-leader.jpeg.asset.json";
+import { projectPreviews } from "./project-previews";
+import { normalizeSocials, type SocialLink } from "./social-icons";
 
 /** Every editable section of the public site. Defaults come from portfolio-data.ts; saved dashboard values override them. */
 type Item = { id: string; published?: boolean };
@@ -6,7 +9,7 @@ export type Service = Item & { title: string; icon: string; description: string;
 export type Reason = Item & { icon: string; title: string; description: string };
 export type ProcessStep = Item & { title: string; period: string; description: string; points: string[]; tags: string[] };
 export type Project = Item & { title: string; category: string; type: string; url: string; initials: string; image?: string; description?: string; slug?: string };
-export type Member = Item & { name: string; role: string; bio: string; leader?: boolean; photo?: string; socials: { linkedin?: string; github?: string; instagram?: string; email?: string } };
+export type Member = Item & { name: string; role: string; bio: string; leader?: boolean; photo?: string; socials: SocialLink[] };
 export type Testimonial = Item & { quote: string; name: string; company: string; service: string; rating?: number; photo?: string };
 export type Faq = Item & { q: string; a: string };
 
@@ -32,14 +35,14 @@ export const slugify = (s: string) => s.toLowerCase().normalize("NFKD").replace(
 const ids = <T extends object>(list: readonly T[], prefix: string) => list.map((x, i) => ({ id: `${prefix}-${i + 1}`, published: true, ...x }));
 
 export const defaultContent: SiteContent = {
-  hero: { hello: "Hello!", titleStart: "We are", titleEmphasis: "Teamwork", titleEnd: "Digital Developers", quote: "We build digital products from first idea to release — with one connected team.", asideSmall: "YOUR VISION", asideStrong: "One complete team", asideText: "for every digital idea", floatTop: "Flutter & React Native", floatBottom: "Websites · AI · Creative", portrait: "", primaryLabel: "View Projects", secondaryLabel: "Hire Us" },
+  hero: { hello: "Hello!", titleStart: "We are", titleEmphasis: "Teamwork", titleEnd: "Digital Developers", quote: "We build digital products from first idea to release — with one connected team.", asideSmall: "YOUR VISION", asideStrong: "One complete team", asideText: "for every digital idea", floatTop: "Flutter & React Native", floatBottom: "Websites · AI · Creative", portrait: leaderPhoto.url, primaryLabel: "View Projects", secondaryLabel: "Hire Us" },
   services: ids(data.services.map(s => ({ ...s, tags: [...s.tags] })), "svc"),
   reasons: ids(data.reasons.map(r => ({ ...r })), "why"),
   process: ids(data.process.map(p => ({ ...p, points: [...p.points], tags: [...p.tags] })), "step"),
   techStack: [...data.techStack],
-  projects: ids(data.projects.map(p => ({ ...p, slug: slugify(p.title), description: "" })), "prj"),
+  projects: ids(data.projects.map(p => ({ ...p, image: projectPreviews[p.initials]?.large ?? "", slug: slugify(p.title), description: "" })), "prj"),
   projectCategories: [...data.projectCategories],
-  team: ids(data.team.map(m => ({ ...m, socials: { ...m.socials } })), "team"),
+  team: ids(data.team.map((m, i) => ({ ...m, photo: m.leader ? leaderPhoto.url : "", socials: normalizeSocials(m.socials).map((x, j) => ({ ...x, id: `s-${i}-${j}` })) })), "team"),
   teamSection: { ...data.teamSection },
   testimonials: ids(data.testimonials.map(t => ({ ...t, rating: 5 })), "tst"),
   faqs: ids(data.faqs.map(f => ({ ...f })), "faq"),

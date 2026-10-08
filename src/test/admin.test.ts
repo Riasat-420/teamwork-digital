@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { summarize } from "@/lib/admin-analytics";
 import { setPath } from "@/lib/admin-sections";
 import { mergeContent, visible } from "@/lib/site-content";
+import { normalizeSocials, publicSocials } from "@/lib/social-icons";
 
 describe("dashboard rules", () => {
   it("hidden (draft) items never show on the public site", () => {
@@ -21,5 +22,11 @@ describe("dashboard rules", () => {
     const s = summarize([v("a"), v("a"), v("b")], [], 7, now);
     expect(s.totalViews).toBe(3);
     expect(s.visitors).toBe(2);
+  });
+  it("older saved social links still show after switching to the list format", () => {
+    expect(normalizeSocials({ linkedin: "https://l", email: "a@b.c" })).toEqual([{ icon: "linkedin", url: "https://l" }, { icon: "email", url: "a@b.c" }]);
+  });
+  it("empty or placeholder social links are hidden on the site", () => {
+    expect(publicSocials([{ icon: "x", url: "#" }, { icon: "github", url: "" }, { icon: "youtube", url: "https://y" }]).map(s => s.icon)).toEqual(["youtube"]);
   });
 });

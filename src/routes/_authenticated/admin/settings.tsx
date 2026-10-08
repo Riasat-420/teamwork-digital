@@ -35,11 +35,11 @@ function Users() {
   return <section className="max-w-3xl space-y-4 rounded-xl border bg-card p-5">
     <div><h2 className="font-semibold text-foreground">Team accounts</h2><p className="text-sm text-muted-foreground">Admins can do everything. Editors can change content, media, messages and the chatbot, but not settings or accounts.</p></div>
     <div className="divide-y">{data?.map(u => <div key={u.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
-      <div><p className="text-sm font-medium text-foreground">{u.email}</p><p className="text-xs text-muted-foreground">{u.confirmed ? `Last sign-in ${u.lastSignIn ? new Date(u.lastSignIn).toLocaleDateString() : "never"}` : "Invite pending"}</p></div>
+      <div className="min-w-0"><p className="break-all text-sm font-medium text-foreground">{u.email}</p><p className="text-xs text-muted-foreground">{u.confirmed ? `Last sign-in ${u.lastSignIn ? new Date(u.lastSignIn).toLocaleDateString() : "never"}` : "Invite pending"}</p></div>
       <Select value={u.role} disabled={u.id === me?.user?.id} onValueChange={async v => { try { await setRole({ data: { userId: u.id, role: v as "admin" } }); toast.success("Role updated"); void qc.invalidateQueries({ queryKey: ["admin-users"] }); } catch (e) { toast.error(e instanceof Error ? e.message : "Failed"); } }}>
         <SelectTrigger className="w-36"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="admin">Admin</SelectItem><SelectItem value="editor">Editor</SelectItem><SelectItem value="none">No access</SelectItem></SelectContent></Select>
     </div>)}</div>
-    <div className="flex flex-wrap gap-2 border-t pt-4"><Input className="flex-1" type="email" placeholder="teammate@email.com" value={email} onChange={e => setEmail(e.target.value)} />
+    <div className="flex flex-wrap gap-2 border-t pt-4"><Input className="min-w-0 flex-1 basis-full sm:basis-auto" type="email" placeholder="teammate@email.com" value={email} onChange={e => setEmail(e.target.value)} />
       <Select value={role} onValueChange={v => setR(v as "editor")}><SelectTrigger className="w-32"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="editor">Editor</SelectItem><SelectItem value="admin">Admin</SelectItem></SelectContent></Select>
       <Button onClick={send} disabled={busy || !email}><Send />Send invite</Button></div>
   </section>;
@@ -53,7 +53,7 @@ function ActivityAndBackup() {
   };
   return <section className="max-w-3xl space-y-4 rounded-xl border bg-card p-5">
     <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="font-semibold text-foreground">Activity log</h2><Button variant="outline" size="sm" onClick={backup}><Download />Download backup</Button></div>
-    {!data?.length ? <p className="text-sm text-muted-foreground">No activity yet.</p> : <ul className="max-h-96 space-y-2 overflow-y-auto text-sm">{data.map(l => <li key={l.id} className="flex justify-between gap-3"><span className="text-foreground"><span className="text-muted-foreground">{l.user_email}</span> {l.action} <b>{l.entity}</b></span><time className="shrink-0 text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString()}</time></li>)}</ul>}
+    {!data?.length ? <p className="text-sm text-muted-foreground">No activity yet.</p> : <ul className="max-h-96 space-y-2 overflow-y-auto text-sm">{data.map(l => <li key={l.id} className="flex flex-col gap-0.5 sm:flex-row sm:justify-between sm:gap-3"><span className="min-w-0 break-words text-foreground"><span className="text-muted-foreground">{l.user_email}</span> {l.action} <b>{l.entity}</b></span><time className="shrink-0 text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString()}</time></li>)}</ul>}
   </section>;
 }
 

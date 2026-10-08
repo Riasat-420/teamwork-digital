@@ -30,8 +30,8 @@ export function SectionEditor({ def }: { def: SectionDef }) {
   };
 
   const header = <div className="sticky top-0 z-10 -mx-4 mb-6 flex flex-wrap items-center justify-between gap-3 border-b bg-background/95 px-4 py-3 backdrop-blur md:-mx-8 md:px-8">
-    <div><h1 className="text-xl font-semibold text-foreground">{def.label}</h1><p className="text-sm text-muted-foreground">{def.description}</p></div>
-    <div className="flex gap-2">
+    <div className="min-w-0"><h1 className="text-xl font-semibold text-foreground">{def.label}</h1><p className="text-sm text-muted-foreground">{def.description}</p></div>
+    <div className="flex flex-wrap gap-2">
       <AlertDialog><AlertDialogTrigger asChild><Button variant="ghost" size="sm">Restore original</Button></AlertDialogTrigger><AlertDialogContent>
         <AlertDialogHeader><AlertDialogTitle>Restore the original content?</AlertDialogTitle><AlertDialogDescription>This loads the original {def.label.toLowerCase()} into the editor. Nothing changes on the website until you save.</AlertDialogDescription></AlertDialogHeader>
         <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={() => setValue(structuredClone(defaultContent[def.key]))}>Restore</AlertDialogAction></AlertDialogFooter>
@@ -58,10 +58,10 @@ export function SectionEditor({ def }: { def: SectionDef }) {
       {list.map((row, i) => {
         const hidden = row["published"] === false;
         return <div key={String(row["id"] ?? i)} className={`rounded-xl border bg-card ${hidden ? "opacity-70" : ""}`}>
-          <div className="flex items-center gap-2 p-3">
-            <button type="button" className="flex flex-1 items-center gap-2 text-left" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i}>
+          <div className="flex flex-wrap items-center gap-1 p-3 sm:flex-nowrap sm:gap-2">
+            <button type="button" className="flex min-w-0 basis-full items-center gap-2 text-left sm:basis-auto sm:flex-1" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i}>
               <ChevronDown size={16} className={`transition-transform ${open === i ? "rotate-180" : ""}`} />
-              <span className="font-medium text-foreground">{String(getPath(row, def.itemTitle) || "Untitled")}</span>
+              <span className="truncate font-medium text-foreground">{String(getPath(row, def.itemTitle) || "Untitled")}</span>
               {hidden && <Badge variant="secondary">Hidden</Badge>}
             </button>
             <Button variant="ghost" size="icon-sm" aria-label="Move up" disabled={i === 0} onClick={() => move(i, -1)}><ArrowUp /></Button>

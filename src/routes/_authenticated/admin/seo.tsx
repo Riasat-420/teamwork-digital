@@ -19,9 +19,9 @@ const def: SectionDef = { key: "seo", label: "SEO & Google", description: "How t
 function Seo() {
   const { seo } = useSiteContent();
   const origin = typeof window !== "undefined" ? window.location.origin : "";
-  return <div className="grid gap-8 xl:grid-cols-[1fr_380px]">
+  return <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_380px]">
     <SectionEditor def={def} />
-    <aside className="space-y-4 xl:pt-24">
+    <aside className="min-w-0 space-y-4 xl:pt-24">
       <div className="rounded-xl border bg-card p-4"><p className="mb-2 text-xs font-medium uppercase text-muted-foreground">Google preview</p>
         <p className="truncate text-xs text-muted-foreground">{origin}</p><p className="truncate text-lg text-primary">{seo.title}</p><p className="line-clamp-2 text-sm text-muted-foreground">{seo.description}</p></div>
       <div className="overflow-hidden rounded-xl border bg-card"><p className="p-4 pb-2 text-xs font-medium uppercase text-muted-foreground">Share preview</p>

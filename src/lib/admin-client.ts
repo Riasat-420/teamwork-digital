@@ -14,7 +14,8 @@ export function useStaff() {
       const { data } = await supabase.from("user_roles").select("role").eq("user_id", user.id);
       const roles = (data ?? []).map(r => r.role);
       const role: StaffRole = roles.includes("admin") ? "admin" : roles.includes("editor") ? "editor" : null;
-      return { user: { id: user.id, email: user.email ?? "" }, role };
+      const meta = (user.user_metadata ?? {}) as { full_name?: string; avatar_url?: string };
+      return { user: { id: user.id, email: user.email ?? "", newEmail: user.new_email ?? "", name: meta.full_name ?? "", avatar: meta.avatar_url ?? "" }, role };
     },
     staleTime: 60_000,
   });

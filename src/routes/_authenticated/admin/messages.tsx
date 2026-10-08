@@ -33,14 +33,14 @@ function Messages() {
     {isLoading ? <p className="text-muted-foreground">Loading…</p> : !data?.length ? <p className="rounded-xl border border-dashed p-10 text-center text-muted-foreground">No messages yet.</p> :
       <div className="space-y-3">{data.map(m => <article key={m.id} className={`rounded-xl border bg-card p-4 ${m.is_read ? "" : "border-primary/50"}`}>
         <div className="flex flex-wrap items-start justify-between gap-2">
-          <div><p className="font-medium text-foreground">{m.name} {!m.is_read && <Badge className="ml-1">New</Badge>}</p>
-            <p className="text-sm text-muted-foreground"><a className="hover:text-primary" href={`mailto:${m.email}`}>{m.email}</a>{m.phone && <> · <a className="hover:text-primary" href={`tel:${m.phone}`}>{m.phone}</a></>} · {new Date(m.created_at).toLocaleString()}</p></div>
+          <div className="min-w-0"><p className="font-medium text-foreground">{m.name} {!m.is_read && <Badge className="ml-1">New</Badge>}</p>
+            <p className="break-all text-sm text-muted-foreground"><a className="hover:text-primary" href={`mailto:${m.email}`}>{m.email}</a>{m.phone && <> · <a className="hover:text-primary" href={`tel:${m.phone}`}>{m.phone}</a></>} · {new Date(m.created_at).toLocaleString()}</p></div>
           <div className="flex gap-1">
             <Button variant="ghost" size="icon-sm" aria-label={m.is_read ? "Mark unread" : "Mark read"} onClick={() => toggle(m.id, !m.is_read)}>{m.is_read ? <Mail /> : <MailOpen />}</Button>
             <Button variant="ghost" size="icon-sm" aria-label="Delete" onClick={() => remove(m.id)}><Trash2 /></Button>
           </div>
         </div>
-        <p className="mt-3 whitespace-pre-wrap text-sm text-foreground">{m.message}</p>
+        <p className="mt-3 whitespace-pre-wrap break-words text-sm text-foreground">{m.message}</p>
       </article>)}</div>}
   </div>;
 }
