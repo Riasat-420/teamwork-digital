@@ -637,11 +637,15 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 .team-lead-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: 1.25rem; }
 .team-role-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.25rem; margin-top: 1.25rem; }
 .team-role-grid > .reveal { min-width: 0; }
-.team-role-profile { height: 100%; padding: 1.6rem; border: 1px solid var(--border); border-radius: 8px; background: var(--card); transition: transform .4s var(--motion-ease),border-color .3s ease; }
+.team-role-profile { height: 100%; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--card); transition: transform .4s var(--motion-ease),border-color .3s ease; }
 .team-role-profile:hover { transform: translateY(-4px); border-color: var(--primary); }
-.team-role-top { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; margin-bottom: 1.2rem; color: var(--primary); font-size: .72rem; font-weight: 700; }
-.team-role-symbol { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 6px; background: var(--secondary); }
+.team-member-photo { aspect-ratio: 10 / 11; overflow: hidden; background: var(--secondary); }
+.team-member-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform .5s var(--motion-ease); }
+.team-role-profile:hover .team-member-photo img { transform: scale(1.035); }
+.team-member-placeholder { display: grid; place-items: center; width: 100%; height: 100%; font-family: var(--font-display); font-size: 3rem; color: var(--primary); }
+.team-role-copy { padding: 1.4rem; min-width: 0; overflow-wrap: anywhere; }
 .team-role-copy h3 { font-family: var(--font-display); font-size: 1rem; line-height: 1.5; font-weight: 700; }
+.team-member-designation { display: block; margin-top: .3rem; font-size: .75rem; line-height: 1.6; font-weight: 700; color: var(--primary); }
 .team-role-copy p { margin-top: .6rem; color: var(--muted-foreground); font-size: .82rem; line-height: 1.7; }
 .team-role-links:empty { display: none; }
 .team-role-links { display: flex; gap: .4rem; margin-top: 1rem; }
@@ -650,7 +654,7 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
   .gallery-filters { justify-content: start; }
   .project-gallery { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .team-lead-profile { gap: 2rem; padding: 2rem; }
-  .team-role-profile { padding: 1.2rem; }
+  .team-role-copy { padding: 1.2rem; }
 }
 @media (max-width: 600px) {
   .project-gallery, .team-role-grid, .team-lead-profile { grid-template-columns: minmax(0,1fr); }
@@ -663,6 +667,6 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
   .team-lead-actions { gap: .4rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .project-gallery-card, .project-gallery-media img, .team-role-profile { transition: none; }
-  .project-gallery-card:hover, .project-gallery-card:hover .project-gallery-media img, .team-role-profile:hover { transform: none; }
+  .project-gallery-card, .project-gallery-media img, .team-role-profile, .team-member-photo img { transition: none; }
+  .project-gallery-card:hover, .project-gallery-card:hover .project-gallery-media img, .team-role-profile:hover, .team-role-profile:hover .team-member-photo img { transform: none; }
 }
