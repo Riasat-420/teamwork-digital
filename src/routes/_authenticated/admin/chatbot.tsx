@@ -36,7 +36,7 @@ function Knowledge() {
   return <section className="max-w-2xl space-y-4 rounded-xl border bg-card p-5">
     <div><h2 className="font-semibold text-foreground">Extra facts the assistant knows</h2><p className="text-sm text-muted-foreground">Prices, timelines, policies — anything not already on the website. The assistant only states what's written here or on the site.</p></div>
     {data?.map(k => <div key={k.id} className="flex items-start gap-3 rounded-md border p-3">
-      <div className="flex-1"><p className="font-medium text-foreground">{k.title}</p><p className="whitespace-pre-wrap text-sm text-muted-foreground">{k.content}</p></div>
+      <div className="min-w-0 flex-1"><p className="font-medium text-foreground">{k.title}</p><p className="whitespace-pre-wrap break-words text-sm text-muted-foreground">{k.content}</p></div>
       <Switch aria-label="Use this fact" checked={k.enabled} onCheckedChange={async v => { await supabase.from("chatbot_knowledge").update({ enabled: v }).eq("id", k.id); void refresh(); }} />
       <Button variant="ghost" size="icon-sm" aria-label="Delete" onClick={async () => { await supabase.from("chatbot_knowledge").delete().eq("id", k.id); await logActivity("deleted", "chatbot fact"); void refresh(); }}><Trash2 /></Button>
     </div>)}

@@ -30,8 +30,8 @@ export function SectionEditor({ def }: { def: SectionDef }) {
   };
 
   const header = <div className="sticky top-0 z-10 -mx-4 mb-6 flex flex-wrap items-center justify-between gap-3 border-b bg-background/95 px-4 py-3 backdrop-blur md:-mx-8 md:px-8">
-    <div><h1 className="text-xl font-semibold text-foreground">{def.label}</h1><p className="text-sm text-muted-foreground">{def.description}</p></div>
-    <div className="flex gap-2">
+    <div className="min-w-0"><h1 className="text-xl font-semibold text-foreground">{def.label}</h1><p className="text-sm text-muted-foreground">{def.description}</p></div>
+    <div className="flex flex-wrap gap-2">
       <AlertDialog><AlertDialogTrigger asChild><Button variant="ghost" size="sm">Restore original</Button></AlertDialogTrigger><AlertDialogContent>
         <AlertDialogHeader><AlertDialogTitle>Restore the original content?</AlertDialogTitle><AlertDialogDescription>This loads the original {def.label.toLowerCase()} into the editor. Nothing changes on the website until you save.</AlertDialogDescription></AlertDialogHeader>
         <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={() => setValue(structuredClone(defaultContent[def.key]))}>Restore</AlertDialogAction></AlertDialogFooter>

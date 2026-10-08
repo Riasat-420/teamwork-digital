@@ -28,13 +28,13 @@ function Overview() {
     { to: "/admin/analytics", label: "See full analytics", icon: BarChart3 }, { to: "/admin/seo", label: "Search & Google settings", icon: Search },
     ...(me?.role === "admin" ? [{ to: "/admin/settings", label: "Invite your team", icon: Users }] : []),
   ] as const;
-  return <div className="space-y-8">
+  return <div className="min-w-0 space-y-8">
     <div><h1 className="text-2xl font-semibold text-foreground">Welcome back</h1><p className="text-sm text-muted-foreground">Here's how the website is doing.</p></div>
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">{stats.map(s => <div key={s.label} className="rounded-xl border bg-card p-5"><p className="text-sm text-muted-foreground">{s.label}</p><p className="mt-1 text-3xl font-semibold text-foreground">{s.v ?? "—"}</p></div>)}</div>
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">{stats.map(s => <div key={s.label} className="min-w-0 rounded-xl border bg-card p-4 sm:p-5"><p className="text-xs text-muted-foreground sm:text-sm">{s.label}</p><p className="mt-1 text-2xl sm:text-3xl font-semibold text-foreground">{s.v ?? "—"}</p></div>)}</div>
     <div className="grid gap-6 lg:grid-cols-2">
-      <section className="rounded-xl border bg-card p-5"><h2 className="mb-3 font-semibold text-foreground">Quick links</h2><div className="grid gap-2">{links.map(l => <Link key={l.to} to={l.to} className="flex items-center gap-3 rounded-md border px-3 py-2.5 text-sm text-foreground hover:bg-muted"><l.icon size={17} className="text-primary" />{l.label}</Link>)}</div></section>
-      <section className="rounded-xl border bg-card p-5"><h2 className="mb-3 font-semibold text-foreground">Recent changes</h2>
-        {!data?.log.length ? <p className="text-sm text-muted-foreground">No changes yet.</p> : <ul className="space-y-2 text-sm">{data.log.map(l => <li key={l.id} className="flex justify-between gap-3"><span className="text-foreground"><span className="text-muted-foreground">{l.user_email ?? "Someone"}</span> {l.action} <b>{l.entity}</b></span><time className="shrink-0 text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString()}</time></li>)}</ul>}
+      <section className="min-w-0 rounded-xl border bg-card p-4 sm:p-5"><h2 className="mb-3 font-semibold text-foreground">Quick links</h2><div className="grid gap-2">{links.map(l => <Link key={l.to} to={l.to} className="flex items-center gap-3 rounded-md border px-3 py-2.5 text-sm text-foreground hover:bg-muted"><l.icon size={17} className="text-primary" />{l.label}</Link>)}</div></section>
+      <section className="min-w-0 rounded-xl border bg-card p-4 sm:p-5"><h2 className="mb-3 font-semibold text-foreground">Recent changes</h2>
+        {!data?.log.length ? <p className="text-sm text-muted-foreground">No changes yet.</p> : <ul className="space-y-2 text-sm">{data.log.map(l => <li key={l.id} className="flex justify-between gap-3"><span className="min-w-0 break-words text-foreground"><span className="text-muted-foreground">{l.user_email ?? "Someone"}</span> {l.action} <b>{l.entity}</b></span><time className="shrink-0 text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString()}</time></li>)}</ul>}
       </section>
     </div>
   </div>;
