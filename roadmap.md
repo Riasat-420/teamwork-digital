@@ -1,5 +1,5 @@
 # Portfolio work
-- [ ] Match the supplied team and project section layouts while preserving existing colors, typography and portfolio content; verify filtering and smaller screens.
+- [x] Match the supplied team and project section layouts while preserving existing colors, typography and portfolio content; verify filtering and smaller screens.
 - [x] Replace the planner with a floating logo chatbot; verify separate browser-saved threads, streaming replies and reload restoration.
 - [x] Center the menu logo, enlarge both capability strips, and verify continuous and scroll-linked text motion.
 - [x] Make all section content reveal smoothly on scroll, including the planner and FAQ; verify scrolling and reduced motion.
