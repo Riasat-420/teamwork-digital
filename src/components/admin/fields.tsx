@@ -60,7 +60,7 @@ export function SocialsField({ value, onChange }: { value: unknown; onChange: (v
   return <div className="space-y-2">
     {list.map((s, i) => { const meta = socialIcons[s.icon] ?? socialIcons["website"]!; return <div key={s.id ?? i} className="flex flex-wrap items-center gap-2 rounded-md border bg-background p-2 sm:flex-nowrap">
       <Select value={socialIcons[s.icon] ? s.icon : "website"} onValueChange={icon => set(i, { icon })}>
-        <SelectTrigger className="w-full sm:w-44" aria-label="Network"><span className="flex items-center gap-2"><meta.Icon size={15} />{meta.label}</span></SelectTrigger>
+        <SelectTrigger className="w-full justify-start gap-2 sm:w-44" aria-label="Network"><meta.Icon size={15} /><span className="flex-1 truncate text-left">{meta.label}</span></SelectTrigger>
         <SelectContent>{Object.entries(socialIcons).map(([k, m]) => <SelectItem key={k} value={k}><span className="flex items-center gap-2"><m.Icon size={15} />{m.label}</span></SelectItem>)}</SelectContent>
       </Select>
       <Input className="min-w-0 flex-1" value={s.url} placeholder={s.icon === "email" ? "name@email.com" : s.icon === "phone" ? "+92 300 0000000" : "https://"} onChange={e => set(i, { url: e.target.value })} aria-label={`${meta.label} link`} />
