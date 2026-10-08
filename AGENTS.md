@@ -11,7 +11,7 @@
 
 - Keep portfolio copy, services, projects and process items in `src/lib/portfolio-data.ts`; the single scrolling page renders those entries so client details can be updated without changing layout.
 - Render projects once in a filterable image-led gallery and team members as a featured leader plus image-led member cards using the shared team photo, name, role and socials fields; use initials for missing photos so public cards and admin editing stay aligned without inventing identities.
-- Map project previews by stable project initials in `src/lib/project-previews.ts`; serve CDN-hosted WebP width variants with explicit image dimensions and low-priority eager loading so filters keep correct images and small previews arrive before section reveals.
+- Map project previews by stable project initials in `src/lib/project-previews.ts`; bundle WebP width variants as real files in src/assets (so any host, e.g. Vercel, serves them) with explicit image dimensions and low-priority eager loading so filters keep correct images and small previews arrive before section reveals.
 - Keep portfolio motion in a shared page-level visibility observer and semantic CSS states, with bounded content staggering and reduced-motion fallbacks, so scroll reveals stay consistent without a separate animation runtime.
 - Keep ribbon looping on an inner track and scroll displacement on its wrapper in the existing page motion loop, so both motions compose without competing transforms.
 - Keep the floating chatbot on real thread page routes with browser-owned history, answering in the browser from site content and enabled chatbot answers (`src/lib/chat-guide.ts`), so it needs no AI key or paid API on any host.

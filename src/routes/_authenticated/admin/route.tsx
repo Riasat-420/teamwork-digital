@@ -5,7 +5,8 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useStaff } from "@/lib/admin-client";
-import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
+import logoSrc from "@/assets/teamwork-digital-logo.jpeg";
+const logo = { url: logoSrc };
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [

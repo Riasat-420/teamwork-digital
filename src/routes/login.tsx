@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
+import logoSrc from "@/assets/teamwork-digital-logo.jpeg";
+const logo = { url: logoSrc };
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [

@@ -8,7 +8,8 @@ import { Message, MessageContent, MessageResponse } from "@/components/ai-elemen
 import { PromptInput, PromptInputTextarea, PromptInputFooter, PromptInputSubmit } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { createThread, deleteThread, readThreads, saveMessages, type ChatThread } from "@/lib/chat-history";
-import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
+import logoSrc from "@/assets/teamwork-digital-logo.jpeg";
+const logo = { url: logoSrc };
 import { useSiteContent } from "@/lib/site-content.functions";
 import { trackEvent } from "@/lib/track";
 import type { SiteContent } from "@/lib/site-content";
