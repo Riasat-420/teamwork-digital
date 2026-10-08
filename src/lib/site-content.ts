@@ -1,5 +1,6 @@
 import * as data from "./portfolio-data";
-import leaderPhoto from "@/assets/team-leader.jpeg.asset.json";
+import leaderPhotoSrc from "@/assets/team-leader.jpeg";
+const leaderPhoto = { url: leaderPhotoSrc };
 import { projectPreviews } from "./project-previews";
 import { normalizeSocials, type SocialLink } from "./social-icons";
 

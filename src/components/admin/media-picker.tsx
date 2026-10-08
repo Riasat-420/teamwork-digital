@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
-import leaderPhoto from "@/assets/team-leader.jpeg.asset.json";
+import logoSrc from "@/assets/teamwork-digital-logo.jpeg";
+const logo = { url: logoSrc };
+import leaderPhotoSrc from "@/assets/team-leader.jpeg";
+const leaderPhoto = { url: leaderPhotoSrc };
 import { projects } from "@/lib/portfolio-data";
 import { projectPreviews } from "@/lib/project-previews";
 

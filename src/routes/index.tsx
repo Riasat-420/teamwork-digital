@@ -6,9 +6,12 @@ import { siteContentQuery, useSiteContent } from "@/lib/site-content.functions";
 import { visible } from "@/lib/site-content";
 import { getIcon } from "@/lib/site-icons";
 import { ContactForm } from "@/components/contact-form";
-import leaderPhoto from "@/assets/team-leader.jpeg.asset.json";
-import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
-import profile from "@/assets/teamwork-digital-profile.pdf.asset.json";
+import leaderPhotoSrc from "@/assets/team-leader.jpeg";
+const leaderPhoto = { url: leaderPhotoSrc };
+import logoSrc from "@/assets/teamwork-digital-logo.jpeg";
+const logo = { url: logoSrc };
+import profileSrc from "@/assets/teamwork-digital-profile.pdf";
+const profile = { url: profileSrc };
 import { projectPreviews } from "@/lib/project-previews";
 import { publicSocials, socialHref, socialIcons } from "@/lib/social-icons";
 
