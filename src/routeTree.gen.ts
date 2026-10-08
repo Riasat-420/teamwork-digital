@@ -24,6 +24,7 @@ import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminChatbotRouteImport } from './routes/_authenticated/admin/chatbot'
 import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin/media'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin/messages'
+import { Route as AuthenticatedAdminProfileRouteImport } from './routes/_authenticated/admin/profile'
 import { Route as AuthenticatedAdminSeoRouteImport } from './routes/_authenticated/admin/seo'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin/settings'
 import { Route as ApiPublicTrackRouteImport } from './routes/api/public/track'
@@ -107,6 +108,12 @@ const AuthenticatedAdminMessagesRoute =
     path: '/messages',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminProfileRoute =
+  AuthenticatedAdminProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminSeoRoute = AuthenticatedAdminSeoRouteImport.update({
   id: '/seo',
   path: '/seo',
@@ -150,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/admin/seo': typeof AuthenticatedAdminSeoRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/public/track': typeof ApiPublicTrackRoute
@@ -170,6 +178,7 @@ export interface FileRoutesByTo {
   '/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/admin/seo': typeof AuthenticatedAdminSeoRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/public/track': typeof ApiPublicTrackRoute
@@ -193,6 +202,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/_authenticated/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/_authenticated/admin/seo': typeof AuthenticatedAdminSeoRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/public/track': typeof ApiPublicTrackRoute
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/admin/chatbot'
     | '/admin/media'
     | '/admin/messages'
+    | '/admin/profile'
     | '/admin/seo'
     | '/admin/settings'
     | '/api/public/track'
@@ -236,6 +247,7 @@ export interface FileRouteTypes {
     | '/admin/chatbot'
     | '/admin/media'
     | '/admin/messages'
+    | '/admin/profile'
     | '/admin/seo'
     | '/admin/settings'
     | '/api/public/track'
@@ -258,6 +270,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/chatbot'
     | '/_authenticated/admin/media'
     | '/_authenticated/admin/messages'
+    | '/_authenticated/admin/profile'
     | '/_authenticated/admin/seo'
     | '/_authenticated/admin/settings'
     | '/api/public/track'
@@ -386,6 +399,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminMessagesRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/profile': {
+      id: '/_authenticated/admin/profile'
+      path: '/profile'
+      fullPath: '/admin/profile'
+      preLoaderRoute: typeof AuthenticatedAdminProfileRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/seo': {
       id: '/_authenticated/admin/seo'
       path: '/seo'
@@ -429,6 +449,7 @@ interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminChatbotRoute: typeof AuthenticatedAdminChatbotRoute
   AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
+  AuthenticatedAdminProfileRoute: typeof AuthenticatedAdminProfileRoute
   AuthenticatedAdminSeoRoute: typeof AuthenticatedAdminSeoRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
@@ -442,6 +463,7 @@ const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren
     AuthenticatedAdminChatbotRoute: AuthenticatedAdminChatbotRoute,
     AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
     AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
+    AuthenticatedAdminProfileRoute: AuthenticatedAdminProfileRoute,
     AuthenticatedAdminSeoRoute: AuthenticatedAdminSeoRoute,
     AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,

@@ -250,7 +250,7 @@ export function Portfolio() {
           return <Reveal key={member.id}><article className="team-role-profile">
             <div className="team-member-photo">{member.photo ? <img src={member.photo} alt={member.name} width={600} height={660} loading="lazy" decoding="async" /> : <span className="team-member-placeholder" aria-label={`Photo not yet provided for ${member.name}`}>{initials || <Users size={48} strokeWidth={1.3} />}</span>}</div>
             <div className="team-role-copy"><h3>{member.name}</h3><span className="team-member-designation">{member.role}</span>{member.bio && <p>{member.bio}</p>}
-            <div className="team-role-links">{publicSocials(member.socials).map((link, li) => { const meta = socialIcons[link.icon] ?? socialIcons.website!; const external = !["email", "phone"].includes(link.icon); return <Button key={link.id ?? li} asChild variant="ghost" size="icon-sm"><a href={socialHref(link)} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} title={meta.label} aria-label={`${member.name} on ${meta.label}`}><meta.Icon size={16} /></a></Button>; })}</div>
+            <div className="team-role-links">{publicSocials(member.socials).map((link, li) => { const meta = socialIcons[link.icon] ?? socialIcons["website"]!; const external = !["email", "phone"].includes(link.icon); return <Button key={link.id ?? li} asChild variant="ghost" size="icon-sm"><a href={socialHref(link)} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} title={meta.label} aria-label={`${member.name} on ${meta.label}`}><meta.Icon size={16} /></a></Button>; })}</div>
             </div></article></Reveal>;
         })}</div>
       </div></section>
