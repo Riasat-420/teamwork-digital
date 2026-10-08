@@ -1,6 +1,6 @@
 import type { ContentKey } from "./site-content";
 
-export type FieldType = "text" | "textarea" | "url" | "image" | "tags" | "icon" | "select" | "switch" | "number";
+export type FieldType = "text" | "textarea" | "url" | "image" | "tags" | "icon" | "select" | "switch" | "number" | "socials";
 export type Field = { key: string; label: string; type: FieldType; options?: string[]; help?: string; optionsFrom?: ContentKey };
 export type SectionDef =
   | { key: ContentKey; label: string; description: string; kind: "object"; fields: Field[] }
@@ -48,9 +48,8 @@ export const contentSections: SectionDef[] = [
   { key: "team", label: "Team members", description: "Member cards show a photo, name, designation and social links. One member can be marked as the featured leader.", kind: "list", itemTitle: "name", fields: [
     { key: "name", label: "Name", type: "text" }, { key: "role", label: "Designation", type: "text" }, { key: "bio", label: "Short bio", type: "textarea" },
     { key: "photo", label: "Photo", type: "image", help: "Upload a member portrait, choose from the media library or paste an image link. An empty photo shows initials." }, { key: "leader", label: "Featured leader", type: "switch" },
-    { key: "socials.linkedin", label: "LinkedIn", type: "url" }, { key: "socials.github", label: "GitHub", type: "url" },
-    { key: "socials.instagram", label: "Instagram", type: "url" }, { key: "socials.email", label: "Email", type: "text" },
-  ], newItem: () => ({ id: newId(), published: true, name: "New member", role: "", bio: "", photo: "", leader: false, socials: {} }) },
+    { key: "socials", label: "Social links", type: "socials", help: "Add as many links as needed and pick the network icon for each one." },
+  ], newItem: () => ({ id: newId(), published: true, name: "New member", role: "", bio: "", photo: "", leader: false, socials: [] }) },
   { key: "testimonials", label: "Testimonials", description: "Client quotes with star ratings.", kind: "list", itemTitle: "name", fields: [
     { key: "quote", label: "Quote", type: "textarea" }, { key: "name", label: "Client name", type: "text" },
     { key: "company", label: "Company", type: "text" }, { key: "service", label: "Service provided", type: "text" },

@@ -1,6 +1,6 @@
 import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Github, Instagram, Linkedin, Mail, Star, ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LifeBuoy, Plus, Quote, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
+import { Star, ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronUp, Code2, Copy, Gamepad2, GraduationCap, LifeBuoy, Plus, Quote, LayoutTemplate, Menu, Monitor, Palette, Play, Search, ShoppingBag, Smartphone, Sparkles, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteContentQuery, useSiteContent } from "@/lib/site-content.functions";
 import { visible } from "@/lib/site-content";
