@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getSiteContentRows } from "@/lib/site-content.functions";
+import { fetchSiteContentRows } from "@/lib/site-content.server";
 import { mergeContent } from "@/lib/site-content";
 
 export const Route = createFileRoute("/robots.txt")({
@@ -7,7 +7,7 @@ export const Route = createFileRoute("/robots.txt")({
     handlers: {
       GET: async ({ request }) => {
         const origin = new URL(request.url).origin;
-        const { seo } = mergeContent((await getSiteContentRows()).map(r => ({ key: r.key, value: JSON.parse(r.json) as unknown })));
+        const { seo } = mergeContent((await fetchSiteContentRows()).map(r => ({ key: r.key, value: JSON.parse(r.json) as unknown })));
         const body = seo.allowIndexing
           ? `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\nDisallow: /chat/\n\nSitemap: ${origin}/sitemap.xml\n`
           : `User-agent: *\nDisallow: /\n`;
