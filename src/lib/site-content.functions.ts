@@ -19,12 +19,12 @@ export const getSiteContentRows = createServerFn({ method: "GET" }).handler(asyn
   });
   const { data, error } = await client.from("site_content").select("key, value");
   if (error) { console.error("site_content read failed", error.message); return []; }
-  return (data ?? []).map(r => ({ key: r.key, value: r.value as unknown as Record<string, unknown> }));
+  return (data ?? []).map(r => ({ key: r.key, json: JSON.stringify(r.value) }));
 });
 
 export const siteContentQuery = queryOptions({
   queryKey: ["site-content"],
-  queryFn: async () => mergeContent(await getSiteContentRows()),
+  queryFn: async () => mergeContent((await getSiteContentRows()).map(r => ({ key: r.key, value: JSON.parse(r.json) as unknown }))),
   staleTime: 30_000,
 });
 
