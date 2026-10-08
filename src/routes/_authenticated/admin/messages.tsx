@@ -22,7 +22,7 @@ function Messages() {
   const remove = async (id: string) => {
     if (!confirm("Delete this message?")) return;
     const { error } = await supabase.from("contact_messages").delete().eq("id", id);
-    if (error) return toast.error("Only admins can delete messages.");
+    if (error) { toast.error("Only admins can delete messages."); return; }
     await logActivity("deleted", "message"); void refresh();
   };
   const exportCsv = () => downloadFile(`messages-${new Date().toISOString().slice(0, 10)}.csv`,

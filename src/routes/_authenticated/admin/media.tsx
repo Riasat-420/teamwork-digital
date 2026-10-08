@@ -25,7 +25,7 @@ function MediaPage() {
   const remove = async (name: string) => {
     if (!confirm("Delete this image? Anything using it will show a blank image.")) return;
     const { error } = await supabase.storage.from("site-media").remove([`uploads/${name}`]);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     await logActivity("deleted", "media", { name }); void qc.invalidateQueries({ queryKey: mediaQueryKey });
   };
   return <div className="space-y-6">

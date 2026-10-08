@@ -52,12 +52,12 @@ export function SectionEditor({ def }: { def: SectionDef }) {
 
   const list = ((value ?? []) as Row[]);
   const update = (i: number, next: Row) => setValue(list.map((r, j) => (j === i ? next : r)));
-  const move = (i: number, dir: -1 | 1) => { const j = i + dir; if (j < 0 || j >= list.length) return; const next = [...list]; [next[i], next[j]] = [next[j], next[i]]; setValue(next); setOpen(o => (o === i ? j : o)); };
+  const move = (i: number, dir: -1 | 1) => { const j = i + dir; if (j < 0 || j >= list.length) return; const next = [...list]; [next[i], next[j]] = [next[j]!, next[i]!]; setValue(next); setOpen(o => (o === i ? j : o)); };
   return <div>{header}
     <div className="max-w-3xl space-y-3">
       {list.map((row, i) => {
-        const hidden = row.published === false;
-        return <div key={String(row.id ?? i)} className={`rounded-xl border bg-card ${hidden ? "opacity-70" : ""}`}>
+        const hidden = row["published"] === false;
+        return <div key={String(row["id"] ?? i)} className={`rounded-xl border bg-card ${hidden ? "opacity-70" : ""}`}>
           <div className="flex items-center gap-2 p-3">
             <button type="button" className="flex flex-1 items-center gap-2 text-left" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i}>
               <ChevronDown size={16} className={`transition-transform ${open === i ? "rotate-180" : ""}`} />
@@ -73,7 +73,7 @@ export function SectionEditor({ def }: { def: SectionDef }) {
               <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={() => { setValue(list.filter((_, j) => j !== i)); setOpen(null); }}>Delete</AlertDialogAction></AlertDialogFooter>
             </AlertDialogContent></AlertDialog>
           </div>
-          {open === i && <div className="space-y-4 border-t p-4">{def.fields.map(f => <FieldInput key={f.key} field={f} value={getPath(row, f.key)} options={f.optionsFrom ? (site[f.optionsFrom] as string[]) : undefined} onChange={v => update(i, setPath(row, f.key, v))} />)}</div>}
+          {open === i && <div className="space-y-4 border-t p-4">{def.fields.map(f => <FieldInput key={f.key} field={f} value={getPath(row, f.key)} {...(f.optionsFrom ? { options: site[f.optionsFrom] as string[] } : {})} onChange={v => update(i, setPath(row, f.key, v))} />)}</div>}
         </div>;
       })}
       <Button variant="outline" onClick={() => { setValue([...list, def.newItem()]); setOpen(list.length); }}><Plus />Add {def.label.toLowerCase().replace(/s$/, "")}</Button>

@@ -28,9 +28,9 @@ function Knowledge() {
   const [title, setTitle] = useState(""); const [content, setContent] = useState("");
   const refresh = () => qc.invalidateQueries({ queryKey: ["admin-knowledge"] });
   const add = async () => {
-    if (!title.trim() || !content.trim()) return toast.error("Add a title and the fact.");
+    if (!title.trim() || !content.trim()) { toast.error("Add a title and the fact."); return; }
     const { error } = await supabase.from("chatbot_knowledge").insert({ kind: "fact", title: title.trim(), content: content.trim(), sort: (data?.length ?? 0) + 1 });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     await logActivity("added", "chatbot fact", { title }); setTitle(""); setContent(""); void refresh();
   };
   return <section className="max-w-2xl space-y-4 rounded-xl border bg-card p-5">

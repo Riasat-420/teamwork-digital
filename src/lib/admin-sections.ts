@@ -71,7 +71,7 @@ export const contentSections: SectionDef[] = [
 
 export const getPath = (obj: Record<string, unknown>, path: string): unknown => path.split(".").reduce<unknown>((o, k) => (o && typeof o === "object" ? (o as Record<string, unknown>)[k] : undefined), obj);
 export function setPath<T extends Record<string, unknown>>(obj: T, path: string, value: unknown): T {
-  const [head, ...rest] = path.split(".");
+  const [head = "", ...rest] = path.split(".");
   if (!rest.length) return { ...obj, [head]: value };
   const child = (obj[head] && typeof obj[head] === "object" ? obj[head] : {}) as Record<string, unknown>;
   return { ...obj, [head]: setPath(child, rest.join("."), value) };

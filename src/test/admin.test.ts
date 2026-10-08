@@ -1,0 +1,25 @@
+import { describe, expect, it } from "vitest";
+import { summarize } from "@/lib/admin-analytics";
+import { setPath } from "@/lib/admin-sections";
+import { mergeContent, visible } from "@/lib/site-content";
+
+describe("dashboard rules", () => {
+  it("hidden (draft) items never show on the public site", () => {
+    expect(visible([{ id: "a" }, { id: "b", published: false }, { id: "c", published: true }]).map(x => x.id)).toEqual(["a", "c"]);
+  });
+  it("saved sections override defaults, keeping new default fields", () => {
+    const c = mergeContent([{ key: "contact", value: { email: "real@x.com" } }]);
+    expect(c.contact.email).toBe("real@x.com");
+    expect(c.contact.showForm).toBe(true);
+  });
+  it("editing a social link keeps the other socials", () => {
+    expect(setPath({ socials: { github: "g" } }, "socials.linkedin", "l")).toEqual({ socials: { github: "g", linkedin: "l" } });
+  });
+  it("counts unique visitors once", () => {
+    const now = Date.parse("2026-10-08T12:00:00Z");
+    const v = (id: string) => ({ created_at: "2026-10-08T10:00:00Z", path: "/", referrer: null, country: null, device: "mobile", visitor_id: id });
+    const s = summarize([v("a"), v("a"), v("b")], [], 7, now);
+    expect(s.totalViews).toBe(3);
+    expect(s.visitors).toBe(2);
+  });
+});
