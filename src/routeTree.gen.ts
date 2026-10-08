@@ -21,8 +21,11 @@ import { Route as ChatThreadIdRouteImport } from './routes/chat.$threadId'
 import { Route as MediaSplatRouteImport } from './routes/media.$'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
+import { Route as AuthenticatedAdminChatbotRouteImport } from './routes/_authenticated/admin/chatbot'
 import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin/media'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin/messages'
+import { Route as AuthenticatedAdminSeoRouteImport } from './routes/_authenticated/admin/seo'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin/settings'
 import { Route as ApiPublicTrackRouteImport } from './routes/api/public/track'
 import { Route as AuthenticatedAdminContentIndexRouteImport } from './routes/_authenticated/admin/content.index'
 import { Route as AuthenticatedAdminContentSectionRouteImport } from './routes/_authenticated/admin/content.$section'
@@ -87,6 +90,12 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminChatbotRoute =
+  AuthenticatedAdminChatbotRouteImport.update({
+    id: '/chatbot',
+    path: '/chatbot',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
   id: '/media',
   path: '/media',
@@ -96,6 +105,17 @@ const AuthenticatedAdminMessagesRoute =
   AuthenticatedAdminMessagesRouteImport.update({
     id: '/messages',
     path: '/messages',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminSeoRoute = AuthenticatedAdminSeoRouteImport.update({
+  id: '/seo',
+  path: '/seo',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
 const ApiPublicTrackRoute = ApiPublicTrackRouteImport.update({
@@ -127,8 +147,11 @@ export interface FileRoutesByFullPath {
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/media/$': typeof MediaSplatRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/admin/seo': typeof AuthenticatedAdminSeoRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/public/track': typeof ApiPublicTrackRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/content/$section': typeof AuthenticatedAdminContentSectionRoute
@@ -144,8 +167,11 @@ export interface FileRoutesByTo {
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/media/$': typeof MediaSplatRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/admin/seo': typeof AuthenticatedAdminSeoRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/public/track': typeof ApiPublicTrackRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/content/$section': typeof AuthenticatedAdminContentSectionRoute
@@ -164,8 +190,11 @@ export interface FileRoutesById {
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/media/$': typeof MediaSplatRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/_authenticated/admin/seo': typeof AuthenticatedAdminSeoRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/public/track': typeof ApiPublicTrackRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/content/$section': typeof AuthenticatedAdminContentSectionRoute
@@ -184,8 +213,11 @@ export interface FileRouteTypes {
     | '/chat/$threadId'
     | '/media/$'
     | '/admin/analytics'
+    | '/admin/chatbot'
     | '/admin/media'
     | '/admin/messages'
+    | '/admin/seo'
+    | '/admin/settings'
     | '/api/public/track'
     | '/admin/'
     | '/admin/content/$section'
@@ -201,8 +233,11 @@ export interface FileRouteTypes {
     | '/chat/$threadId'
     | '/media/$'
     | '/admin/analytics'
+    | '/admin/chatbot'
     | '/admin/media'
     | '/admin/messages'
+    | '/admin/seo'
+    | '/admin/settings'
     | '/api/public/track'
     | '/admin'
     | '/admin/content/$section'
@@ -220,8 +255,11 @@ export interface FileRouteTypes {
     | '/chat/$threadId'
     | '/media/$'
     | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/chatbot'
     | '/_authenticated/admin/media'
     | '/_authenticated/admin/messages'
+    | '/_authenticated/admin/seo'
+    | '/_authenticated/admin/settings'
     | '/api/public/track'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/content/$section'
@@ -327,6 +365,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/chatbot': {
+      id: '/_authenticated/admin/chatbot'
+      path: '/chatbot'
+      fullPath: '/admin/chatbot'
+      preLoaderRoute: typeof AuthenticatedAdminChatbotRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/media': {
       id: '/_authenticated/admin/media'
       path: '/media'
@@ -339,6 +384,20 @@ declare module '@tanstack/react-router' {
       path: '/messages'
       fullPath: '/admin/messages'
       preLoaderRoute: typeof AuthenticatedAdminMessagesRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/seo': {
+      id: '/_authenticated/admin/seo'
+      path: '/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AuthenticatedAdminSeoRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
     '/api/public/track': {
@@ -367,8 +426,11 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminChatbotRoute: typeof AuthenticatedAdminChatbotRoute
   AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
+  AuthenticatedAdminSeoRoute: typeof AuthenticatedAdminSeoRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminContentSectionRoute: typeof AuthenticatedAdminContentSectionRoute
   AuthenticatedAdminContentIndexRoute: typeof AuthenticatedAdminContentIndexRoute
@@ -377,8 +439,11 @@ interface AuthenticatedAdminRouteRouteChildren {
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
     AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+    AuthenticatedAdminChatbotRoute: AuthenticatedAdminChatbotRoute,
     AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
     AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
+    AuthenticatedAdminSeoRoute: AuthenticatedAdminSeoRoute,
+    AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
     AuthenticatedAdminContentSectionRoute:
       AuthenticatedAdminContentSectionRoute,
