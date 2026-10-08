@@ -48,7 +48,7 @@ export const defaultContent: SiteContent = {
   faqs: ids(data.faqs.map(f => ({ ...f })), "faq"),
   contact: { heading: "Have a project idea? Let's talk.", text: "Whether it's a mobile app, a website, a new brand or a complete digital product — let's start the conversation.", email: data.contact.email, whatsapp: data.contact.whatsapp, whatsappLink: data.contact.whatsappLink, phone: "", address: "", linkedin: "", instagram: "", facebook: "", showForm: true },
   seo: { title: "Teamwork Digital — Complete Software Development Team", description: "Teamwork Digital builds mobile apps, websites, e-commerce stores, AI solutions, games, design and more. One team from idea to delivery.", ogImage: "", keywords: "", gscVerification: "", bingVerification: "", gaId: "", allowIndexing: true },
-  chatbot: { enabled: true, name: "Teamwork Assistant", subtitle: "AI project guidance", welcomeTitle: "What are you building?", welcomeText: "Tell me about your idea.", suggestions: ["I need a mobile app", "Help me choose a website platform", "Can AI automate my business?"], extraInstructions: "" },
+  chatbot: { enabled: true, name: "Teamwork Assistant", subtitle: "Instant answers", welcomeTitle: "What are you building?", welcomeText: "Tell me about your idea.", suggestions: ["I need a mobile app", "Help me choose a website platform", "Can AI automate my business?"], extraInstructions: "" },
   settings: { siteName: "Teamwork Digital", logo: "", projectPages: false, notifyEmail: "" },
 };
 

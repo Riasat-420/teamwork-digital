@@ -42,7 +42,7 @@ export function FloatingChat() {
   const { chatbot } = site;
   if (!chatbot.enabled || /^\/(admin|login|reset-password)/.test(pathname)) return null;
   return <div className="td-chat">
-    {threadId && <section className="td-chat-panel" role="dialog" aria-label="Teamwork Digital AI assistant" aria-modal="false">
+    {threadId && <section className="td-chat-panel" role="dialog" aria-label="Teamwork Digital assistant" aria-modal="false">
       <header className="td-chat-header"><img src={logo.url} alt="Teamwork Digital" /><div><strong>{chatbot.name}</strong><small>{chatbot.subtitle}</small></div>
         <Button variant="ghost" size="icon" title="Chat history" aria-label="Chat history" aria-expanded={historyOpen} onClick={() => setHistoryOpen(!historyOpen)}><History /></Button>
         <Button variant="ghost" size="icon" title="New conversation" aria-label="New conversation" onClick={newChat}><Plus /></Button>
@@ -51,9 +51,9 @@ export function FloatingChat() {
       {storageError && <p role="alert" className="td-chat-error">{storageError}</p>}
       {historyOpen ? <div className="td-chat-history"><h3>Your conversations</h3>{threads.map(thread => <div key={thread.id} className="td-chat-history-row"><Button variant={thread.id === threadId ? "secondary" : "ghost"} className="td-chat-thread" onClick={() => openThread(thread.id)}>{thread.title}</Button><Button variant="ghost" size="icon" aria-label={`Delete ${thread.title}`} title="Delete conversation" onClick={() => {
         try { deleteThread(thread.id); refresh(); if (thread.id === threadId) { const next = readThreads()[0]; if (next) openThread(next.id); else newChat(); } } catch { setStorageError("This conversation could not be deleted."); }
-      }}><Trash2 /></Button></div>)}</div> : loadedId === threadId && <ChatWindow key={threadId} thread={current ?? { id: threadId, title: "New conversation", updatedAt: 0, messages: [] }} onSaved={refresh} onStorageError={setStorageError} bot={chatbot} />}
+      }}><Trash2 /></Button></div>)}</div> : loadedId === threadId && <ChatWindow key={threadId} thread={current ?? { id: threadId, title: "New conversation", updatedAt: 0, messages: [] }} onSaved={refresh} onStorageError={setStorageError} site={site} />}
     </section>}
-    {!threadId && <Button className="td-chat-launcher" title="Chat with Teamwork Assistant" aria-label="Open AI chatbot" onClick={() => {
+    {!threadId && <Button className="td-chat-launcher" title="Chat with Teamwork Assistant" aria-label="Open chat assistant" onClick={() => {
       trackEvent("chat_open");
       try { const latest = readThreads()[0]; if (latest) openThread(latest.id); else newChat(); } catch { newChat(); }
     }}><img src={logo.url} alt="" /><span className="td-chat-status" /></Button>}
