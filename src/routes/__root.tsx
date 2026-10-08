@@ -14,6 +14,10 @@ import appCss from "../styles.css?url";
 import chatCss from "../chat.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { FloatingChat } from "@/components/floating-chat";
+import { SiteTracker } from "@/components/site-tracker";
+import { Toaster } from "@/components/ui/sonner";
+import { siteContentQuery } from "@/lib/site-content.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -76,14 +80,21 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  loader: ({ context }) => context.queryClient.ensureQueryData(siteContentQuery),
+  head: ({ loaderData }) => ({
     meta: [
+      ...(loaderData?.seo.gscVerification ? [{ name: "google-site-verification", content: loaderData.seo.gscVerification }] : []),
+      ...(loaderData?.seo.bingVerification ? [{ name: "msvalidate.01", content: loaderData.seo.bingVerification }] : []),
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:site_name", content: "Teamwork Digital" },
     ],
+    scripts: /^(G|GT|AW)-[A-Z0-9]+$/.test(loaderData?.seo.gaId ?? "") ? [
+      { src: `https://www.googletagmanager.com/gtag/js?id=${loaderData!.seo.gaId}`, async: true },
+      { children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${loaderData!.seo.gaId}');` },
+    ] : [],
     links: [
       {
         rel: "stylesheet",
@@ -118,12 +129,23 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange(event => {
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      void router.invalidate();
+      if (event !== "SIGNED_OUT") void queryClient.invalidateQueries();
+    });
+    return () => data.subscription.unsubscribe();
+  }, [router, queryClient]);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <FloatingChat />
+      <SiteTracker />
+      <Toaster />
     </QueryClientProvider>
   );
 }
