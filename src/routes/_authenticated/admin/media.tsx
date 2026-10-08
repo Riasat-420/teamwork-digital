@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { logActivity, uploadImage, useStaff } from "@/lib/admin-client";
-import { listMedia, mediaQueryKey } from "@/components/admin/media-picker";
+import { builtInMedia, listMedia, mediaQueryKey } from "@/components/admin/media-picker";
 
 export const Route = createFileRoute("/_authenticated/admin/media")({ component: MediaPage });
 
@@ -32,12 +32,18 @@ function MediaPage() {
     <div className="flex flex-wrap items-center justify-between gap-3"><div><h1 className="text-2xl font-semibold text-foreground">Media library</h1><p className="text-sm text-muted-foreground">Images are resized to fast-loading versions when uploaded (max 10 MB each).</p></div>
       <Button onClick={() => input.current?.click()} disabled={busy}>{busy ? <Loader2 className="animate-spin" /> : <ImagePlus />}Upload images</Button>
       <input ref={input} type="file" accept="image/*" multiple hidden onChange={e => { void upload(e.target.files); e.target.value = ""; }} /></div>
+    <h2 className="font-semibold text-foreground">Your uploads</h2>
     {isLoading ? <p className="text-muted-foreground">Loading…</p> : !data?.length ? <p className="rounded-xl border border-dashed p-10 text-center text-muted-foreground">No images yet.</p> :
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{data.map(f => <figure key={f.name} className="overflow-hidden rounded-xl border bg-card">
         <img src={f.url} alt={f.name} loading="lazy" className="aspect-video w-full object-cover" />
-        <figcaption className="flex items-center gap-1 p-2"><span className="flex-1 truncate text-xs text-muted-foreground" title={f.name}>{f.name} · {Math.round(f.size / 1024)} KB</span>
+        <figcaption className="flex items-center gap-1 p-2"><span className="min-w-0 flex-1 truncate text-xs text-muted-foreground" title={f.name}>{f.name} · {Math.round(f.size / 1024)} KB</span>
           <Button variant="ghost" size="icon-sm" aria-label="Copy link" onClick={() => { void navigator.clipboard.writeText(window.location.origin + f.url); toast.success("Link copied"); }}><Copy /></Button>
           {me?.role === "admin" && <Button variant="ghost" size="icon-sm" aria-label="Delete" onClick={() => remove(f.name)}><Trash2 /></Button>}
         </figcaption></figure>)}</div>}
+    <div><h2 className="font-semibold text-foreground">Images on the website</h2><p className="text-sm text-muted-foreground">Images the site uses right now. Copy a link or pick them from any image field.</p></div>
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{builtInMedia.map(f => <figure key={f.url} className="overflow-hidden rounded-xl border bg-card">
+      <img src={f.url} alt={f.name} loading="lazy" className="aspect-video w-full object-cover" />
+      <figcaption className="flex items-center gap-1 p-2"><span className="min-w-0 flex-1 truncate text-xs text-muted-foreground" title={f.name}>{f.name}</span>
+        <Button variant="ghost" size="icon-sm" aria-label="Copy link" onClick={() => { void navigator.clipboard.writeText(f.url); toast.success("Link copied"); }}><Copy /></Button></figcaption></figure>)}</div>
   </div>;
 }

@@ -58,10 +58,10 @@ export function SectionEditor({ def }: { def: SectionDef }) {
       {list.map((row, i) => {
         const hidden = row["published"] === false;
         return <div key={String(row["id"] ?? i)} className={`rounded-xl border bg-card ${hidden ? "opacity-70" : ""}`}>
-          <div className="flex items-center gap-2 p-3">
-            <button type="button" className="flex flex-1 items-center gap-2 text-left" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i}>
+          <div className="flex flex-wrap items-center gap-1 p-3 sm:flex-nowrap sm:gap-2">
+            <button type="button" className="flex min-w-0 basis-full items-center gap-2 text-left sm:basis-auto sm:flex-1" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i}>
               <ChevronDown size={16} className={`transition-transform ${open === i ? "rotate-180" : ""}`} />
-              <span className="font-medium text-foreground">{String(getPath(row, def.itemTitle) || "Untitled")}</span>
+              <span className="truncate font-medium text-foreground">{String(getPath(row, def.itemTitle) || "Untitled")}</span>
               {hidden && <Badge variant="secondary">Hidden</Badge>}
             </button>
             <Button variant="ghost" size="icon-sm" aria-label="Move up" disabled={i === 0} onClick={() => move(i, -1)}><ArrowUp /></Button>
