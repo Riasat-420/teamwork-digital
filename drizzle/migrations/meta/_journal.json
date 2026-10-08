@@ -8,6 +8,13 @@
       "when": 1791467324492,
       "tag": "0000_admin_dashboard",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791471313826,
+      "tag": "0001_host_agnostic_public_access",
+      "breakpoints": true
     }
   ]
 }
