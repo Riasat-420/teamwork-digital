@@ -15,3 +15,5 @@
 - Keep portfolio motion in a shared page-level visibility observer and semantic CSS states, with bounded content staggering and reduced-motion fallbacks, so scroll reveals stay consistent without a separate animation runtime.
 - Keep ribbon looping on an inner track and scroll displacement on its wrapper in the existing page motion loop, so both motions compose without competing transforms.
 - Keep the floating chatbot on real thread page routes with browser-owned UIMessage history and a server-only streaming AI endpoint, so visitors can resume separate chats without accounts or server transcript storage.
+- Dashboard lives at /admin under the managed `_authenticated` gate; editable public sections are declared once in `src/lib/admin-sections.ts` and saved as whole `site_content` rows, so new sections need only a definition, not a new editor.
+- Account and role management runs in admin-checked server functions (`src/lib/admin.functions.ts`); everything else in the dashboard uses the browser client under database policies, so permissions are enforced by the database, not the UI.
