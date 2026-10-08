@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import type { UIMessage } from "ai";
 import { History, Plus, Trash2, X, Copy, Check, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from "@/components/ai-elements/conversation";
 import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
 import { PromptInput, PromptInputTextarea, PromptInputFooter, PromptInputSubmit } from "@/components/ai-elements/prompt-input";
-import { Reasoning, ReasoningTrigger, ReasoningContent } from "@/components/ai-elements/reasoning";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { createThread, deleteThread, readThreads, saveMessages, type ChatThread } from "@/lib/chat-history";
 import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
 import { useSiteContent } from "@/lib/site-content.functions";
 import { trackEvent } from "@/lib/track";
 import type { SiteContent } from "@/lib/site-content";
+import { supabase } from "@/integrations/supabase/client";
+import { guideReply, MENU, type Knowledge } from "@/lib/chat-guide";
 
 export function FloatingChat() {
   const navigate = useNavigate();
@@ -38,7 +38,8 @@ export function FloatingChat() {
     try { const thread = createThread(); refresh(); openThread(thread.id); } catch { setStorageError("A new chat could not be saved. Check your browser storage settings."); }
   };
   const current = threads.find(thread => thread.id === threadId);
-  const { chatbot } = useSiteContent();
+  const site = useSiteContent();
+  const { chatbot } = site;
   if (!chatbot.enabled || /^\/(admin|login|reset-password)/.test(pathname)) return null;
   return <div className="td-chat">
     {threadId && <section className="td-chat-panel" role="dialog" aria-label="Teamwork Digital AI assistant" aria-modal="false">
@@ -60,49 +61,49 @@ export function FloatingChat() {
   </div>;
 }
 
-function ChatWindow({ thread, onSaved, onStorageError, bot }: { thread: ChatThread; onSaved: () => void; onStorageError: (message: string) => void; bot: SiteContent["chatbot"] }) {
+type GuideMessage = UIMessage<{ chips?: string[] }>;
+let knowledgeCache: Promise<Knowledge[]> | undefined;
+const loadKnowledge = () => knowledgeCache ??= Promise.resolve(supabase.from("chatbot_knowledge").select("kind, title, trigger, content").eq("enabled", true).order("sort").limit(200))
+  .then(({ data }) => data ?? []).catch(() => []);
+
+function ChatWindow({ thread, onSaved, onStorageError, site }: { thread: ChatThread; onSaved: () => void; onStorageError: (message: string) => void; site: SiteContent }) {
+  const bot = site.chatbot;
   const composer = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
   const [copied, setCopied] = useState<string>();
+  const [messages, setMessages] = useState<GuideMessage[]>(thread.messages as GuideMessage[]);
+  const [busy, setBusy] = useState(false);
   const focus = useCallback(() => { composer.current?.querySelector("textarea")?.focus({ preventScroll: true }); }, []);
-  const { messages, sendMessage, status, stop, error, clearError } = useChat({
-    id: thread.id,
-    messages: thread.messages,
-    transport: new DefaultChatTransport({ api: "/api/chat", body: { conversationId: thread.id } }),
-    onFinish: ({ messages: completed }) => {
-      try { saveMessages(thread.id, completed); onSaved(); } catch { onStorageError("Your reply arrived, but this browser could not save it."); }
-      focus();
-    },
-    onError: () => { focus(); },
-  });
-  const busy = status === "submitted" || status === "streaming";
   useEffect(() => { focus(); }, [focus]);
   useEffect(() => {
     if (!messages.length) return;
-    try { saveMessages(thread.id, messages); } catch { onStorageError("This browser could not save your conversation."); }
-  }, [messages, thread.id, onStorageError]);
-  const submit = (text: string) => {
+    try { saveMessages(thread.id, messages as UIMessage[]); onSaved(); } catch { onStorageError("This browser could not save your conversation."); }
+  }, [messages, thread.id, onStorageError, onSaved]);
+  const submit = async (text: string) => {
     if (busy || !text.trim()) return;
-    clearError(); setInput(""); void sendMessage({ text: text.trim() }); focus();
+    const user: GuideMessage = { id: crypto.randomUUID(), role: "user", parts: [{ type: "text", text: text.trim() }] };
+    setInput(""); setMessages(m => [...m, user]); setBusy(true);
+    const knowledge = await loadKnowledge();
+    await new Promise(r => setTimeout(r, 350));
+    const reply = guideReply(text, site, knowledge);
+    setMessages(m => [...m, { id: crypto.randomUUID(), role: "assistant", parts: [{ type: "text", text: reply.text }], metadata: { chips: reply.chips } }]);
+    setBusy(false); focus();
   };
   const last = messages.at(-1);
-  const hasAnswer = last?.role === "assistant" && last.parts.some(part => part.type === "text" && part.text.trim());
+  const chips = last?.role === "assistant" ? last.metadata?.chips ?? MENU : [];
+  const starters = [...bot.suggestions.filter(Boolean), ...MENU].slice(0, 6);
   return <>
     <Conversation className="td-chat-conversation"><ConversationContent className="td-chat-messages">
-      {!messages.length && <ConversationEmptyState icon={<img className="td-chat-empty-logo" src={logo.url} alt="" />} title={bot.welcomeTitle} description={bot.welcomeText}><img className="td-chat-empty-logo" src={logo.url} alt="" /><h3>{bot.welcomeTitle}</h3><p>{bot.welcomeText}</p><div className="td-chat-suggestions">{bot.suggestions.filter(Boolean).slice(0, 6).map(text => <Button key={text} variant="outline" onClick={() => submit(text)}>{text}<ArrowUp size={14} /></Button>)}</div></ConversationEmptyState>}
-      {messages.map(message => <Message key={message.id} from={message.role} data-message-role={message.role}><MessageContent>{message.parts.map((part, i) => {
-        if (part.type === "text") return <MessageResponse key={i}>{part.text}</MessageResponse>;
-        if (part.type === "reasoning" && part.text) return <Reasoning key={i} defaultOpen={false} isStreaming={busy && message === last}><ReasoningTrigger /><ReasoningContent>{part.text}</ReasoningContent></Reasoning>;
-        return null;
-      })}</MessageContent>{message.role === "assistant" && message.parts.some(part => part.type === "text") && <Button variant="ghost" size="icon-sm" title="Copy reply" aria-label="Copy reply" onClick={async () => {
+      {!messages.length && <ConversationEmptyState icon={<img className="td-chat-empty-logo" src={logo.url} alt="" />} title={bot.welcomeTitle} description={bot.welcomeText}><img className="td-chat-empty-logo" src={logo.url} alt="" /><h3>{bot.welcomeTitle}</h3><p>{bot.welcomeText}</p><div className="td-chat-suggestions">{starters.map(text => <Button key={text} variant="outline" onClick={() => void submit(text)}>{text}<ArrowUp size={14} /></Button>)}</div></ConversationEmptyState>}
+      {messages.map(message => <Message key={message.id} from={message.role} data-message-role={message.role}><MessageContent>{message.parts.map((part, i) => part.type === "text" ? <MessageResponse key={i}>{part.text}</MessageResponse> : null)}</MessageContent>{message.role === "assistant" && <Button variant="ghost" size="icon-sm" title="Copy reply" aria-label="Copy reply" onClick={async () => {
         try { await navigator.clipboard.writeText(message.parts.filter(part => part.type === "text").map(part => part.text).join("\n")); setCopied(message.id); } catch { onStorageError("The reply could not be copied."); }
       }}>{copied === message.id ? <Check /> : <Copy />}</Button>}</Message>)}
-      {busy && !hasAnswer && <Message from="assistant"><Shimmer>Thinking…</Shimmer></Message>}
+      {busy && <Message from="assistant"><Shimmer>Typing…</Shimmer></Message>}
+      {!busy && chips.length > 0 && <div className="td-chat-suggestions">{chips.map(text => <Button key={text} variant="outline" size="sm" onClick={() => void submit(text)}>{text}</Button>)}</div>}
     </ConversationContent><ConversationScrollButton aria-label="Scroll to latest message" /></Conversation>
-    {error && <p role="alert" className="td-chat-error">{error.message}</p>}
-    <div ref={composer} className="td-chat-composer"><PromptInput onSubmit={({ text }) => submit(text)} maxFiles={0}>
-      <PromptInputTextarea aria-label="Message Teamwork Assistant" placeholder="Describe your project…" value={input} onChange={event => setInput(event.target.value)} maxLength={8000} onKeyDown={event => { if (busy && event.key === "Enter" && !event.shiftKey) event.preventDefault(); }} />
-      <PromptInputFooter className="justify-end"><PromptInputSubmit status={status} disabled={!busy && !input.trim()} onStop={() => { void stop(); focus(); }} /></PromptInputFooter>
-    </PromptInput><small>AI guidance · Saved in this browser · Not sent to our team</small></div>
+    <div ref={composer} className="td-chat-composer"><PromptInput onSubmit={({ text }) => void submit(text)} maxFiles={0}>
+      <PromptInputTextarea aria-label="Message Teamwork Assistant" placeholder="Ask about services, projects, pricing…" value={input} onChange={event => setInput(event.target.value)} maxLength={1000} />
+      <PromptInputFooter className="justify-end"><PromptInputSubmit status={busy ? "submitted" : "ready"} disabled={busy || !input.trim()} /></PromptInputFooter>
+    </PromptInput><small>Instant answers · Saved in this browser</small></div>
   </>;
 }
