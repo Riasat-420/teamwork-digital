@@ -35,7 +35,7 @@ export const slugify = (s: string) => s.toLowerCase().normalize("NFKD").replace(
 const ids = <T extends object>(list: readonly T[], prefix: string) => list.map((x, i) => ({ id: `${prefix}-${i + 1}`, published: true, ...x }));
 
 export const defaultContent: SiteContent = {
-  hero: { hello: "Hello!", titleStart: "We are", titleEmphasis: "Teamwork", titleEnd: "Digital Developers", quote: "We build digital products from first idea to release — with one connected team.", asideSmall: "YOUR VISION", asideStrong: "One complete team", asideText: "for every digital idea", floatTop: "Flutter & React Native", floatBottom: "Websites · AI · Creative", portrait: "", primaryLabel: "View Projects", secondaryLabel: "Hire Us" },
+  hero: { hello: "Hello!", titleStart: "We are", titleEmphasis: "Teamwork", titleEnd: "Digital Developers", quote: "We build digital products from first idea to release — with one connected team.", asideSmall: "YOUR VISION", asideStrong: "One complete team", asideText: "for every digital idea", floatTop: "Flutter & React Native", floatBottom: "Websites · AI · Creative", portrait: leaderPhoto.url, primaryLabel: "View Projects", secondaryLabel: "Hire Us" },
   services: ids(data.services.map(s => ({ ...s, tags: [...s.tags] })), "svc"),
   reasons: ids(data.reasons.map(r => ({ ...r })), "why"),
   process: ids(data.process.map(p => ({ ...p, points: [...p.points], tags: [...p.tags] })), "step"),
