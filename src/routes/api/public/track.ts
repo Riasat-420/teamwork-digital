@@ -26,13 +26,16 @@ export const Route = createFileRoute("/api/public/track")({
         let body: z.infer<typeof schema>;
         try { body = schema.parse(JSON.parse(text)); } catch { return new Response(null, { status: 400 }); }
         if (/^\/(admin|login|reset-password|api)/.test(body.path)) return new Response(null, { status: 204 });
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { publicServerClient } = await import("@/lib/public-client.server");
+        const db = publicServerClient();
+        if (!db) return new Response(null, { status: 204 });
         let referrer: string | null = null;
         try { if (body.referrer) { const u = new URL(body.referrer); if (u.host !== new URL(request.url).host) referrer = u.hostname; } } catch { referrer = null; }
+        const country = request.headers.get("cf-ipcountry") ?? request.headers.get("x-vercel-ip-country");
         if (body.type === "view") {
-          await supabaseAdmin.from("page_views").insert({ path: body.path, referrer, device: device(ua), country: request.headers.get("cf-ipcountry"), visitor_id: body.visitorId ?? null });
+          await db.from("page_views").insert({ path: body.path, referrer, device: device(ua), country, visitor_id: body.visitorId ?? null });
         } else if (body.name) {
-          await supabaseAdmin.from("site_events").insert({ name: body.name, label: body.label ?? null, path: body.path, visitor_id: body.visitorId ?? null });
+          await db.from("site_events").insert({ name: body.name, label: body.label ?? null, path: body.path, visitor_id: body.visitorId ?? null });
         }
         return new Response(null, { status: 204 });
       },
