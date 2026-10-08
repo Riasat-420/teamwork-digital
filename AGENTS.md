@@ -17,3 +17,7 @@
 - Keep the floating chatbot on real thread page routes with browser-owned UIMessage history and a server-only streaming AI endpoint, so visitors can resume separate chats without accounts or server transcript storage.
 - Dashboard lives at /admin under the managed `_authenticated` gate; editable public sections are declared once in `src/lib/admin-sections.ts` and saved as whole `site_content` rows, so new sections need only a definition, not a new editor.
 - Account and role management runs in admin-checked server functions (`src/lib/admin.functions.ts`); everything else in the dashboard uses the browser client under database policies, so permissions are enforced by the database, not the UI.
+
+- Team member social links are stored as a list of { icon, url } using keys from `src/lib/social-icons.ts`, with older object-shaped saves normalized on read, so admins can add any network without breaking existing content.
+- Built-in site images are exposed as defaults in `site-content.ts` and listed in the media library, so the dashboard shows what the site currently displays.
+- Admin profile edits (name, photo, email, password) use the signed-in user's own auth account metadata, so no extra profile table is needed.
