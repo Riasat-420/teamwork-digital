@@ -7,7 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin/analytics")({ component: Analytics });
 
-const eventNames: Record<string, string> = { chat_open: "Chatbot opened", contact_submit: "Contact form sent", whatsapp_click: "WhatsApp clicks", email_click: "Email clicks", phone_click: "Phone clicks", outbound_click: "Project / outside links" };
+const eventNames: Record<string, string> = { chat_open: "Chatbot opened", contact_form: "Contact form sent", whatsapp_click: "WhatsApp clicks", email_click: "Email clicks", phone_click: "Phone clicks", outbound_click: "Project / outside links" };
 
 function List({ title, rows, label = (s: string) => s }: { title: string; rows: { name: string; count: number }[]; label?: (s: string) => string }) {
   const max = Math.max(1, ...rows.map(r => r.count));

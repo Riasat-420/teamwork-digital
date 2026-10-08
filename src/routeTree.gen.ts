@@ -19,7 +19,13 @@ import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authentic
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ChatThreadIdRouteImport } from './routes/chat.$threadId'
 import { Route as MediaSplatRouteImport } from './routes/media.$'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
+import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin/media'
+import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin/messages'
 import { Route as ApiPublicTrackRouteImport } from './routes/api/public/track'
+import { Route as AuthenticatedAdminContentIndexRouteImport } from './routes/_authenticated/admin/content.index'
+import { Route as AuthenticatedAdminContentSectionRouteImport } from './routes/_authenticated/admin/content.$section'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,11 +76,45 @@ const MediaSplatRoute = MediaSplatRouteImport.update({
   path: '/media/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminMessagesRoute =
+  AuthenticatedAdminMessagesRouteImport.update({
+    id: '/messages',
+    path: '/messages',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const ApiPublicTrackRoute = ApiPublicTrackRouteImport.update({
   id: '/api/public/track',
   path: '/api/public/track',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminContentIndexRoute =
+  AuthenticatedAdminContentIndexRouteImport.update({
+    id: '/content/',
+    path: '/content/',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminContentSectionRoute =
+  AuthenticatedAdminContentSectionRouteImport.update({
+    id: '/content/$section',
+    path: '/content/$section',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,11 +122,17 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/admin': typeof AuthenticatedAdminRouteRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/media/$': typeof MediaSplatRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/api/public/track': typeof ApiPublicTrackRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/content/$section': typeof AuthenticatedAdminContentSectionRoute
+  '/admin/content/': typeof AuthenticatedAdminContentIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,11 +140,16 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/admin': typeof AuthenticatedAdminRouteRoute
   '/api/chat': typeof ApiChatRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/media/$': typeof MediaSplatRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/api/public/track': typeof ApiPublicTrackRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/content/$section': typeof AuthenticatedAdminContentSectionRoute
+  '/admin/content': typeof AuthenticatedAdminContentIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -108,11 +159,17 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRouteRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/media/$': typeof MediaSplatRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
+  '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/api/public/track': typeof ApiPublicTrackRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/content/$section': typeof AuthenticatedAdminContentSectionRoute
+  '/_authenticated/admin/content/': typeof AuthenticatedAdminContentIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -126,7 +183,13 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/chat/$threadId'
     | '/media/$'
+    | '/admin/analytics'
+    | '/admin/media'
+    | '/admin/messages'
     | '/api/public/track'
+    | '/admin/'
+    | '/admin/content/$section'
+    | '/admin/content/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -134,11 +197,16 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/robots.txt'
     | '/sitemap.xml'
-    | '/admin'
     | '/api/chat'
     | '/chat/$threadId'
     | '/media/$'
+    | '/admin/analytics'
+    | '/admin/media'
+    | '/admin/messages'
     | '/api/public/track'
+    | '/admin'
+    | '/admin/content/$section'
+    | '/admin/content'
   id:
     | '__root__'
     | '/'
@@ -151,7 +219,13 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/chat/$threadId'
     | '/media/$'
+    | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/media'
+    | '/_authenticated/admin/messages'
     | '/api/public/track'
+    | '/_authenticated/admin/'
+    | '/_authenticated/admin/content/$section'
+    | '/_authenticated/admin/content/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -239,6 +313,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MediaSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/media': {
+      id: '/_authenticated/admin/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AuthenticatedAdminMediaRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/messages': {
+      id: '/_authenticated/admin/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AuthenticatedAdminMessagesRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/api/public/track': {
       id: '/api/public/track'
       path: '/api/public/track'
@@ -246,15 +348,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicTrackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/content/': {
+      id: '/_authenticated/admin/content/'
+      path: '/content'
+      fullPath: '/admin/content/'
+      preLoaderRoute: typeof AuthenticatedAdminContentIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/content/$section': {
+      id: '/_authenticated/admin/content/$section'
+      path: '/content/$section'
+      fullPath: '/admin/content/$section'
+      preLoaderRoute: typeof AuthenticatedAdminContentSectionRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
+  AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminContentSectionRoute: typeof AuthenticatedAdminContentSectionRoute
+  AuthenticatedAdminContentIndexRoute: typeof AuthenticatedAdminContentIndexRoute
+}
+
+const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
+  {
+    AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+    AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
+    AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
+    AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+    AuthenticatedAdminContentSectionRoute:
+      AuthenticatedAdminContentSectionRoute,
+    AuthenticatedAdminContentIndexRoute: AuthenticatedAdminContentIndexRoute,
+  }
+
+const AuthenticatedAdminRouteRouteWithChildren =
+  AuthenticatedAdminRouteRoute._addFileChildren(
+    AuthenticatedAdminRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRoute
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRoute,
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
