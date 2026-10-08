@@ -11,6 +11,9 @@ import { Reasoning, ReasoningTrigger, ReasoningContent } from "@/components/ai-e
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { createThread, deleteThread, readThreads, saveMessages, type ChatThread } from "@/lib/chat-history";
 import logo from "@/assets/teamwork-digital-logo.jpeg.asset.json";
+import { useSiteContent } from "@/lib/site-content.functions";
+import { trackEvent } from "@/lib/track";
+import type { SiteContent } from "@/lib/site-content";
 
 export function FloatingChat() {
   const navigate = useNavigate();
@@ -35,9 +38,11 @@ export function FloatingChat() {
     try { const thread = createThread(); refresh(); openThread(thread.id); } catch { setStorageError("A new chat could not be saved. Check your browser storage settings."); }
   };
   const current = threads.find(thread => thread.id === threadId);
+  const { chatbot } = useSiteContent();
+  if (!chatbot.enabled || /^\/(admin|login|reset-password)/.test(pathname)) return null;
   return <div className="td-chat">
     {threadId && <section className="td-chat-panel" role="dialog" aria-label="Teamwork Digital AI assistant" aria-modal="false">
-      <header className="td-chat-header"><img src={logo.url} alt="Teamwork Digital" /><div><strong>Teamwork Assistant</strong><small>AI project guidance</small></div>
+      <header className="td-chat-header"><img src={logo.url} alt="Teamwork Digital" /><div><strong>{chatbot.name}</strong><small>{chatbot.subtitle}</small></div>
         <Button variant="ghost" size="icon" title="Chat history" aria-label="Chat history" aria-expanded={historyOpen} onClick={() => setHistoryOpen(!historyOpen)}><History /></Button>
         <Button variant="ghost" size="icon" title="New conversation" aria-label="New conversation" onClick={newChat}><Plus /></Button>
         <Button variant="ghost" size="icon" title="Close chat" aria-label="Close chat" onClick={() => { void navigate({ to: "/" }); }}><X /></Button>
@@ -45,16 +50,17 @@ export function FloatingChat() {
       {storageError && <p role="alert" className="td-chat-error">{storageError}</p>}
       {historyOpen ? <div className="td-chat-history"><h3>Your conversations</h3>{threads.map(thread => <div key={thread.id} className="td-chat-history-row"><Button variant={thread.id === threadId ? "secondary" : "ghost"} className="td-chat-thread" onClick={() => openThread(thread.id)}>{thread.title}</Button><Button variant="ghost" size="icon" aria-label={`Delete ${thread.title}`} title="Delete conversation" onClick={() => {
         try { deleteThread(thread.id); refresh(); if (thread.id === threadId) { const next = readThreads()[0]; if (next) openThread(next.id); else newChat(); } } catch { setStorageError("This conversation could not be deleted."); }
-      }}><Trash2 /></Button></div>)}</div> : loadedId === threadId && <ChatWindow key={threadId} thread={current ?? { id: threadId, title: "New conversation", updatedAt: 0, messages: [] }} onSaved={refresh} onStorageError={setStorageError} />}
+      }}><Trash2 /></Button></div>)}</div> : loadedId === threadId && <ChatWindow key={threadId} thread={current ?? { id: threadId, title: "New conversation", updatedAt: 0, messages: [] }} onSaved={refresh} onStorageError={setStorageError} bot={chatbot} />}
     </section>}
     {!threadId && <Button className="td-chat-launcher" title="Chat with Teamwork Assistant" aria-label="Open AI chatbot" onClick={() => {
+      trackEvent("chat_open");
       try { const latest = readThreads()[0]; if (latest) openThread(latest.id); else newChat(); } catch { newChat(); }
     }}><img src={logo.url} alt="" /><span className="td-chat-status" /></Button>}
     {!threadId && storageError && <p className="td-chat-launcher-error" role="alert">{storageError}</p>}
   </div>;
 }
 
-function ChatWindow({ thread, onSaved, onStorageError }: { thread: ChatThread; onSaved: () => void; onStorageError: (message: string) => void }) {
+function ChatWindow({ thread, onSaved, onStorageError, bot }: { thread: ChatThread; onSaved: () => void; onStorageError: (message: string) => void; bot: SiteContent["chatbot"] }) {
   const composer = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
   const [copied, setCopied] = useState<string>();
@@ -83,7 +89,7 @@ function ChatWindow({ thread, onSaved, onStorageError }: { thread: ChatThread; o
   const hasAnswer = last?.role === "assistant" && last.parts.some(part => part.type === "text" && part.text.trim());
   return <>
     <Conversation className="td-chat-conversation"><ConversationContent className="td-chat-messages">
-      {!messages.length && <ConversationEmptyState icon={<img className="td-chat-empty-logo" src={logo.url} alt="" />} title="What are you building?" description="Tell me about your idea."><img className="td-chat-empty-logo" src={logo.url} alt="" /><h3>What are you building?</h3><p>Tell me about your idea.</p><div className="td-chat-suggestions">{["I need a mobile app", "Help me choose a website platform", "Can AI automate my business?"].map(text => <Button key={text} variant="outline" onClick={() => submit(text)}>{text}<ArrowUp size={14} /></Button>)}</div></ConversationEmptyState>}
+      {!messages.length && <ConversationEmptyState icon={<img className="td-chat-empty-logo" src={logo.url} alt="" />} title={bot.welcomeTitle} description={bot.welcomeText}><img className="td-chat-empty-logo" src={logo.url} alt="" /><h3>{bot.welcomeTitle}</h3><p>{bot.welcomeText}</p><div className="td-chat-suggestions">{bot.suggestions.filter(Boolean).slice(0, 6).map(text => <Button key={text} variant="outline" onClick={() => submit(text)}>{text}<ArrowUp size={14} /></Button>)}</div></ConversationEmptyState>}
       {messages.map(message => <Message key={message.id} from={message.role} data-message-role={message.role}><MessageContent>{message.parts.map((part, i) => {
         if (part.type === "text") return <MessageResponse key={i}>{part.text}</MessageResponse>;
         if (part.type === "reasoning" && part.text) return <Reasoning key={i} defaultOpen={false} isStreaming={busy && message === last}><ReasoningTrigger /><ReasoningContent>{part.text}</ReasoningContent></Reasoning>;
