@@ -14,7 +14,8 @@
 - Map project previews by stable project initials in `src/lib/project-previews.ts`; serve CDN-hosted WebP width variants with explicit image dimensions and low-priority eager loading so filters keep correct images and small previews arrive before section reveals.
 - Keep portfolio motion in a shared page-level visibility observer and semantic CSS states, with bounded content staggering and reduced-motion fallbacks, so scroll reveals stay consistent without a separate animation runtime.
 - Keep ribbon looping on an inner track and scroll displacement on its wrapper in the existing page motion loop, so both motions compose without competing transforms.
-- Keep the floating chatbot on real thread page routes with browser-owned UIMessage history and a server-only streaming AI endpoint, so visitors can resume separate chats without accounts or server transcript storage.
+- Keep the floating chatbot on real thread page routes with browser-owned history, answering in the browser from site content and enabled chatbot answers (`src/lib/chat-guide.ts`), so it needs no AI key or paid API on any host.
+- Public server routes (tracking, media, content reads) use only the publishable key via `src/lib/public-client.server.ts` under database policies, so the site runs on external hosts like Vercel without the private service key; only team invites/role changes need that key.
 - Dashboard lives at /admin under the managed `_authenticated` gate; editable public sections are declared once in `src/lib/admin-sections.ts` and saved as whole `site_content` rows, so new sections need only a definition, not a new editor.
 - Account and role management runs in admin-checked server functions (`src/lib/admin.functions.ts`); everything else in the dashboard uses the browser client under database policies, so permissions are enforced by the database, not the UI.
 
