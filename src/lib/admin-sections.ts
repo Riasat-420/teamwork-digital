@@ -45,9 +45,9 @@ export const contentSections: SectionDef[] = [
     { key: "photoLabel", label: "Photo caption", type: "text" }, { key: "leaderStatement", label: "Leader quote", type: "textarea" },
     { key: "contactLabel", label: "Button text", type: "text" },
   ] },
-  { key: "team", label: "Team members", description: "One member can be marked as the featured leader.", kind: "list", itemTitle: "name", fields: [
+  { key: "team", label: "Team members", description: "Member cards show a photo, name, designation and social links. One member can be marked as the featured leader.", kind: "list", itemTitle: "name", fields: [
     { key: "name", label: "Name", type: "text" }, { key: "role", label: "Designation", type: "text" }, { key: "bio", label: "Short bio", type: "textarea" },
-    { key: "photo", label: "Photo", type: "image" }, { key: "leader", label: "Featured leader", type: "switch" },
+    { key: "photo", label: "Photo", type: "image", help: "Upload a member portrait, choose from the media library or paste an image link. An empty photo shows initials." }, { key: "leader", label: "Featured leader", type: "switch" },
     { key: "socials.linkedin", label: "LinkedIn", type: "url" }, { key: "socials.github", label: "GitHub", type: "url" },
     { key: "socials.instagram", label: "Instagram", type: "url" }, { key: "socials.email", label: "Email", type: "text" },
   ], newItem: () => ({ id: newId(), published: true, name: "New member", role: "", bio: "", photo: "", leader: false, socials: {} }) },
