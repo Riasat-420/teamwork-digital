@@ -58,6 +58,15 @@ export const faqs = [
 export const contact = { email: "hello@teamworkdigital.com", whatsapp: "+92 300 0000000", whatsappLink: "https://wa.me/923000000000" };
 
 export type TeamMember = { name: string; role: string; bio: string; leader?: boolean; socials: { linkedin?: string; github?: string; instagram?: string; email?: string } };
+export const teamSection = {
+  heading: "Meet the Team Behind the Work",
+  intro: "One connected team from idea to launch.",
+  leaderLabel: "Leadership & delivery",
+  managerLabel: "Project management",
+  photoLabel: "Team leader · Project manager",
+  leaderStatement: "One team from idea to delivery — development, design and digital expertise working together.",
+  contactLabel: "Start a conversation",
+};
 export const team: TeamMember[] = [
   { name: "Team Member One", role: "Team Leader · Project Manager", bio: "Leads planning, delivery and client communication.", leader: true, socials: { linkedin: "#", email: "hello@teamworkdigital.com" } },
   { name: "Team Member Two", role: "Mobile App Developer", bio: "Flutter and React Native apps for Android & iOS.", socials: { linkedin: "#", github: "#" } },
