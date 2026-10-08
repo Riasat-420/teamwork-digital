@@ -1,4 +1,4 @@
-.td-chat { font-family: "Manrope", sans-serif; color: var(--foreground); }
+.td-chat { font-family: "Plus Jakarta Sans", sans-serif; color: var(--foreground); }
 .td-chat-launcher { position: fixed; z-index: 70; right: 24px; bottom: 24px; width: 66px; height: 66px; padding: 4px; border: 2px solid var(--brand-warm); border-radius: 50%; background: var(--surface-ink); box-shadow: 0 10px 30px color-mix(in oklab,var(--primary) 35%,transparent); transition: transform .3s ease; }
 .td-chat-launcher:hover { transform: translateY(-4px) scale(1.04); }
 .td-chat-launcher img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
