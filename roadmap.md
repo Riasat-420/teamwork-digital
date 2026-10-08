@@ -1,5 +1,6 @@
 # Portfolio work
-- [ ] Supply genuine images for all ten projects, compress previews and verify loading and filtering.
+- [x] Add and compress eight genuine project previews; verify image loading, filtering and smaller screens.
+- [ ] Add Beaut by Muh and World Foot previews — blocked: both websites are unavailable and no original screenshots were supplied; client screenshots needed.
 - [x] Match the supplied team and project section layouts while preserving existing colors, typography and portfolio content; verify filtering and smaller screens.
 - [x] Replace the planner with a floating logo chatbot; verify separate browser-saved threads, streaming replies and reload restoration.
 - [x] Center the menu logo, enlarge both capability strips, and verify continuous and scroll-linked text motion.
