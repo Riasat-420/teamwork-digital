@@ -43,7 +43,7 @@ export const defaultContent: SiteContent = {
   techStack: [...data.techStack],
   projects: ids(data.projects.map(p => ({ ...p, image: projectPreviews[p.initials]?.large ?? "", slug: slugify(p.title), description: "" })), "prj"),
   projectCategories: [...data.projectCategories],
-  team: ids(data.team.map((m, i) => ({ ...m, photo: m.leader ? leaderPhoto.url : "", socials: normalizeSocials(m.socials).map((x, j) => ({ ...x, id: `s-${i}-${j}` })) })), "team"),
+  team: ids(data.team.map((m, i) => ({ ...m, photo: m.photo ?? (m.leader ? leaderPhoto.url : ""), socials: normalizeSocials(m.socials).map((x, j) => ({ ...x, id: `s-${i}-${j}` })) })), "team"),
   teamSection: { ...data.teamSection },
   testimonials: ids(data.testimonials.map(t => ({ ...t, rating: 5 })), "tst"),
   faqs: ids(data.faqs.map(f => ({ ...f })), "faq"),
