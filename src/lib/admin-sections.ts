@@ -46,8 +46,8 @@ export const contentSections: SectionDef[] = [
     { key: "contactLabel", label: "Button text", type: "text" },
   ] },
   { key: "team", label: "Team members", description: "Member cards show a photo, name, designation and social links. One member can be marked as the featured leader.", kind: "list", itemTitle: "name", fields: [
-    { key: "name", label: "Name", type: "text" }, { key: "role", label: "Designation", type: "text" }, { key: "bio", label: "Short bio", type: "textarea" },
-    { key: "photo", label: "Photo", type: "image", help: "Upload a member portrait, choose from the media library or paste an image link. An empty photo shows initials." }, { key: "leader", label: "Featured leader", type: "switch" },
+    { key: "name", label: "Name", type: "text" }, { key: "role", label: "Designation", type: "text" }, { key: "bio", label: "One-line bio (optional)", type: "textarea" },
+    { key: "photo", label: "Photo (required)", type: "image", help: "Upload a member portrait, choose from the media library or paste an image link. Every card should have a photo; an empty one shows initials as a fallback." }, { key: "leader", label: "Featured leader", type: "switch" },
     { key: "socials", label: "Social links", type: "socials", help: "Add as many links as needed and pick the network icon for each one." },
   ], newItem: () => ({ id: newId(), published: true, name: "New member", role: "", bio: "", photo: "", leader: false, socials: [] }) },
   { key: "testimonials", label: "Testimonials", description: "Client quotes with star ratings.", kind: "list", itemTitle: "name", fields: [

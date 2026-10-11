@@ -70,7 +70,7 @@ export const teamSection = {
 export const team: TeamMember[] = [
   { name: "Team Member One", role: "Team Leader · Project Manager", bio: "Leads planning, delivery and client communication.", leader: true, socials: { linkedin: "#", email: "hello@teamworkdigital.com" } },
   { name: "Team Member Two", role: "Mobile App Developer", bio: "Flutter and React Native apps for Android & iOS.", socials: { linkedin: "#", github: "#" } },
-  { name: "Atif Waheed", role: "Senior Flutter Developer", bio: "Experienced Flutter developer with 4+ years of success, leading projects and deploying 25+ apps. Skilled in team leadership and committed to innovation.", photo: "https://avatars.githubusercontent.com/u/88247332?v=4", socials: { github: "https://github.com/theatifwaheed" } },
+  { name: "Atif Waheed", role: "Senior Flutter Developer", bio: "4+ years building and shipping 25+ Flutter apps.", photo: "https://avatars.githubusercontent.com/u/88247332?v=4", socials: { github: "https://github.com/theatifwaheed" } },
   { name: "Team Member Three", role: "Web & E-commerce Developer", bio: "WordPress, Shopify, Wix and custom websites.", socials: { linkedin: "#", github: "#" } },
   { name: "Team Member Four", role: "UI/UX & Graphic Designer", bio: "Interfaces, brand visuals and video editing.", socials: { linkedin: "#", instagram: "#" } },
 ];
