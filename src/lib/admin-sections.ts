@@ -45,7 +45,7 @@ export const contentSections: SectionDef[] = [
     { key: "photoLabel", label: "Photo caption", type: "text" }, { key: "leaderStatement", label: "Leader quote", type: "textarea" },
     { key: "contactLabel", label: "Button text", type: "text" },
   ] },
-  { key: "team", label: "Team members", description: "Member cards show a photo, name, designation and social links. One member can be marked as the featured leader.", kind: "list", itemTitle: "name", fields: [
+  { key: "team", label: "Team members", description: "Member cards show a photo (required), name, designation, optional one-line bio and social links. One member can be marked as the featured leader.", kind: "list", itemTitle: "name", fields: [
     { key: "name", label: "Name", type: "text" }, { key: "role", label: "Designation", type: "text" }, { key: "bio", label: "One-line bio (optional)", type: "textarea" },
     { key: "photo", label: "Photo (required)", type: "image", help: "Upload a member portrait, choose from the media library or paste an image link. Every card should have a photo; an empty one shows initials as a fallback." }, { key: "leader", label: "Featured leader", type: "switch" },
     { key: "socials", label: "Social links", type: "socials", help: "Add as many links as needed and pick the network icon for each one." },
