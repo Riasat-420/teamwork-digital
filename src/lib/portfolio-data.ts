@@ -57,7 +57,7 @@ export const faqs = [
 // DEMO DATA — replace every entry below with the client's real details before launch.
 export const contact = { email: "hello@teamworkdigital.com", whatsapp: "+92 300 0000000", whatsappLink: "https://wa.me/923000000000" };
 
-export type TeamMember = { name: string; role: string; bio: string; leader?: boolean; socials: { linkedin?: string; github?: string; instagram?: string; email?: string } };
+export type TeamMember = { name: string; role: string; bio: string; leader?: boolean; photo?: string; socials: { linkedin?: string; github?: string; instagram?: string; email?: string } };
 export const teamSection = {
   heading: "Meet the Team Behind the Work",
   intro: "One connected team from idea to launch.",
