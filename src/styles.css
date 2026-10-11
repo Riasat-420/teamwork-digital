@@ -646,7 +646,7 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 .team-role-copy { padding: 1.4rem; min-width: 0; overflow-wrap: anywhere; }
 .team-role-copy h3 { font-family: var(--font-display); font-size: 1rem; line-height: 1.5; font-weight: 700; }
 .team-member-designation { display: block; margin-top: .3rem; font-size: .75rem; line-height: 1.6; font-weight: 700; color: var(--primary); }
-.team-role-copy p { margin-top: .6rem; color: var(--muted-foreground); font-size: .82rem; line-height: 1.7; }
+.team-role-copy p { margin-top: .6rem; color: var(--muted-foreground); font-size: .82rem; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 .team-role-links:empty { display: none; }
 .team-role-links { display: flex; gap: .4rem; margin-top: 1rem; }
 @media (max-width: 900px) {
