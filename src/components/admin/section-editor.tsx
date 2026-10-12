@@ -55,7 +55,8 @@ export function SectionEditor({ def }: { def: SectionDef }) {
   const catField = def.fields.find(f => f.type === "select" && f.optionsFrom);
   const cats = catField ? ((site[catField.optionsFrom!] as string[]) ?? []) : [];
   const allLabel = cats[0] ?? "All";
-  const matches = (r: Row) => !catField || filter === allLabel || String(getPath(r, catField.key)) === filter;
+  const activeFilter = filter ?? allLabel;
+  const matches = (r: Row) => !catField || activeFilter === allLabel || String(getPath(r, catField.key)) === activeFilter;
   const shown = list.map((r, i) => i).filter(i => matches(list[i]!));
   const update = (i: number, next: Row) => setValue(list.map((r, j) => (j === i ? next : r)));
   const move = (i: number, dir: -1 | 1) => { const pos = shown.indexOf(i); const j = shown[pos + dir]; if (j === undefined) return; const next = [...list]; [next[i], next[j]] = [next[j]!, next[i]!]; setValue(next); setOpen(o => (o === i ? j : o)); };
