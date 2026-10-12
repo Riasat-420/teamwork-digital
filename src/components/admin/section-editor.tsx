@@ -19,7 +19,7 @@ export function SectionEditor({ def }: { def: SectionDef }) {
   const [value, setValue] = useState<unknown>(saved);
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState<string | null>(null);
   useEffect(() => { setValue(saved); }, [saved]);
   const dirty = JSON.stringify(value) !== JSON.stringify(saved);
 
