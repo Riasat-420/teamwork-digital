@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_authenticated/admin/settings")({ compone
 const def: SectionDef = { key: "settings", label: "Site settings", description: "General options for the website.", kind: "object", fields: [
   { key: "siteName", label: "Site name", type: "text" }, { key: "logo", label: "Logo (optional replacement)", type: "image" },
   { key: "projectPages", label: "Give each project its own page", type: "switch", help: "Adds pages like /work/project-name and lists them in the sitemap." },
-  { key: "notifyEmail", label: "Email for new-message alerts", type: "text" },
+  { key: "notifyEmail", label: "Email for new-message alerts", type: "text", help: "Saved for future use. Email alerts are not connected yet, so no messages are currently sent to this address." },
 ] };
 
 function Users() {

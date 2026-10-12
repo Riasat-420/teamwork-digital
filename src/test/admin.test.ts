@@ -3,6 +3,7 @@ import { summarize } from "@/lib/admin-analytics";
 import { setPath, newProjectCategory, projectCategoryOptions } from "@/lib/admin-sections";
 import { mergeContent, visible } from "@/lib/site-content";
 import { normalizeSocials, publicSocials } from "@/lib/social-icons";
+import { cleanSavedImage, isUnsafeSavedImage, validateImageFile } from "@/lib/media-utils";
 
 describe("dashboard rules", () => {
   it("new projects use the selected category, not WordPress", () => {
@@ -37,5 +38,14 @@ describe("dashboard rules", () => {
   });
   it("empty or placeholder social links are hidden on the site", () => {
     expect(publicSocials([{ icon: "x", url: "#" }, { icon: "github", url: "" }, { icon: "youtube", url: "https://y" }]).map(s => s.icon)).toEqual(["youtube"]);
+  });
+  it("removes development-only image paths from saved project content", () => {
+    expect(isUnsafeSavedImage("/src/assets/project.webp")).toBe(true);
+    expect(cleanSavedImage("/src/assets/project.webp")).toBe("");
+    expect(cleanSavedImage("/media/uploads/project.webp")).toBe("/media/uploads/project.webp");
+  });
+  it("rejects oversized image uploads before storage", () => {
+    expect(validateImageFile({ type: "image/png", size: 10 * 1024 * 1024 })).toBeNull();
+    expect(validateImageFile({ type: "image/png", size: 10 * 1024 * 1024 + 1 })).toContain("10 MB");
   });
 });
