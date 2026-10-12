@@ -63,7 +63,7 @@ export function SectionEditor({ def }: { def: SectionDef }) {
   return <div>{header}
     <div className="max-w-3xl space-y-3">
       {catField && <div className="flex flex-wrap items-center gap-2">
-        {(cats.length ? cats : ["All"]).map(c => <Button key={c} size="sm" variant={filter === c ? "default" : "outline"} onClick={() => { setFilter(c); setOpen(null); }}>{c}</Button>)}
+        {(cats.length ? cats : ["All"]).map(c => <Button key={c} size="sm" variant={activeFilter === c ? "default" : "outline"} onClick={() => { setFilter(c); setOpen(null); }}>{c}</Button>)}
         <span className="ml-auto text-sm text-muted-foreground">Showing {shown.length} of {list.length}</span>
       </div>}
       {list.map((row, i) => {
