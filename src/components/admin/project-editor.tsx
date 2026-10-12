@@ -15,6 +15,8 @@ import { useSaveSection } from "@/lib/admin-client";
 import { newProjectCategory, projectCategoryOptions } from "@/lib/admin-sections";
 import { slugify, type Project } from "@/lib/site-content";
 import { projectPreviews } from "@/lib/project-previews";
+import { cleanSavedImage } from "@/lib/media-utils";
+import { ProjectImage } from "@/components/project-image";
 
 export function ProjectEditor() {
   const site = useSiteContent();
@@ -43,7 +45,7 @@ export function ProjectEditor() {
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!draft || !draft.title.trim() || !categories.includes(draft.category)) return;
-    const next = { ...draft, title: draft.title.trim(), slug: draft.slug || slugify(draft.title), initials: draft.initials || draft.title.split(/\s+/).map(w => w[0]).join("").slice(0, 3).toUpperCase() };
+    const next = { ...draft, image: cleanSavedImage(draft.image), title: draft.title.trim(), slug: draft.slug || slugify(draft.title), initials: draft.initials || draft.title.split(/\s+/).map(w => w[0]).join("").slice(0, 3).toUpperCase() };
     const rows = editing ? projects.map(p => p.id === next.id ? next : p) : [...projects, next];
     if (await persist(rows, editing ? "Project updated" : "Project added")) {
       if (active !== "All") setFilter(next.category);
@@ -72,9 +74,8 @@ export function ProjectEditor() {
     </div>
     <div className="space-y-3">
       {shown.map((project, index) => {
-        const image = project.image || projectPreviews[project.initials]?.small;
         return <div key={project.id} className="flex flex-wrap items-center gap-3 rounded-lg border bg-card p-3 sm:flex-nowrap">
-          <div className="flex h-16 w-24 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">{image ? <img src={image} alt="" width={96} height={64} className="h-full w-full object-cover" /> : <ImagePlus className="text-muted-foreground" />}</div>
+          <div className="flex h-16 w-24 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted"><ProjectImage project={project} compact /></div>
           <div className="min-w-0 flex-1"><h2 className="break-words font-semibold text-foreground">{project.title}</h2><div className="mt-1 flex flex-wrap gap-1.5"><Badge variant="outline">{project.category || "Uncategorized"}</Badge>{project.published === false && <Badge variant="secondary">Hidden</Badge>}</div></div>
           <div className="flex w-full flex-wrap items-center justify-end gap-1 sm:w-auto sm:shrink-0">
             <Button variant="outline" size="sm" disabled={busy} onClick={() => { setEditing(true); setDraft({ ...project }); }}><Pencil />Edit</Button>
@@ -99,7 +100,7 @@ export function ProjectEditor() {
               <div className="space-y-2"><Label htmlFor="project-type">Type label</Label><Input id="project-type" value={draft.type} onChange={e => patch({ type: e.target.value })} /></div>
             </div>
             <div className="space-y-2"><Label htmlFor="project-url">Live link</Label><Input id="project-url" type="url" value={draft.url} placeholder="https://" onChange={e => patch({ url: e.target.value })} /></div>
-            <div className="space-y-2"><Label>Screenshot</Label><ImageField value={draft.image || projectPreviews[draft.initials]?.large || ""} onChange={image => patch({ image })} /></div>
+            <div className="space-y-2"><Label>Screenshot</Label><ImageField value={draft.image || ""} fallback={projectPreviews[draft.initials]?.large || ""} onChange={image => patch({ image })} help="Recommended: 1600 × 1000px (16:10). Upload a real screenshot when no built-in preview exists." /></div>
             <div className="space-y-2"><Label htmlFor="project-description">Short description</Label><Textarea id="project-description" value={draft.description ?? ""} onChange={e => patch({ description: e.target.value })} rows={3} /></div>
             <details className="border-t pt-3"><summary className="cursor-pointer text-sm text-muted-foreground">More options</summary><div className="mt-4 grid gap-4 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="project-initials">Initials</Label><Input id="project-initials" value={draft.initials} onChange={e => patch({ initials: e.target.value })} /></div><div className="space-y-2"><Label htmlFor="project-slug">Page address</Label><Input id="project-slug" value={draft.slug ?? ""} onChange={e => patch({ slug: e.target.value })} /></div></div></details>
           </fieldset>

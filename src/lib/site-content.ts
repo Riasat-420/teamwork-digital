@@ -3,6 +3,7 @@ import leaderPhotoSrc from "@/assets/team-leader.jpeg";
 const leaderPhoto = { url: leaderPhotoSrc };
 import { projectPreviews } from "./project-previews";
 import { normalizeSocials, type SocialLink } from "./social-icons";
+import { cleanSavedImage } from "./media-utils";
 
 /** Every editable section of the public site. Defaults come from portfolio-data.ts; saved dashboard values override them. */
 type Item = { id: string; published?: boolean };
@@ -65,7 +66,9 @@ export function mergeContent(rows: { key: string; value: unknown }[] | null | un
     if (Array.isArray(base)) { if (Array.isArray(row.value)) out[row.key] = row.value; }
     else if (typeof base === "object" && typeof row.value === "object" && !Array.isArray(row.value)) out[row.key] = { ...(base as object), ...(row.value as object) };
   }
-  return out as SiteContent;
+  const content = out as SiteContent;
+  content.projects = content.projects.map(project => ({ ...project, image: cleanSavedImage(project.image) }));
+  return content;
 }
 
 /** Items hidden in the dashboard (draft) never show on the public site. */
