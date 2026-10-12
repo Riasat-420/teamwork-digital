@@ -1,4 +1,5 @@
 # Portfolio work
+- [ ] Improve project admin forms and verify category-aware creation, editing, and ordering.
 - [x] Add and compress eight genuine project previews; verify image loading, filtering and smaller screens.
 - [ ] Add Beaut by Muh and World Foot previews — blocked: both websites are unavailable and no original screenshots were supplied; client screenshots needed.
 - [x] Match the supplied team and project section layouts while preserving existing colors, typography and portfolio content; verify filtering and smaller screens.
