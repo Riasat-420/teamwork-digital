@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ArrowDown, ArrowUp, ImagePlus, Loader2, Plus, Trash2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Expand, ImagePlus, Loader2, Plus, Trash2, X } from "lucide-react";
 import { normalizeSocials, socialIcons, type SocialLink } from "@/lib/social-icons";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ import { siteIcons } from "@/lib/site-icons";
 import { uploadImage } from "@/lib/admin-client";
 import type { Field } from "@/lib/admin-sections";
 import { MediaPicker } from "./media-picker";
+import { MediaEditor } from "./media-editor";
 
 export function TagsInput({ value, onChange, placeholder = "Type and press Enter" }: { value: string[]; onChange: (v: string[]) => void; placeholder?: string }) {
   const [draft, setDraft] = useState("");
@@ -29,27 +30,33 @@ export function IconPicker({ value, onChange }: { value: string; onChange: (v: s
   </div>;
 }
 
-export function ImageField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+export function ImageField({ value, onChange, fallback = "", help }: { value: string; onChange: (v: string) => void; fallback?: string; help?: string }) {
   const input = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [picker, setPicker] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const shown = value || fallback;
   const pick = async (file?: File) => {
     if (!file) return;
     setBusy(true);
     try { onChange(await uploadImage(file)); toast.success("Image uploaded"); } catch (e) { toast.error(e instanceof Error ? e.message : "Upload failed"); } finally { setBusy(false); }
   };
   return <div className="flex flex-col items-start gap-3 sm:flex-row">
-    <div className="flex h-20 w-28 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted">{value ? <img src={value} alt="" className="h-full w-full object-cover" /> : <ImagePlus className="text-muted-foreground" size={22} />}</div>
+    <button type="button" aria-label="View or edit image" onClick={() => shown && setEditing(true)} className="group relative flex h-20 w-28 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted">{shown ? <img src={shown} alt="" className="h-full w-full object-contain" /> : <ImagePlus className="text-muted-foreground" size={22} />}{shown && <span className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-black/65 py-1 text-[10px] text-white opacity-0 group-hover:opacity-100"><Expand size={11} />View / crop</span>}</button>
     <div className="flex w-full min-w-0 flex-1 flex-col gap-2">
       <div className="flex flex-wrap gap-2">
         <Button type="button" size="sm" variant="outline" disabled={busy} onClick={() => input.current?.click()}>{busy ? <Loader2 className="animate-spin" /> : <ImagePlus />}Upload</Button>
         <Button type="button" size="sm" variant="outline" onClick={() => setPicker(true)}>Choose from library</Button>
+        {shown && <Button type="button" size="sm" variant="outline" onClick={() => setEditing(true)}><Expand />Edit crop</Button>}
         {value && <Button type="button" size="sm" variant="ghost" onClick={() => onChange("")}>Remove</Button>}
       </div>
       <Input value={value} placeholder="or paste an image link" onChange={e => onChange(e.target.value)} />
+      {help && <p className="text-xs text-muted-foreground">{help}</p>}
+      {fallback && !value && <p className="text-xs text-muted-foreground">Using the built-in preview. It stays host-safe and is not stored as a development path.</p>}
       <input ref={input} type="file" accept="image/*" hidden onChange={e => { void pick(e.target.files?.[0]); e.target.value = ""; }} />
     </div>
     <MediaPicker open={picker} onOpenChange={setPicker} onPick={url => { onChange(url); setPicker(false); }} />
+    <MediaEditor file={shown ? { name: "Selected image", url: shown, size: 0, created: null, builtIn: !value } : null} open={editing} onOpenChange={setEditing} onSaved={onChange} />
   </div>;
 }
 

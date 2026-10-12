@@ -18,6 +18,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as ChatThreadIdRouteImport } from './routes/chat.$threadId'
 import { Route as MediaSplatRouteImport } from './routes/media.$'
+import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
 import { Route as AuthenticatedAdminChatbotRouteImport } from './routes/_authenticated/admin/chatbot'
@@ -72,6 +73,11 @@ const ChatThreadIdRoute = ChatThreadIdRouteImport.update({
 const MediaSplatRoute = MediaSplatRouteImport.update({
   id: '/media/$',
   path: '/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkSlugRoute = WorkSlugRouteImport.update({
+  id: '/work/$slug',
+  path: '/work/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/media/$': typeof MediaSplatRoute
+  '/work/$slug': typeof WorkSlugRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/media/$': typeof MediaSplatRoute
+  '/work/$slug': typeof WorkSlugRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
@@ -189,6 +197,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/media/$': typeof MediaSplatRoute
+  '/work/$slug': typeof WorkSlugRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
@@ -212,6 +221,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/chat/$threadId'
     | '/media/$'
+    | '/work/$slug'
     | '/admin/analytics'
     | '/admin/chatbot'
     | '/admin/media'
@@ -232,6 +242,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/chat/$threadId'
     | '/media/$'
+    | '/work/$slug'
     | '/admin/analytics'
     | '/admin/chatbot'
     | '/admin/media'
@@ -254,6 +265,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/chat/$threadId'
     | '/media/$'
+    | '/work/$slug'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/chatbot'
     | '/_authenticated/admin/media'
@@ -276,6 +288,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ChatThreadIdRoute: typeof ChatThreadIdRoute
   MediaSplatRoute: typeof MediaSplatRoute
+  WorkSlugRoute: typeof WorkSlugRoute
   ApiPublicTrackRoute: typeof ApiPublicTrackRoute
 }
 
@@ -342,6 +355,13 @@ declare module '@tanstack/react-router' {
       path: '/media/$'
       fullPath: '/media/$'
       preLoaderRoute: typeof MediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work/$slug': {
+      id: '/work/$slug'
+      path: '/work/$slug'
+      fullPath: '/work/$slug'
+      preLoaderRoute: typeof WorkSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -477,6 +497,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ChatThreadIdRoute: ChatThreadIdRoute,
   MediaSplatRoute: MediaSplatRoute,
+  WorkSlugRoute: WorkSlugRoute,
   ApiPublicTrackRoute: ApiPublicTrackRoute,
 }
 export const routeTree = rootRouteImport

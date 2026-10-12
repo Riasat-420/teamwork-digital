@@ -15,4 +15,5 @@
 - [x] Match the reference skills grid, scroll-led delivery timeline, and credentials section without copying personal claims.
 - [x] Retune the portfolio palette to the Teamwork Digital logo’s blue, cyan, white, and navy colors.
 - [x] Admin dashboard: sign-in, content editor, media, messages, analytics, SEO, chatbot, settings, team invites.
+- [x] Repair stale project image URLs; add media search, viewer, crop/rotate/flip editing, usage-aware deletion, and project detail pages.
 - [x] Restructure sections for clients: remove Skills/Credentials, add Why us, project filter, industries ribbon, FAQ; Team/Testimonials/contact details wait on client input.

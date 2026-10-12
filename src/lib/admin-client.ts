@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Json } from "@/integrations/supabase/types";
 import { slugify, type ContentKey } from "./site-content";
+import { validateImageFile } from "./media-utils";
 
 export type StaffRole = "admin" | "editor" | null;
 
@@ -40,7 +41,8 @@ export function useSaveSection() {
 
 /** Resize in the browser to WebP (max 1600px wide) so uploaded images stay fast, then store under uploads/. */
 export async function uploadImage(file: File): Promise<string> {
-  if (!file.type.startsWith("image/")) throw new Error("Please choose an image file.");
+  const validationError = validateImageFile(file);
+  if (validationError) throw new Error(validationError);
   let blob: Blob = file;
   let ext = file.name.split(".").pop()?.toLowerCase() || "png";
   if (file.type !== "image/svg+xml" && file.type !== "image/gif") {

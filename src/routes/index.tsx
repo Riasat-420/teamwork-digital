@@ -14,6 +14,7 @@ import profileSrc from "@/assets/teamwork-digital-profile.pdf";
 const profile = { url: profileSrc };
 import { projectPreviews } from "@/lib/project-previews";
 import { publicSocials, socialHref, socialIcons } from "@/lib/social-icons";
+import { ProjectImage } from "@/components/project-image";
 
 const nav = [
   { label: "Services", href: "#services" }, { label: "Work", href: "#projects" },
@@ -232,10 +233,9 @@ export function Portfolio() {
       <section id="projects" className="portfolio-section projects-section"><div className="portfolio-container">
         <Reveal className="project-gallery-heading"><div><Eyebrow>Portfolio</Eyebrow><Heading>Selected <em>projects</em></Heading></div><div className="gallery-filters" role="tablist" aria-label="Filter projects">{categories.map(category => <Button key={category} variant={filter === category ? "default" : "outline"} size="sm" role="tab" aria-selected={filter === category} onClick={() => setFilter(category)}>{category}</Button>)}</div></Reveal>
         <div className="project-gallery" key={filter}>{filtered.map(project => {
-          const preview = projectPreviews[project.initials];
           return <Reveal key={project.id}><article className="project-gallery-card">
             <a className="project-gallery-media" href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Explore ${project.title}`}>
-              {project.image && project.image !== preview?.large ? <img src={project.image} width={960} height={600} alt={`${project.title} website preview`} loading="eager" decoding="async" fetchPriority="low" /> : preview ? <img src={preview.small} srcSet={`${preview.small} 480w, ${preview.large} 960w`} sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 900px) calc((100vw - 68px) / 2), (max-width: 1280px) calc((100vw - 88px) / 3), 390px" width={960} height={600} alt={`${project.title} website preview`} loading="eager" decoding="async" fetchPriority="low" /> : <div className="project-gallery-placeholder" aria-label={`${project.title} screenshot pending`}><Monitor size={32} strokeWidth={1.4} /><span>{project.initials}</span></div>}
+              <ProjectImage project={project} />
               <span className="gallery-category">{project.category}</span><span className="gallery-open"><ArrowUpRight size={18} /></span>
             </a>
             <div className="project-gallery-copy"><h3>{project.title}</h3><p>{project.description || (project.type === "WordPress" ? "WordPress website" : project.category === "E-commerce" ? "E-commerce project" : project.type)}</p><Button asChild variant="link" size="sm"><a href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${project.title}`}>View live project <ArrowUpRight size={14} /></a></Button></div>
