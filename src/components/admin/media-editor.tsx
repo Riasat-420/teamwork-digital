@@ -40,7 +40,8 @@ export function MediaEditor({ file, open, onOpenChange, onSaved, usage = [] }: {
     if (!pixels) return;
     setBusy(true);
     try {
-      const blob = await renderImageTransform(file.url, { crop: pixels, rotation, flipX, flipY, outputWidth: "width" in selected ? selected.width : undefined, outputHeight: "height" in selected ? selected.height : undefined });
+      const outputSize = "width" in selected ? { outputWidth: selected.width, outputHeight: selected.height } : {};
+      const blob = await renderImageTransform(file.url, { crop: pixels, rotation, flipX, flipY, ...outputSize });
       const url = await uploadImage(editedImageFile(blob, file.name));
       toast.success("Edited copy saved to the media library");
       onSaved?.(url); onOpenChange(false);
