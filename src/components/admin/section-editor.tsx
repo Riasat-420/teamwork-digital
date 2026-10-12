@@ -19,6 +19,7 @@ export function SectionEditor({ def }: { def: SectionDef }) {
   const [value, setValue] = useState<unknown>(saved);
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
+  const [filter, setFilter] = useState("All");
   useEffect(() => { setValue(saved); }, [saved]);
   const dirty = JSON.stringify(value) !== JSON.stringify(saved);
 
@@ -51,21 +52,33 @@ export function SectionEditor({ def }: { def: SectionDef }) {
   }
 
   const list = ((value ?? []) as Row[]);
+  const catField = def.fields.find(f => f.type === "select" && f.optionsFrom);
+  const cats = catField ? ((site[catField.optionsFrom!] as string[]) ?? []) : [];
+  const allLabel = cats[0] ?? "All";
+  const matches = (r: Row) => !catField || filter === allLabel || String(getPath(r, catField.key)) === filter;
+  const shown = list.map((r, i) => i).filter(i => matches(list[i]!));
   const update = (i: number, next: Row) => setValue(list.map((r, j) => (j === i ? next : r)));
-  const move = (i: number, dir: -1 | 1) => { const j = i + dir; if (j < 0 || j >= list.length) return; const next = [...list]; [next[i], next[j]] = [next[j]!, next[i]!]; setValue(next); setOpen(o => (o === i ? j : o)); };
+  const move = (i: number, dir: -1 | 1) => { const pos = shown.indexOf(i); const j = shown[pos + dir]; if (j === undefined) return; const next = [...list]; [next[i], next[j]] = [next[j]!, next[i]!]; setValue(next); setOpen(o => (o === i ? j : o)); };
   return <div>{header}
     <div className="max-w-3xl space-y-3">
+      {catField && <div className="flex flex-wrap items-center gap-2">
+        {(cats.length ? cats : ["All"]).map(c => <Button key={c} size="sm" variant={filter === c ? "default" : "outline"} onClick={() => { setFilter(c); setOpen(null); }}>{c}</Button>)}
+        <span className="ml-auto text-sm text-muted-foreground">Showing {shown.length} of {list.length}</span>
+      </div>}
       {list.map((row, i) => {
+        if (!matches(row)) return null;
         const hidden = row["published"] === false;
+        const pos = shown.indexOf(i);
         return <div key={String(row["id"] ?? i)} className={`rounded-xl border bg-card ${hidden ? "opacity-70" : ""}`}>
           <div className="flex flex-wrap items-center gap-1 p-3 sm:flex-nowrap sm:gap-2">
             <button type="button" className="flex min-w-0 basis-full items-center gap-2 text-left sm:basis-auto sm:flex-1" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i}>
               <ChevronDown size={16} className={`transition-transform ${open === i ? "rotate-180" : ""}`} />
               <span className="truncate font-medium text-foreground">{String(getPath(row, def.itemTitle) || "Untitled")}</span>
+              {catField && <Badge variant="outline">{String(getPath(row, catField.key) ?? "")}</Badge>}
               {hidden && <Badge variant="secondary">Hidden</Badge>}
             </button>
-            <Button variant="ghost" size="icon-sm" aria-label="Move up" disabled={i === 0} onClick={() => move(i, -1)}><ArrowUp /></Button>
-            <Button variant="ghost" size="icon-sm" aria-label="Move down" disabled={i === list.length - 1} onClick={() => move(i, 1)}><ArrowDown /></Button>
+            <Button variant="ghost" size="icon-sm" aria-label="Move up" disabled={pos === 0} onClick={() => move(i, -1)}><ArrowUp /></Button>
+            <Button variant="ghost" size="icon-sm" aria-label="Move down" disabled={pos === shown.length - 1} onClick={() => move(i, 1)}><ArrowDown /></Button>
             <Button variant="ghost" size="icon-sm" aria-label={hidden ? "Show on website" : "Hide from website"} title={hidden ? "Show on website" : "Hide (draft)"} onClick={() => update(i, { ...row, published: hidden })}>{hidden ? <EyeOff /> : <Eye />}</Button>
             <Button variant="ghost" size="icon-sm" aria-label="Duplicate" onClick={() => { const next = [...list]; next.splice(i + 1, 0, { ...structuredClone(row), id: crypto.randomUUID() }); setValue(next); }}><Copy /></Button>
             <AlertDialog><AlertDialogTrigger asChild><Button variant="ghost" size="icon-sm" aria-label="Delete"><Trash2 /></Button></AlertDialogTrigger><AlertDialogContent>
