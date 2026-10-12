@@ -19,7 +19,7 @@ export function SectionEditor({ def }: { def: SectionDef }) {
   const [value, setValue] = useState<unknown>(saved);
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState<string | null>(null);
   useEffect(() => { setValue(saved); }, [saved]);
   const dirty = JSON.stringify(value) !== JSON.stringify(saved);
 
@@ -55,14 +55,15 @@ export function SectionEditor({ def }: { def: SectionDef }) {
   const catField = def.fields.find(f => f.type === "select" && f.optionsFrom);
   const cats = catField ? ((site[catField.optionsFrom!] as string[]) ?? []) : [];
   const allLabel = cats[0] ?? "All";
-  const matches = (r: Row) => !catField || filter === allLabel || String(getPath(r, catField.key)) === filter;
+  const activeFilter = filter ?? allLabel;
+  const matches = (r: Row) => !catField || activeFilter === allLabel || String(getPath(r, catField.key)) === activeFilter;
   const shown = list.map((r, i) => i).filter(i => matches(list[i]!));
   const update = (i: number, next: Row) => setValue(list.map((r, j) => (j === i ? next : r)));
   const move = (i: number, dir: -1 | 1) => { const pos = shown.indexOf(i); const j = shown[pos + dir]; if (j === undefined) return; const next = [...list]; [next[i], next[j]] = [next[j]!, next[i]!]; setValue(next); setOpen(o => (o === i ? j : o)); };
   return <div>{header}
     <div className="max-w-3xl space-y-3">
       {catField && <div className="flex flex-wrap items-center gap-2">
-        {(cats.length ? cats : ["All"]).map(c => <Button key={c} size="sm" variant={filter === c ? "default" : "outline"} onClick={() => { setFilter(c); setOpen(null); }}>{c}</Button>)}
+        {(cats.length ? cats : ["All"]).map(c => <Button key={c} size="sm" variant={activeFilter === c ? "default" : "outline"} onClick={() => { setFilter(c); setOpen(null); }}>{c}</Button>)}
         <span className="ml-auto text-sm text-muted-foreground">Showing {shown.length} of {list.length}</span>
       </div>}
       {list.map((row, i) => {

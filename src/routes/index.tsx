@@ -63,6 +63,7 @@ export function Portfolio() {
   const [active, setActive] = useState("#home");
   const [loading, setLoading] = useState(!isChatPage);
   const [scrolled, setScrolled] = useState(false);
+  const categories = projectCategories.includes("All") ? projectCategories : ["All", ...projectCategories];
   const [filter, setFilter] = useState("All");
   const teamLeader = team.find(member => member.leader);
   const teamRoles = team.filter(member => !member.leader);
@@ -229,7 +230,7 @@ export function Portfolio() {
       <section id="experience" className="portfolio-section experience-section"><div className="portfolio-container"><Reveal className="center-heading"><Eyebrow>Our approach</Eyebrow><Heading>How we <em>work</em></Heading><p>A clear path from the first conversation to the finished product.</p></Reveal><div className="timeline" ref={timelineRef}>{process.map((step, i) => <Reveal key={step.id} className="timeline-row"><div className="timeline-label"><span>{step.period}</span><h3>{step.title}</h3><small>STEP {String(i + 1).padStart(2, "0")}</small></div><div className="timeline-marker"><span><Check size={16} /></span></div><article className="timeline-panel"><span className="timeline-role">TEAMWORK DIGITAL · {step.period}</span><h3>{step.title}</h3><p>{step.description}</p><ul className="timeline-points">{step.points.map(point => <li key={point}><Check size={14} />{point}</li>)}</ul><div className="timeline-tags">{step.tags.map(tag => <span key={tag}>{tag}</span>)}</div></article></Reveal>)}</div></div></section>
 
       <section id="projects" className="portfolio-section projects-section"><div className="portfolio-container">
-        <Reveal className="project-gallery-heading"><div><Eyebrow>Portfolio</Eyebrow><Heading>Selected <em>projects</em></Heading></div><div className="gallery-filters" role="tablist" aria-label="Filter projects">{projectCategories.map(category => <Button key={category} variant={filter === category ? "default" : "outline"} size="sm" role="tab" aria-selected={filter === category} onClick={() => setFilter(category)}>{category}</Button>)}</div></Reveal>
+        <Reveal className="project-gallery-heading"><div><Eyebrow>Portfolio</Eyebrow><Heading>Selected <em>projects</em></Heading></div><div className="gallery-filters" role="tablist" aria-label="Filter projects">{categories.map(category => <Button key={category} variant={filter === category ? "default" : "outline"} size="sm" role="tab" aria-selected={filter === category} onClick={() => setFilter(category)}>{category}</Button>)}</div></Reveal>
         <div className="project-gallery" key={filter}>{filtered.map(project => {
           const preview = projectPreviews[project.initials];
           return <Reveal key={project.id}><article className="project-gallery-card">
