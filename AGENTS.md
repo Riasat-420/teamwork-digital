@@ -22,3 +22,4 @@
 - Team member social links are stored as a list of { icon, url } using keys from `src/lib/social-icons.ts`, with older object-shaped saves normalized on read, so admins can add any network without breaking existing content.
 - Built-in site images are exposed as defaults in `site-content.ts` and listed in the media library, so the dashboard shows what the site currently displays.
 - Admin profile edits (name, photo, email, password) use the signed-in user's own auth account metadata, so no extra profile table is needed.
+- Projects use a dedicated dialog editor with category-aware drafts and whole-section saves on confirmed actions, so canceling never adds a project and category views cannot silently assign another category.

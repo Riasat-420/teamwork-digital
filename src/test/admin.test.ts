@@ -1,10 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { summarize } from "@/lib/admin-analytics";
-import { setPath } from "@/lib/admin-sections";
+import { setPath, newProjectCategory, projectCategoryOptions } from "@/lib/admin-sections";
 import { mergeContent, visible } from "@/lib/site-content";
 import { normalizeSocials, publicSocials } from "@/lib/social-icons";
 
 describe("dashboard rules", () => {
+  it("new projects use the selected category, not WordPress", () => {
+    expect(newProjectCategory("E-commerce", ["WordPress", "E-commerce"])).toBe("E-commerce");
+  });
+  it("the All view requires an explicit project category", () => {
+    expect(newProjectCategory("All", ["WordPress", "E-commerce"])).toBe("");
+  });
+  it("category options retain saved categories and never treat the first as All", () => {
+    expect(projectCategoryOptions(["WordPress", "All", "WordPress"], [{ category: "Wix" }])).toEqual(["WordPress", "Wix"]);
+  });
   it("hidden (draft) items never show on the public site", () => {
     expect(visible([{ id: "a" }, { id: "b", published: false }, { id: "c", published: true }]).map(x => x.id)).toEqual(["a", "c"]);
   });

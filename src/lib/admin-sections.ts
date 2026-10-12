@@ -75,3 +75,12 @@ export function setPath<T extends Record<string, unknown>>(obj: T, path: string,
   const child = (obj[head] && typeof obj[head] === "object" ? obj[head] : {}) as Record<string, unknown>;
   return { ...obj, [head]: setPath(child, rest.join("."), value) };
 }
+
+/** All is a view, never a project category. Keep saved categories available for editing. */
+export function projectCategoryOptions(configured: string[], projects: { category: string }[]): string[] {
+  return [...new Set([...configured, ...projects.map(p => p.category)].map(c => c.trim()).filter(c => c && c.toLowerCase() !== "all"))];
+}
+
+export function newProjectCategory(active: string, categories: string[]): string {
+  return categories.includes(active) ? active : "";
+}
