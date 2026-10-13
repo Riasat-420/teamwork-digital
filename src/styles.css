@@ -555,8 +555,25 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 .testimonial-service { margin-left: auto; padding: .25rem .6rem; border-radius: 100px; background: color-mix(in oklab, var(--primary) 14%, transparent); color: var(--primary); font-size: .66rem; font-weight: 700; white-space: nowrap; }
 
 /* Contact + FAQ */
-.contact-faq-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
-.contact-faq-layout .contact-panel { grid-template-columns: 1fr; gap: 2rem; padding: 2.6rem; border-radius: 20px; }
+.contact-faq-layout { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); gap: 2.5rem; align-items: start; }
+.contact-faq-layout > *, .contact-copy { min-width: 0; }
+.contact-faq-layout .contact-panel { grid-template-columns: minmax(0,1fr); gap: 1.5rem; padding: 2rem; border-radius: 8px; box-shadow: none; }
+.contact-panel .portfolio-heading { font-size: 2.5rem; line-height: 1.2; overflow-wrap: break-word; }
+.contact-panel .contact-actions { gap: .6rem; margin-top: 1.5rem; }
+.contact-panel .contact-actions :is(a,button) { max-width: 100%; height: auto; min-height: 44px; padding: .7rem 1rem; white-space: normal; overflow-wrap: anywhere; text-align: left; }
+.contact-form { display: grid; gap: 1.1rem; margin-top: 1.75rem; padding-top: 1.75rem; border-top: 1px solid color-mix(in oklab,var(--primary-foreground) 30%,transparent); }
+.contact-form-row { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; }
+.contact-form label { display: block; min-width: 0; color: var(--primary-foreground); font-size: .85rem; font-weight: 650; line-height: 1.5; }
+.contact-form-optional { font-weight: 400; }
+.contact-form :is(input,textarea) { display: block; width: 100%; min-width: 0; margin-top: .45rem; padding: .85rem 1rem; border: 1px solid var(--input); border-radius: 6px; background: var(--card); color: var(--card-foreground); font-family: inherit; font-size: 1rem; font-weight: 400; line-height: 1.5; outline: none; transition: border-color .2s ease,box-shadow .2s ease; }
+.contact-form input { min-height: 50px; }
+.contact-form textarea { min-height: 136px; resize: vertical; }
+.contact-form :is(input,textarea)::placeholder { color: var(--muted-foreground); opacity: 1; }
+.contact-form :is(input,textarea):focus-visible { border-color: var(--surface-ink); box-shadow: 0 0 0 3px color-mix(in oklab,var(--primary-foreground) 45%,transparent); }
+.contact-form > button { width: 100%; min-height: 50px; border-radius: 6px; background: var(--surface-ink); color: var(--text-on-dark); font-size: .9rem; font-weight: 700; }
+.contact-form > button:hover:not(:disabled) { background: var(--surface-ink-soft); }
+.contact-form-error { padding: .8rem 1rem; border-radius: 6px; background: var(--card); color: var(--destructive); font-size: .85rem; line-height: 1.6; }
+.contact-form-sent { grid-template-columns: auto minmax(0,1fr); align-items: center; color: var(--primary-foreground); line-height: 1.7; }
 .contact-aside-row { flex-direction: row; flex-wrap: wrap; align-items: center; gap: .9rem; padding: 1.2rem 1.4rem; }
 .contact-aside-row strong { margin-top: 0; font-size: 1.05rem; }
 .contact-aside-row > span { display: none; }
@@ -566,7 +583,7 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 .contact-faq-head h3 em { font-family: "Instrument Serif", serif; font-weight: 400; color: var(--primary); }
 @media (max-width: 1000px) { .team-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .testimonial-grid, .contact-faq-layout { grid-template-columns: 1fr; } }
 @media (max-width: 800px) { .contact-faq-layout .contact-aside { display: flex; } }
-@media (max-width: 520px) { .team-grid { grid-template-columns: 1fr; } .contact-faq-layout .contact-panel { padding: 1.8rem; } }
+@media (max-width: 520px) { .team-grid { grid-template-columns: 1fr; } .contact-faq-layout .contact-panel { padding: 1.25rem; } .contact-panel .portfolio-heading { font-size: 2rem; } .contact-form-row { grid-template-columns: minmax(0,1fr); gap: 1.1rem; } .contact-aside-row { padding: 1rem; } .contact-aside-row a { margin-left: 0; } }
 @media (prefers-reduced-motion: reduce) { .team-card, .team-media img, .team-initials, .team-socials, .testimonial-card, .testimonial-mark { transition: none; } }
 .portfolio-contact .contact-faq .portfolio-eyebrow { border-color: var(--border); background: var(--card); color: var(--primary); }
 
