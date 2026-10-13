@@ -26,12 +26,15 @@ export function ContactForm() {
     trackEvent("contact_form", "submitted");
     setState("sent");
   };
-  if (state === "sent") return <div className="contact-form contact-form-sent"><Check size={20} /><p>Thanks — your message has reached the team. We'll reply soon.</p></div>;
-  return <form className="contact-form" onSubmit={submit} noValidate>
-    <div className="contact-form-row"><input name="name" placeholder="Your name" autoComplete="name" maxLength={120} required /><input name="email" type="email" placeholder="Email" autoComplete="email" maxLength={255} required /></div>
-    <input name="phone" placeholder="Phone / WhatsApp (optional)" autoComplete="tel" maxLength={40} />
-    <textarea name="message" placeholder="Tell us about your project" rows={4} maxLength={4000} required />
-    {error && <p className="contact-form-error" role="alert">{error}</p>}
+  if (state === "sent") return <div className="contact-form contact-form-sent" role="status"><Check size={24} /><p>Thanks — your message has reached the team. We'll reply soon.</p></div>;
+  return <form className="contact-form" onSubmit={submit} noValidate aria-label="Project enquiry" aria-busy={state === "sending"} aria-describedby={error ? "contact-form-error" : undefined}>
+    <div className="contact-form-row">
+      <label htmlFor="contact-name">Your name <span aria-hidden="true">*</span><input id="contact-name" name="name" placeholder="Full name" autoComplete="name" maxLength={120} required /></label>
+      <label htmlFor="contact-email">Email <span aria-hidden="true">*</span><input id="contact-email" name="email" type="email" placeholder="you@company.com" autoComplete="email" maxLength={255} required /></label>
+    </div>
+    <label htmlFor="contact-phone">Phone / WhatsApp <span className="contact-form-optional">(optional)</span><input id="contact-phone" name="phone" type="tel" placeholder="Your phone number" autoComplete="tel" maxLength={40} /></label>
+    <label htmlFor="contact-message">About your project <span aria-hidden="true">*</span><textarea id="contact-message" name="message" placeholder="What would you like to build?" rows={4} maxLength={4000} required /></label>
+    {error && <p id="contact-form-error" className="contact-form-error" role="alert">{error}</p>}
     <Button type="submit" disabled={state === "sending"}>{state === "sending" ? "Sending…" : "Send message"} <Send size={15} /></Button>
   </form>;
 }
