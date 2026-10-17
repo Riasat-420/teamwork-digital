@@ -1,4 +1,5 @@
 # Portfolio work
+- [x] Keep portfolio card previews fully visible without side cropping; verify desktop and phone layouts.
 - [x] Improve project admin forms and verify category-aware creation, editing, and ordering.
 - [x] Add and compress eight genuine project previews; verify image loading, filtering and smaller screens.
 - [ ] Add Beaut by Muh and World Foot previews — blocked: both websites are unavailable and no original screenshots were supplied; client screenshots needed.
