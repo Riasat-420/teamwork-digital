@@ -718,3 +718,4 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
   --brand-warm: #c9f950;
   --brand-warm-soft: #252525;
 }
+.portfolio-page .service-icon, .portfolio-page .portfolio-nav a:hover, .portfolio-page .portfolio-nav a.active { color: var(--primary-foreground); }
