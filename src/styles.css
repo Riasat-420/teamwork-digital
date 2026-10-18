@@ -687,3 +687,34 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
   .project-gallery-card, .project-gallery-media img, .team-role-profile, .team-member-photo img { transition: none; }
   .project-gallery-card:hover, .project-gallery-card:hover .project-gallery-media img, .team-role-profile:hover, .team-role-profile:hover .team-member-photo img { transform: none; }
 }
+
+/* Pexel Media palette (client request): near-black surfaces, lime accent, white/grey text. */
+.portfolio-page, .td-chat, .work-page, body:has(.portfolio-page) {
+  --background: #111111;
+  --foreground: #ffffff;
+  --card: #1b1b1b;
+  --card-foreground: #ffffff;
+  --popover: #1b1b1b;
+  --popover-foreground: #ffffff;
+  --primary: #c9f950;
+  --primary-foreground: #111111;
+  --secondary: #252525;
+  --secondary-foreground: #ffffff;
+  --muted: #252525;
+  --muted-foreground: #cecece;
+  --accent: #333333;
+  --accent-foreground: #d4f370;
+  --border: #333333;
+  --input: #3a3939;
+  --ring: #c9f950;
+  --surface-ink: #0a0a0a;
+  --surface-ink-soft: #252525;
+  --surface-violet: #c9f950;
+  --surface-cream: #1b1b1b;
+  --text-on-dark: #ffffff;
+  --text-on-dark-muted: #cecece;
+  --brand-blue: #c9f950;
+  --brand-cyan: #d4f370;
+  --brand-warm: #c9f950;
+  --brand-warm-soft: #252525;
+}
