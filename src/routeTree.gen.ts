@@ -21,6 +21,7 @@ import { Route as MediaSplatRouteImport } from './routes/media.$'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
+import { Route as AuthenticatedAdminAppearanceRouteImport } from './routes/_authenticated/admin/appearance'
 import { Route as AuthenticatedAdminChatbotRouteImport } from './routes/_authenticated/admin/chatbot'
 import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin/media'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin/messages'
@@ -91,6 +92,12 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminAppearanceRoute =
+  AuthenticatedAdminAppearanceRouteImport.update({
+    id: '/appearance',
+    path: '/appearance',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminChatbotRoute =
   AuthenticatedAdminChatbotRouteImport.update({
     id: '/chatbot',
@@ -154,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/media/$': typeof MediaSplatRoute
   '/work/$slug': typeof WorkSlugRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/appearance': typeof AuthenticatedAdminAppearanceRoute
   '/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
@@ -175,6 +183,7 @@ export interface FileRoutesByTo {
   '/media/$': typeof MediaSplatRoute
   '/work/$slug': typeof WorkSlugRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/appearance': typeof AuthenticatedAdminAppearanceRoute
   '/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
@@ -199,6 +208,7 @@ export interface FileRoutesById {
   '/media/$': typeof MediaSplatRoute
   '/work/$slug': typeof WorkSlugRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/appearance': typeof AuthenticatedAdminAppearanceRoute
   '/_authenticated/admin/chatbot': typeof AuthenticatedAdminChatbotRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/media/$'
     | '/work/$slug'
     | '/admin/analytics'
+    | '/admin/appearance'
     | '/admin/chatbot'
     | '/admin/media'
     | '/admin/messages'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
     | '/media/$'
     | '/work/$slug'
     | '/admin/analytics'
+    | '/admin/appearance'
     | '/admin/chatbot'
     | '/admin/media'
     | '/admin/messages'
@@ -267,6 +279,7 @@ export interface FileRouteTypes {
     | '/media/$'
     | '/work/$slug'
     | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/appearance'
     | '/_authenticated/admin/chatbot'
     | '/_authenticated/admin/media'
     | '/_authenticated/admin/messages'
@@ -378,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/appearance': {
+      id: '/_authenticated/admin/appearance'
+      path: '/appearance'
+      fullPath: '/admin/appearance'
+      preLoaderRoute: typeof AuthenticatedAdminAppearanceRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/chatbot': {
       id: '/_authenticated/admin/chatbot'
       path: '/chatbot'
@@ -446,6 +466,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminAppearanceRoute: typeof AuthenticatedAdminAppearanceRoute
   AuthenticatedAdminChatbotRoute: typeof AuthenticatedAdminChatbotRoute
   AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
@@ -460,6 +481,7 @@ interface AuthenticatedAdminRouteRouteChildren {
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
     AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+    AuthenticatedAdminAppearanceRoute: AuthenticatedAdminAppearanceRoute,
     AuthenticatedAdminChatbotRoute: AuthenticatedAdminChatbotRoute,
     AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
     AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
