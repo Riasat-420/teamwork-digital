@@ -4,6 +4,7 @@ const leaderPhoto = { url: leaderPhotoSrc };
 import { projectPreviews } from "./project-previews";
 import { normalizeSocials, type SocialLink } from "./social-icons";
 import { cleanSavedImage } from "./media-utils";
+import type { Appearance } from "./appearance";
 
 /** Every editable section of the public site. Defaults come from portfolio-data.ts; saved dashboard values override them. */
 type Item = { id: string; published?: boolean };
@@ -30,7 +31,7 @@ export type SiteContent = {
   contact: { heading: string; text: string; email: string; whatsapp: string; whatsappLink: string; phone: string; address: string; linkedin: string; instagram: string; facebook: string; showForm: boolean };
   seo: { title: string; description: string; ogImage: string; keywords: string; gscVerification: string; bingVerification: string; gaId: string; allowIndexing: boolean };
   chatbot: { enabled: boolean; name: string; subtitle: string; welcomeTitle: string; welcomeText: string; suggestions: string[]; extraInstructions: string };
-  settings: { siteName: string; logo: string; projectPages: boolean; notifyEmail: string };
+  settings: { siteName: string; logo: string; projectPages: boolean; notifyEmail: string; appearance?: Appearance };
 };
 
 export const slugify = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);

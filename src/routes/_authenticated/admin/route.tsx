@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { BarChart3, Bot, ExternalLink, FileText, Image, Inbox, LayoutDashboard, LogOut, Menu, Search, Settings, UserRound } from "lucide-react";
+import { BarChart3, Bot, ExternalLink, FileText, Image, Inbox, LayoutDashboard, LogOut, Menu, Palette, Search, Settings, UserRound } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,7 @@ const nav = [
   { to: "/admin/seo", label: "SEO", icon: Search },
   { to: "/admin/chatbot", label: "Chatbot", icon: Bot },
   { to: "/admin/settings", label: "Settings", icon: Settings, adminOnly: true },
+  { to: "/admin/appearance", label: "Appearance", icon: Palette, adminOnly: true },
   { to: "/admin/profile", label: "My profile", icon: UserRound },
 ] as const;
 
