@@ -719,3 +719,4 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
   --brand-warm-soft: #252525;
 }
 .portfolio-page .service-icon, .portfolio-page .portfolio-nav a:hover, .portfolio-page .portfolio-nav a.active { color: var(--primary-foreground); }
+.portfolio-page .portfolio-hero { background: linear-gradient(to bottom, color-mix(in oklab, var(--background) 25%, transparent), var(--background) 96%), url("./assets/hero-wave-bg.jpg") center / cover no-repeat, var(--background); }
