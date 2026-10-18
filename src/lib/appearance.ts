@@ -65,7 +65,7 @@ export function appearanceCss(value: unknown): string {
   const scope = ".portfolio-page.portfolio-page, .work-page.work-page, .td-chat.td-chat";
   let css = `${scope}{${tokens(a.colors)}--font-display:${family(a.typography.headings)};--font-sans:${family(a.typography.body)};font-family:var(--font-sans);}`;
   css += `body:has(.portfolio-page),body:has(.work-page){background:${a.colors.background};}`;
-  css += `.portfolio-page :is(h1,h2,h3),.work-page h1{font-family:var(--font-display);font-weight:${a.typography.headingWeight};}.portfolio-page p,.work-page p{font-family:var(--font-sans);line-height:${a.typography.lineHeight};}`;
+  css += `.portfolio-page.portfolio-page :is(h1,h2,h3),.portfolio-page.portfolio-page :is(h1,h2,h3) em,.work-page.work-page h1{font-family:var(--font-display);font-weight:${a.typography.headingWeight};}.portfolio-page.portfolio-page p,.work-page.work-page p{font-family:var(--font-sans);line-height:${a.typography.lineHeight};}`;
   for (const s of appearanceSections) {
     const overrides = a.sections[s.id];
     if (overrides) css += `.portfolio-page #${s.id}{${tokens({ ...a.colors, ...overrides })}background-color:var(--background);color:var(--foreground);}`;

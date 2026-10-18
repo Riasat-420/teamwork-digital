@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSaveSection, useStaff } from "@/lib/admin-client";
 import { useSiteContent } from "@/lib/site-content.functions";
-import { accentText, appearanceCss, appearanceSections, colorFields, contrastRatio, defaultAppearance, fontOptions, normalizeAppearance, validColor, type Appearance, type Colors } from "@/lib/appearance";
+import { appearanceCss, appearanceSections, colorFields, contrastRatio, defaultAppearance, fontOptions, normalizeAppearance, validColor, type Appearance, type Colors } from "@/lib/appearance";
 
 export const Route = createFileRoute("/_authenticated/admin/appearance")({
   head: () => ({ meta: [
@@ -49,7 +49,7 @@ function AppearancePage() {
     catch (e) { toast.error(e instanceof Error ? e.message : "Couldn't save appearance"); }
     finally { setSaving(false); }
   };
-  const previewCss = appearanceCss({ ...draft, colors, sections: {} }).replaceAll(".portfolio-page", ".appearance-preview").replaceAll(".work-page", ".appearance-work-unused").replaceAll(".td-chat", ".appearance-chat-unused");
+  const previewCss = appearanceCss({ ...draft, colors, sections: {} }).replace(/body:has\([^}]+\}/g, "").replaceAll(".portfolio-page", ".appearance-preview").replaceAll(".work-page", ".appearance-work-unused").replaceAll(".td-chat", ".appearance-chat-unused");
   const lowContrast = contrastRatio(colors.text, colors.background) < 4.5 || contrastRatio(colors.muted, colors.surface) < 4.5;
   return <div className="space-y-8">
     <div className="sticky top-0 z-10 -mx-4 flex flex-wrap items-center justify-between gap-3 border-b bg-background/95 px-4 py-3 backdrop-blur md:-mx-8 md:px-8">
