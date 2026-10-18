@@ -24,3 +24,4 @@
 - Admin profile edits (name, photo, email, password) use the signed-in user's own auth account metadata, so no extra profile table is needed.
 - Projects use a dedicated dialog editor with category-aware drafts and whole-section saves on confirmed actions, so canceling never adds a project and category views cannot silently assign another category.
 - Treat bundled project previews as display fallbacks only: never save `/src/assets/...` URLs. Media edits create optimized WebP copies instead of overwriting originals, and deletion is blocked while saved content references an upload.
+- Store appearance in the existing admin-only settings row; validate colors and font choices and generate scoped public-site CSS with inherited section overrides, so website customization cannot recolor the dashboard or inject CSS.

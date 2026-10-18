@@ -1,4 +1,5 @@
 # Portfolio work
+- [ ] Add global colors and typography plus per-section color overrides in Appearance; verify saved changes on the public website.
 - [x] Keep portfolio card previews fully visible without side cropping; verify desktop and phone layouts.
 - [x] Improve project admin forms and verify category-aware creation, editing, and ordering.
 - [x] Add and compress eight genuine project previews; verify image loading, filtering and smaller screens.
