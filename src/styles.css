@@ -720,3 +720,13 @@ body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
 }
 .portfolio-page .service-icon, .portfolio-page .portfolio-nav a:hover, .portfolio-page .portfolio-nav a.active { color: var(--primary-foreground); }
 .portfolio-page .portfolio-hero { background: linear-gradient(to bottom, transparent 70%, var(--background)), url("./assets/hero-wave-bg.jpg") center / cover no-repeat, var(--background); }
+/* Contrast fixes for the dark/lime palette */
+.portfolio-page .tech-strip { color: var(--foreground); border-top-color: var(--border); }
+.portfolio-page .tech-strip small { color: var(--primary); }
+.portfolio-page .tech-strip span { border-color: var(--border); background: var(--secondary); color: var(--foreground); }
+.portfolio-page .tech-strip span:hover { background: var(--primary); color: var(--primary-foreground); }
+.portfolio-page .about-feature h3 em { color: var(--primary-foreground); }
+.portfolio-page .strength-list > div span { background: var(--primary-foreground); color: var(--primary); }
+.portfolio-page .team-socials a { background: var(--secondary); color: var(--primary); }
+.portfolio-page .team-socials a:hover { background: var(--primary); color: var(--primary-foreground); }
+.portfolio-page .testimonial-card:hover { background: var(--secondary); color: var(--foreground); border-color: var(--primary); }
